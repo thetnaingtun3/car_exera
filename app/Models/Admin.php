@@ -49,4 +49,13 @@ class Admin extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function scopeSearch($query, $value)
+    {
+        $query->where(function ($q) use ($value) {
+            $q->where('name', 'like', "%{$value}%")
+                ->orWhere('email', 'like', "%{$value}%");
+        });
+
+    }
 }

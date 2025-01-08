@@ -13,6 +13,7 @@
                         <img src="{{ asset('images/user.gif') }}" alt="User Avatar" class="w-10 h-10 rounded-full">
                     </span>
                     <span class="ml-2 text-sm font-medium">{{ auth()->user()->name }}</span>
+
                 </button>
 
                 <div id="dropdown"

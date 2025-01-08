@@ -6,7 +6,7 @@
 
             <div
                 class="relative flex flex-col w-full min-w-0 mb-6 break-words border-0 rounded-lg shadow-lg bg-blueGray-100">
-                <div class="px-6 py-6 mb-0 text-white rounded-t bg-gradient-to-r from-red-800 to-gray-800">
+                <div class="px-6 py-6 mb-0 text-white rounded-t bg-gradient-to-r from-blue-800 to-gray-800">
                     <div class="flex justify-between text-center">
                         <h6 class="text-xl font-bold text-blueGray-700">
                             {{ $form->admin ? 'Edit Admin' : 'Create Admin' }}
