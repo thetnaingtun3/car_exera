@@ -1,0 +1,7 @@
+Register
+
+    name
+    country_id
+    phone
+    email
+    password

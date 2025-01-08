@@ -1,0 +1,12 @@
+deploy_production:
+  stage: deploy
+  only:
+    - master
+  before_script:
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY_PRODUCTION")
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  script:
+    - ssh root@139.59.251.122 "cd /var/www/sfix && git reset --hard && git pull origin master && yarn && yarn run build && exit"
