@@ -29,18 +29,18 @@ class ListAdmin extends Component
     public function render()
     {
         $status = ($this->status === 'active') ? 'active' : (($this->status === 'inactive') ? 'inactive' : '');
-        $users = Admin::search($this->search)
+        $admins = Admin::search($this->search)
             ->when($status !== '', function ($query) use ($status) {
                 $query->where('status', $status);
             })
             ->orderBy($this->sortBy, $this->sortDir)
             ->paginate(20);
 
-        return view('livewire.admin.list-admin');
+        return view('livewire.admin.list-admin',compact('admins'));
     }
     // remove this function
     // public function deleteStudent(User $student)
-    
+
 
 
 

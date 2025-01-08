@@ -69,24 +69,24 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($batches as $batch)
-                            <tr wire:key="{{ $batch->id }}" class="border-b dark:border-gray-700">
+                        @foreach ($admins as $data)
+                            <tr wire:key="{{ $data->id }}" class="border-b dark:border-gray-700">
                                 <th scope="row"
                                     class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{ $batch->title }}</th>
-                                <td class="px-4 py-3">{{ $batch->batch_code }}</td>
-                                <td class="px-4 py-3">{{ $batch->created_at }}</td>
-                                <td class="px-4 py-3">{{ $batch->updated_at }}</td>
-                                <td class="px-4 py-3">{{ $batch->status }}</td>
+                                    {{ $data->name }}</th>
+                                <td class="px-4 py-3">{{ $data->email }}</td>
+                                <td class="px-4 py-3">{{ $data->created_at }}</td>
+                                <td class="px-4 py-3">{{ $data->updated_at }}</td>
+                                <td class="px-4 py-3">{{ $data->status }}</td>
                                 <td class="flex px-4 py-3 ">
 
-                                    <x-form.button color="primary" wire:navigate
-                                                   :href="route('batch.edit', $batch->id)">Edit
-                                    </x-form.button>
+                                    {{--                                    <x-form.button color="primary" wire:navigate--}}
+                                    {{--                                                   :href="route('batch.edit', $batch->id)">Edit--}}
+                                    {{--                                    </x-form.button>--}}
 
                                     <button
-                                        onclick="confirm('Are you sure you want to delete {{ $batch->name }} ?') || event.stopImmediatePropagation()"
-                                        wire:click="delete({{ $batch->id }})"
+                                        onclick="confirm('Are you sure you want to delete {{ $data->name }} ?') || event.stopImmediatePropagation()"
+                                        wire:click="delete({{ $data->id }})"
                                         class="px-3 py-1 text-white bg-red-500 rounded">
                                         <x-phosphor.icons::regular.trash class="w-4 h-4"/>
                                     </button>
@@ -112,7 +112,7 @@
                             </select>
                         </div>
                     </div>
-                    {{ $batches->links() }}
+                    {{ $admins->links() }}
                 </div>
             </div>
         </div>
