@@ -1,7 +1,20 @@
-Register
+@php
+    $menuItems = [
+        'admin' => ['route' => 'index.admin', 'icon' => 'user-circle', 'label' => 'Admin'],
+        'transoper' => ['route' => 'index.transoper', 'icon' => 'clipboard', 'label' => 'Transoper'],
+        'loading' => ['route' => 'index.loading', 'icon' => 'truck', 'label' => 'Loading'],
+        'production' => ['route' => 'index.production', 'icon' => 'factory', 'label' => 'Production'],
+    ];
+@endphp
 
-    name
-    country_id
-    phone
-    email
-    password
+@foreach ($menuItems as $role => $menuItem)
+    @hasanyrole("$role|root-admin")
+    <li>
+        <a href="{{ route($menuItem['route']) }}" wire:navigate
+           class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
+            <x-phosphor.icons::regular.{{ $menuItem['icon'] }} class="w-6 h-6 mx-3 text-blue-800"/>
+            <span class="ml-3" sidebar-toggle-item>{{ $menuItem['label'] }}</span>
+        </a>
+    </li>
+    @endhasanyrole
+@endforeach

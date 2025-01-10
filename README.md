@@ -19,11 +19,3 @@ php artisan serve
 ```
 yarn run dev
 ```
-
-```
-php artisan passport:client --personal
-```
-
-```
-
-```

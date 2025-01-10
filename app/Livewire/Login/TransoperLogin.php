@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Login;
 
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-class Login extends Component
+class TransoperLogin extends Component
 {
     public $email = '';
     public $password = '';
@@ -21,7 +21,15 @@ class Login extends Component
         if (auth()->guard('admin')->user()) {
             return redirect('/dashboard');
         }
-        $this->fill(['email' => 'admin@gmail.com', 'password' => 'password']);
+        $this->fill(['email' => 'transoper@gmail.com', 'password' => 'password']);
+    }
+
+    #[Title('Transoper Login')]
+    public function render()
+    {
+        return view('livewire.login.transoper-login')
+            ->layout('custom.app');
+
     }
 
     public function login()
@@ -33,13 +41,5 @@ class Login extends Component
         } else {
             return to_route('login');
         }
-    }
-
-    #[Title('Admin Login')]
-    public function render()
-    {
-        return view('livewire.login')
-            ->layout('custom.app');
-
     }
 }

@@ -6,7 +6,5 @@ Route::get('/test', function () {
 
     return response()->json([
         'message' => true
-
-
     ]);
 });
