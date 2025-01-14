@@ -4,6 +4,9 @@ use App\Livewire\Admin\AdminRoleCreate;
 use App\Livewire\Admin\AdminRoleList;
 use App\Livewire\Admin\CreateAdmin;
 use App\Livewire\Admin\ListAdmin;
+use App\Livewire\Customer\CreateCustomer;
+use App\Livewire\Customer\CustomerList;
+use App\Livewire\Customer\EditCustomer;
 use App\Livewire\Loading\LoadingAction;
 use App\Livewire\Login;
 use App\Livewire\Login\LoadingLogin;
@@ -41,4 +44,8 @@ Route::middleware('auth:admin')->group(callback: function () {
     Route::get("admin/role/list", AdminRoleList::class)->name('admin-role-list');
     Route::get("admin/role/create", AdminRoleCreate::class)->name('admin-role-create');
 
+
+    Route::get('customer/list', CustomerList::class)->name('index.customer');
+    Route::get('create/customer', CreateCustomer::class)->name('create.customer');
+    Route::get('customer/{customer}', EditCustomer::class)->name('edit.customer');
 });
