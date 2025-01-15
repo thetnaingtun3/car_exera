@@ -15,6 +15,9 @@ use App\Livewire\Login\TransoperLogin;
 use App\Livewire\Production\ProductionAction;
 use App\Livewire\SignUp;
 use App\Livewire\Dashboard;
+use App\Livewire\LSP\LSPCreate;
+use App\Livewire\LSP\LSPEdit;
+use App\Livewire\LSP\LSPList;
 use App\Livewire\Transoper\TransoperAction;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
@@ -44,6 +47,11 @@ Route::middleware('auth:admin')->group(callback: function () {
     Route::get("admin/role/list", AdminRoleList::class)->name('admin-role-list');
     Route::get("admin/role/create", AdminRoleCreate::class)->name('admin-role-create');
 
+
+
+    Route::get('lsp/list', LSPList::class)->name('index.lsp');
+    Route::get('create/lsp', LSPCreate::class)->name('create.lsp');
+    Route::get('lsp/{lsp}', LSPEdit::class)->name('edit.lsp');
 
     Route::get('customer/list', CustomerList::class)->name('index.customer');
     Route::get('create/customer', CreateCustomer::class)->name('create.customer');
