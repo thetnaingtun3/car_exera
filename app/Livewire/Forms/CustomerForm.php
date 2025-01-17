@@ -8,29 +8,37 @@ use Livewire\Form;
 class CustomerForm extends Form
 {
     public ?Customer $customer = null;
-    public $name, $address;
+    public $lsp_name, $customer_name, $customer_code;
 
 
     public function setCustomer(Customer $customer)
     {
         $this->customer = $customer;
-        $this->name = $customer->name;
-        $this->address = $customer->address;
+        $this->lsp_name = $customer->lsp_name;
+        $this->customer_name = $customer->customer_name;
+        $this->customer_code = $customer->customer_code;
+
     }
 
     public function store()
     {
+
+        $this->validate([
+            'customer_code' => 'required|max:11|unique:customers,customer_code',
+        ]);
         $this->customer = Customer::create([
-            'name' => $this->name,
-            'address' => $this->address,
+            'lsp_name' => $this->lsp_name,
+            'customer_name' => $this->customer_name,
+            'customer_code' => $this->customer_code,
         ]);
     }
 
     public function update()
     {
         $this->customer->update([
-            'name' => $this->name,
-            'address' => $this->address,
+            'lsp_name' => $this->lsp_name,
+            'customer_name' => $this->customer_name,
+            'customer_code' => $this->customer_code,
         ]);
     }
 

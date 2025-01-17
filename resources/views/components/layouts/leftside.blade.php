@@ -58,6 +58,15 @@
                     {{-- Admin Section (Only for admin or root-admin) --}}
                     @hasanyrole('admin|root-admin')
                     <li>
+                        <a href="{{ route('index.customer') }}" wire:navigate
+                           class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
+                            <x-phosphor.icons::regular.user-circle class="w-6 h-6 mx-3 text-blue-800"/>
+                            <span class="ml-3" sidebar-toggle-item>LSP</span>
+                        </a>
+                    </li>
+                    @endhasanyrole
+                    @hasanyrole('admin|root-admin')
+                    <li>
                         <a href="{{ route('index.admin') }}" wire:navigate
                            class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
                             <x-phosphor.icons::regular.user-circle class="w-6 h-6 mx-3 text-blue-800"/>

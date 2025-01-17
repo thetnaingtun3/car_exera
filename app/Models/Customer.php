@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    protected $fillable = ['name', 'address'];
+    protected $fillable = ['customer_code', 'lsp_name', 'customer_name'];
 
     public function scopeSearch($query, $value)
     {
         $query->where(function ($q) use ($value) {
-            $q->where('name', 'like', "%{$value}%")
-                ->orWhere('address', 'like', "%{$value}%");
+            $q->where('customer_name', 'like', "%{$value}%")
+                ->orWhere('customer_code', 'like', "%{$value}%")
+                ->orWhere('lsp_name', 'like', "%{$value}%");
         });
     }
 }

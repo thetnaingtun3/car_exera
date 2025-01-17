@@ -18,13 +18,18 @@
                     <form wire:submit.prevent="save" enctype="multipart/form-data">
                         <div class="flex flex-wrap mt-8">
                             <div class="w-full px-4 lg:w-6/12">
-                                <x-form.input wire:model="form.name" type="text" label="Name"/>
-                                <x-form.input-error for="form.name" class="mt-2"/>
+                                <x-form.input wire:model="form.lsp_name" type="text" label="LSP Name"/>
+                                <x-form.input-error for="form.lsp_name" class="mt-2"/>
                             </div>
 
                             <div class="w-full px-4 lg:w-6/12">
-                                <x-form.input wire:model="form.address" type="text" label="Address"/>
-                                <x-form.input-error for="form.address" class="mt-2"/>
+                                <x-form.input wire:model="form.customer_name" type="text" label="Customer Name"/>
+                                <x-form.input-error for="form.customer_name" class="mt-2"/>
+                            </div>
+
+                            <div class="w-full pt-5 px-4 lg:w-6/12">
+                                <x-form.input wire:model="form.customer_code" type="number" label="Customer Code"/>
+                                <x-form.input-error for="form.customer_code" class="mt-2"/>
                             </div>
 
                         </div>
