@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Livewire\Customer;
+namespace App\Livewire\Truck;
 
 use App\Models\LSP;
 use Livewire\Component;
+use App\Imports\TrucksImport;
 
 use Livewire\WithFileUploads;
-use App\Imports\CustomersImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Filament\Notifications\Notification;
 
-class ImportCustomer extends Component
+class ImportTruck extends Component
 {
     use WithFileUploads;
 
@@ -20,15 +20,14 @@ class ImportCustomer extends Component
 
     public function save()
     {
-
-        Excel::import(new CustomersImport($this->lsp_id), $this->file->path());
+        Excel::import(new TrucksImport($this->lsp_id), $this->file->path());
         $this->reset('file');
         Notification::make()
             ->title('Customer Data Imported Successfully!')
             ->success()
             ->send();
 
-        return redirect()->route('index.customer');
+        return redirect()->route('index.truck');
     }
 
     public function mount()
@@ -38,6 +37,6 @@ class ImportCustomer extends Component
     }
     public function render()
     {
-        return view('livewire.customer.import-customer');
+        return view('livewire.truck.import-truck');
     }
 }

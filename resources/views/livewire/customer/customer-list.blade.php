@@ -53,7 +53,7 @@
                             @foreach ($customers as $user)
                                 <tr wire:key="{{ $user->id }}" class="border-b">
                                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
-                                        {{ $user->lsp_name }}</th>
+                                        {{ $user->lsp->lsp_name }}</th>
 
                                     <td class="px-4 py-3">{{ $user->customer_name }}</td>
                                     <td class="px-4 py-3">{{ $user->customer_code }}</td>
@@ -63,12 +63,12 @@
 
                                             <x-phosphor.icons::fill.pencil-line class="w-6 h-6 mx-3 text-blue-400" />
                                         </a>
-                                        <a wire:click='deleteStudent({{ $user }})' class="cursor-pointer"
+                                        {{-- <a wire:click='deleteStudent({{ $user }})' class="cursor-pointer"
                                             title="Delete Student"
                                             wire:confirm="Are you sure you want to delete {{ $user->name }}?">
 
                                             <x-phosphor.icons::fill.trash class="w-6 h-6 mx-3 text-red-800" />
-                                        </a>
+                                        </a> --}}
 
                                     </td>
                                 </tr>

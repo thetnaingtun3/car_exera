@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class LSP extends Model
 {
     protected  $fillable = ['lsp_name'];
+    public function scopeSearch($query, $value)
+    {
+        $query->where('lsp_name', 'like', "%{$value}%");
+    }
 }

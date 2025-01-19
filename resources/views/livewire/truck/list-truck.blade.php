@@ -1,7 +1,7 @@
 @section('student-active', 'bg-gray-100 group')
 <div>
     <div class="px-4 py-2 bg-gray-200">
-        <span class="text-gray-500 text-md">Home / <span class="text-blue-900">LSP</span></span>
+        <span class="text-gray-500 text-md">Home / <span class="text-blue-900">Customer</span></span>
     </div>
     <section class="mt-10">
 
@@ -10,9 +10,11 @@
 
             <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800">
                 <div class="flex items-center justify-between p-4 d">
-
-                    <x-theme.button wire:navigate :href="route('create.customer')" :active="request()->routeIs('create.customer')">
-                        {{ __('Create New LSP') }}
+                    <x-theme.button wire:navigate :href="route('import.truck')" :active="request()->routeIs('import.truck')">
+                        {{ __('Customer Import') }}
+                    </x-theme.button>
+                    <x-theme.button wire:navigate :href="route('create.truck')" :active="request()->routeIs('create.truck')">
+                        {{ __('Create New Truck') }}
                     </x-theme.button>
                     <div class="flex">
                         <div class="relative w-full">
@@ -39,6 +41,9 @@
                                     'name' => 'lsp_name',
                                     'displayName' => 'LSP Name',
                                 ])
+                                <th scope="col" class="px-4 py-3"> Licence Plate</th>
+                                <th scope="col" class="px-4 py-3"> Vehical Type</th>
+                                <th scope="col" class="px-4 py-3"> Size</th>
 
                                 <th scope="col" class="px-4 py-3 text-center">
                                     <span class="">Actions</span>
@@ -46,19 +51,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($lsps as $lsp)
-                                <tr wire:key="{{ $lsp->id }}" class="border-b">
+                            @foreach ($trucks as $user)
+                                <tr wire:key="{{ $user->id }}" class="border-b">
                                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
-                                        {{ $lsp->lsp_name }}</th>
+                                        {{ $user->lsp->lsp_name }}</th>
+
+                                    <td class="px-4 py-3">{{ $user->licence_plate }}</td>
+                                    <td class="px-4 py-3">{{ $user->vehicle_type }}</td>
+                                    <td class="px-4 py-3">{{ $user->size }}</td>
 
                                     <td class="flex items-center justify-center my-2">
-                                        <a wire:navigate href="{{ route('edit.lsp', $lsp->id) }}" title="Edit Student">
+                                        <a wire:navigate href="{{ route('edit.customer', $user->id) }}"
+                                            title="Edit Student">
 
                                             <x-phosphor.icons::fill.pencil-line class="w-6 h-6 mx-3 text-blue-400" />
                                         </a>
-                                        {{-- <a wire:click='deleteStudent({{ $lsp }})' class="cursor-pointer"
+                                        {{-- <a wire:click='deleteStudent({{ $user }})' class="cursor-pointer"
                                             title="Delete Student"
-                                            wire:confirm="Are you sure you want to delete {{ $lsp->lsp_name }}?">
+                                            wire:confirm="Are you sure you want to delete {{ $user->name }}?">
 
                                             <x-phosphor.icons::fill.trash class="w-6 h-6 mx-3 text-red-800" />
                                         </a> --}}
@@ -71,7 +81,7 @@
                 </div>
 
                 <div class="px-3 py-4">
-                    {{ $lsps->links() }}
+                    {{ $trucks->links() }}
                 </div>
             </div>
         </div>

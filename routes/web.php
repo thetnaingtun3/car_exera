@@ -4,6 +4,7 @@ use App\Livewire\Admin\AdminRoleCreate;
 use App\Livewire\Admin\AdminRoleList;
 use App\Livewire\Admin\CreateAdmin;
 use App\Livewire\Admin\ListAdmin;
+use App\Livewire\CarRegister\SubmitCarRegister;
 use App\Livewire\Customer\CreateCustomer;
 use App\Livewire\Customer\CustomerList;
 use App\Livewire\Customer\EditCustomer;
@@ -20,6 +21,10 @@ use App\Livewire\LSP\LSPCreate;
 use App\Livewire\LSP\LSPEdit;
 use App\Livewire\LSP\LSPList;
 use App\Livewire\Transoper\TransoperAction;
+use App\Livewire\Truck\CreateTruck;
+use App\Livewire\Truck\EditTruck;
+use App\Livewire\Truck\ImportTruck;
+use App\Livewire\Truck\ListTruck;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
 
@@ -50,14 +55,22 @@ Route::middleware('auth:admin')->group(callback: function () {
 
     Route::get('customer/list', CustomerList::class)->name('index.customer');
     Route::get('create/customer', CreateCustomer::class)->name('create.customer');
-    Route::get('import/customer', ImportCustomer::class)->name('import.customer');
     Route::get('customer/{customer}', EditCustomer::class)->name('edit.customer');
+    Route::get('import/customer', ImportCustomer::class)->name('import.customer');
 
 
 
+    Route::get('import/truck', ImportTruck::class)->name('import.truck');
+    Route::get('truck/list', ListTruck::class)->name('index.truck');
+    Route::get('create/truck', CreateTruck::class)->name('create.truck');
+    Route::get('truck/{truck}', EditTruck::class)->name('edit.truck');
 
     Route::get('lsp/list', LSPList::class)->name('index.lsp');
     Route::get('create/lsp', LSPCreate::class)->name('create.lsp');
     Route::get('lsp/{lsp}', LSPEdit::class)->name('edit.lsp');
 
+
+
+
+    Route::get('reg/car', SubmitCarRegister::class)->name('reg.car');
 });

@@ -8,7 +8,7 @@
             <div class="px-6 py-6 mb-0 text-white rounded-t bg-gradient-to-r from-blue-800 to-gray-800">
                 <div class="flex justify-between text-center">
                     <h6 class="text-xl font-bold">
-                        Customer Data Import
+                        Truck Data Import
                     </h6>
                 </div>
             </div>
@@ -37,6 +37,7 @@
                         </div>
 
 
+
                         <div class="w-full px-4 mt-5">
                             <div wire:loading wire:target="file">Uploading...</div>
                             <x-form.input type="file" wire:model="file" label="Excel File" />
@@ -47,7 +48,7 @@
                     </div>
 
                     <div class="flex justify-center mt-8 space-x-2">
-                        <x-form.button color="quaternary" wire:navigate :href="route('index.customer')">Cancel
+                        <x-form.button color="quaternary" wire:navigate :href="route('index.truck')">Cancel
                         </x-form.button>
                         <x-form.button color="secondary">Import</x-form.button>
                     </div>

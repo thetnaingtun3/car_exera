@@ -1,24 +1,20 @@
 <?php
 
-namespace App\Livewire\Customer;
+namespace App\Livewire\Truck;
 
-use App\Models\Customer;
+use App\Models\Truck;
 use Livewire\Attributes\Title;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class CustomerList extends Component
+class ListTruck extends Component
 {
-
     use WithPagination;
 
 
     #[Url(history: true)]
     public $search = '';
 
-    #[Url(history: true)]
-    public $status = '';
 
     #[Url(history: true)]
     public $sortBy = 'created_at';
@@ -27,6 +23,7 @@ class CustomerList extends Component
     public $sortDir = 'DESC';
     #[Url()]
     public $perPage = 20;
+
 
     public function setSortBy($sortByField)
     {
@@ -40,20 +37,17 @@ class CustomerList extends Component
         $this->sortDir = 'DESC';
     }
 
-    #[Title('Customer List')]
 
+    #[Title('Truck List')]
     public function render()
     {
-
-        $status = ($this->status === 'active') ? 'active' : (($this->status === 'inactive') ? 'inactive' : '');
-        $customers = Customer::search($this->search)
+        $trucks = Truck::search($this->search)
             ->with("lsp")
-            ->when($status !== '', function ($query) use ($status) {
-                $query->where('status', $status);
-            })
             ->orderBy($this->sortBy, $this->sortDir)
             ->paginate(20);
 
-        return view('livewire.customer.customer-list', compact('customers'));
+
+
+        return view('livewire.truck.list-truck', compact('trucks'));
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Imports;
 
-use App\Models\Customer;
+use App\Models\Truck;
 use Maatwebsite\Excel\Concerns\ToModel;
 
-class CustomersImport implements ToModel
+class TrucksImport implements ToModel
 {
     protected $lsp_id;
 
@@ -22,10 +22,12 @@ class CustomersImport implements ToModel
      */
     public function model(array $row)
     {
-        return new Customer([
+        return new Truck([
+
             'lsp_id' => $this->lsp_id,
-            'customer_code' => $row[0],
-            'customer_name' => $row[1],
+            'licence_plate' => $row[0],
+            'vehicle_type' => $row[1],
+            'size' => $row[2],
         ]);
     }
 }

@@ -20,8 +20,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RoleSeeder::class);
         $this->call(AdminSeeder::class);
-//        $this->call(CountriesSeeder::class);
-//        User::factory(100)->create();
-
+        $this->call(LSPSeeder::class);
     }
 }
