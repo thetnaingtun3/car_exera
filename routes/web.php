@@ -1,32 +1,33 @@
 <?php
 
-use App\Livewire\Admin\AdminRoleCreate;
-use App\Livewire\Admin\AdminRoleList;
-use App\Livewire\Admin\CreateAdmin;
-use App\Livewire\Admin\ListAdmin;
-use App\Livewire\CarRegister\SubmitCarRegister;
-use App\Livewire\Customer\CreateCustomer;
-use App\Livewire\Customer\CustomerList;
-use App\Livewire\Customer\EditCustomer;
-use App\Livewire\Customer\ImportCustomer;
-use App\Livewire\Loading\LoadingAction;
 use App\Livewire\Login;
-use App\Livewire\Login\LoadingLogin;
-use App\Livewire\Login\ProductionLogin;
-use App\Livewire\Login\TransoperLogin;
-use App\Livewire\Production\ProductionAction;
 use App\Livewire\SignUp;
 use App\Livewire\Dashboard;
-use App\Livewire\LSP\LSPCreate;
+use App\Livewire\QrCodePage;
 use App\Livewire\LSP\LSPEdit;
 use App\Livewire\LSP\LSPList;
-use App\Livewire\Transoper\TransoperAction;
-use App\Livewire\Truck\CreateTruck;
+use App\Livewire\LSP\LSPCreate;
+use App\Livewire\Admin\ListAdmin;
 use App\Livewire\Truck\EditTruck;
-use App\Livewire\Truck\ImportTruck;
 use App\Livewire\Truck\ListTruck;
+use App\Livewire\Admin\CreateAdmin;
+use App\Livewire\Truck\CreateTruck;
+use App\Livewire\Truck\ImportTruck;
+use App\Livewire\Login\LoadingLogin;
+use App\Livewire\Admin\AdminRoleList;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Login\TransoperLogin;
+use App\Livewire\Admin\AdminRoleCreate;
+use App\Livewire\Customer\CustomerList;
+use App\Livewire\Customer\EditCustomer;
+use App\Livewire\Loading\LoadingAction;
+use App\Livewire\Login\ProductionLogin;
 use Illuminate\Support\Facades\Redirect;
+use App\Livewire\Customer\CreateCustomer;
+use App\Livewire\Customer\ImportCustomer;
+use App\Livewire\Transoper\TransoperAction;
+use App\Livewire\Production\ProductionAction;
+use App\Livewire\CarRegister\SubmitCarRegister;
 
 //Route::get('register', SignUp::class)->name('register');
 
@@ -73,4 +74,7 @@ Route::middleware('auth:admin')->group(callback: function () {
 
 
     Route::get('reg/car', SubmitCarRegister::class)->name('reg.car');
+
+
+    Route::get('/qrcode/{id}', QrCodePage::class)->name('qrcode.show');
 });

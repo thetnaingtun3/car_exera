@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('order_number')->nullable();
             $table->text('remark')->nullable();
             $table->text('qr_code')->nullable();
-            $table->date('click_date')->nullable();
+            $table->timestamp('click_date')->nullable();
             $table->enum('status', ['1', '0'])->default('0');
             $table->timestamps();
         });
