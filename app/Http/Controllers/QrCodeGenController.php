@@ -23,7 +23,7 @@ class QrCodeGenController extends Controller
         $qrData = sprintf(
             "Car Number: %s\nDriver Name: %s\nType of Truck: %s\nCustomer Name: %s\nDate and Time: %s",
             $record->truck?->licence_plate ?? 'No Truck Assigned',
-            $record->id,
+            $record->driver_name,
             $record->truck?->size ?? 'Unknown Size',
             $record->customer?->customer_name ?? 'No Customer Assigned',
             now()->format('d-m-Y H:i:s')

@@ -19,7 +19,7 @@
         <!-- Display Record Details -->
         <div class="text-left">
             <p><strong>Car Number:</strong> {{ $record->truck?->licence_plate ?? 'No Truck Assigned' }}</p>
-            <p><strong>Driver Name:</strong> {{ $record->id }}</p>
+            <p><strong>Driver Name:</strong> {{ $record->driver_name }}</p>
             <p><strong>Type of Truck:</strong> {{ $record->truck?->size ?? 'Unknown Size' }}</p>
             <p><strong>Customer Name:</strong> {{ $record->customer?->customer_name ?? 'No Customer Assigned' }}</p>
             <p><strong>Date and Time:</strong> {{ now()->format('d-m-Y H:i:s') }}</p>
