@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\Truck;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class TrucksImport implements ToModel
+class TrucksImport implements ToModel, WithHeadingRow
 {
     protected $lsp_id;
 
@@ -25,9 +26,9 @@ class TrucksImport implements ToModel
         return new Truck([
 
             'lsp_id' => $this->lsp_id,
-            'licence_plate' => $row[0],
-            'vehicle_type' => $row[1],
-            'size' => $row[2],
+            'licence_plate' => $row['truck_number'],
+            // 'vehicle_type' => $row['2],
+            'size' => $row['truck_type'],
         ]);
     }
 }

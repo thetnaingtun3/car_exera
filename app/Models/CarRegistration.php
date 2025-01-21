@@ -41,4 +41,31 @@ class CarRegistration extends Model
     {
         return $this->belongsTo(Truck::class, 'car_id');
     }
+    public function scopeFilterByDate($query, $startDate, $endDate)
+
+    {
+        // dd($startDate, $endDate);
+        if ($startDate) {
+            $query->whereDate('created_at', '>=', $startDate);
+        }
+        if ($endDate) {
+            $query->whereDate('created_at', '<=', $endDate);
+        }
+
+        return $query;
+    }
+    public function scopeSearch($query, $value)
+    {
+        $query->where('driver_name', 'like', "%{$value}%")
+            ->orWhere('order_number', 'like', "%{$value}%")
+            ->orWhereHas('lsp', function ($query) use ($value) {
+                $query->where('lsp_name', 'like', "%{$value}%"); // Assuming 'name' is a column in the LSP model
+            })
+            ->orWhereHas('truck', function ($query) use ($value) {
+                $query->where('licence_plate', 'like', "%{$value}%"); // Assuming 'name' is a column in the LSP model
+            })
+            ->orWhereHas('customer', function ($query) use ($value) {
+                $query->where('customer_name', 'like', "%{$value}%"); // Assuming 'name' is a column in the LSP model
+            });
+    }
 }

@@ -30,6 +30,10 @@ class ImportCustomer extends Component
 
         return redirect()->route('index.customer');
     }
+    public function user_excel_download()
+    {
+        return response()->download(public_path('file/customer_eg.xlsx'));
+    }
 
     public function mount()
     {

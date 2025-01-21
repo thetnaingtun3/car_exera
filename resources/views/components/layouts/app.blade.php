@@ -34,9 +34,9 @@
     <div class="bg-gray-50 dark:bg-gray-900">
 
 
-        <div id="main-content" class="bg-gray-50 mb-5 lg:ml-64 dark:bg-gray-900 ">
+        <div id="main-content" class="mb-5 bg-gray-50 lg:ml-64 dark:bg-gray-900 ">
             @include('components.layouts.nav')
-            <main class="flex-1  bg-base-200">
+            <main class="flex-1 bg-base-200">
                 {{ $slot }}
                 @livewire('notifications')
 
@@ -46,7 +46,7 @@
     </div>
 
     {{--
-<body class=" relative flex flex-col min-h-screen bg-gray-50 dark:bg-gray-800">
+<body class="relative flex flex-col min-h-screen bg-gray-50 dark:bg-gray-800">
 <div class="flex overflow-hidden bg-gray-50 dark:bg-gray-900">
     <div id="main-content" class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900 ">
         @include('components.layouts.nav')

@@ -21,7 +21,7 @@ class Login extends Component
         if (auth()->guard('admin')->user()) {
             return redirect('/dashboard');
         }
-        $this->fill(['email' => 'admin@gmail.com', 'password' => 'password']);
+        $this->fill(['email' => 'root@admin.com', 'password' => 'password']);
     }
 
     public function login()
@@ -40,6 +40,5 @@ class Login extends Component
     {
         return view('livewire.login')
             ->layout('custom.app');
-
     }
 }

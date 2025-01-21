@@ -21,7 +21,7 @@ class QrCodePage extends Component
 
         $this->record = [
             'car_number' => $record->truck?->licence_plate ?? 'No Truck Assigned',
-            'driver_name' => $record->id,
+            'driver_name' => $record->driver_name,
             'type_of_truck' => $record->truck?->size ?? 'Unknown Size',
             'customer_name' => $record->customer?->customer_name ?? 'No Customer Assigned',
             'date_time' => now()->format('d-m-Y H:i:s'),

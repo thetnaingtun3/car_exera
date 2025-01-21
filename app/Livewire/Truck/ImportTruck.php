@@ -29,6 +29,11 @@ class ImportTruck extends Component
 
         return redirect()->route('index.truck');
     }
+    public function user_excel_download()
+    {
+        return response()->download(public_path('file/truck_eg.xlsx'));
+    }
+
 
     public function mount()
     {

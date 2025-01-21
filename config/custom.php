@@ -27,6 +27,6 @@ return [
     ),
 
     'unit' => array(
-        'unit1' => 'Carton',
+        'unit1' => 'pallet',
     ),
 ];
