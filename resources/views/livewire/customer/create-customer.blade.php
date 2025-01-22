@@ -18,20 +18,25 @@
                     <form wire:submit.prevent="save" enctype="multipart/form-data">
                         <div class="flex flex-wrap mt-8">
                             <div class="w-full px-4 lg:w-6/12">
-                                <x-form.input wire:model="form.lsp_name" type="text" label="LSP Name"/>
-                                <x-form.input-error for="form.lsp_name" class="mt-2"/>
+                                <x-form.select-box wire:model="lsp_id" label="Select LSP">
+                                    <option hidden>Select LSP</option>
+                                    @foreach ($lsps as $item)
+                                        <option value="{{ $item->id }}">{{ $item->lsp_name }}</option>
+                                    @endforeach
+                                </x-form.select-box>
+                                <x-form.input-error for="lsp_id" class="mt-2" />
                             </div>
 
                             <div class="w-full px-4 lg:w-6/12">
-                                <x-form.input wire:model="form.customer_name" type="text" label="Customer Name"/>
-                                <x-form.input-error for="form.customer_name" class="mt-2"/>
+                                <x-form.input wire:model="form.customer_code" type="text" label="Customer Code" />
+                                <x-form.input-error for="form.customer_code" class="mt-2" />
                             </div>
 
-                            <div class="w-full pt-5 px-4 lg:w-6/12">
-                                <x-form.input wire:model="form.customer_code" type="number" label="Customer Code"/>
-                                <x-form.input-error for="form.customer_code" class="mt-2"/>
-                            </div>
 
+                            <div class="w-full px-4 pt-5 lg:w-6/12">
+                                <x-form.input wire:model="form.customer_name" type="text" label="Customer Name" />
+                                <x-form.input-error for="form.customer_name" class="mt-2" />
+                            </div>
                         </div>
 
                         <div class="flex justify-end mt-4 space-x-2">

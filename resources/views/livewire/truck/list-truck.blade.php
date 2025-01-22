@@ -37,10 +37,11 @@
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
-                                @include('livewire.includes.table-sortable-th', [
+                                {{-- @include('livewire.includes.table-sortable-th', [
                                     'name' => 'lsp_name',
                                     'displayName' => 'LSP Name',
-                                ])
+                                ]) --}}
+                                <th scope="col" class="px-4 py-3">LSP Name</th>
                                 <th scope="col" class="px-4 py-3"> Licence Plate</th>
                                 <th scope="col" class="px-4 py-3"> Vehical Type</th>
                                 <th scope="col" class="px-4 py-3"> Size</th>
@@ -51,17 +52,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($trucks as $user)
-                                <tr wire:key="{{ $user->id }}" class="border-b">
+                            @foreach ($trucks as $data)
+                                <tr wire:key="{{ $data->id }}" class="border-b">
                                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
-                                        {{ $user->lsp->lsp_name }}</th>
+                                        {{ $data->lsp->lsp_name }}</th>
 
-                                    <td class="px-4 py-3">{{ $user->licence_plate }}</td>
-                                    <td class="px-4 py-3">{{ $user->vehicle_type }}</td>
-                                    <td class="px-4 py-3">{{ $user->size }}</td>
+                                    <td class="px-4 py-3">{{ $data->licence_plate }}</td>
+                                    <td class="px-4 py-3">{{ $data->vehicle_type }}</td>
+                                    <td class="px-4 py-3">{{ $data->size }}</td>
 
                                     <td class="flex items-center justify-center my-2">
-                                        <a wire:navigate href="{{ route('edit.customer', $user->id) }}"
+                                        <a wire:navigate href="{{ route('edit.truck', $data->id) }}"
                                             title="Edit Student">
 
                                             <x-phosphor.icons::fill.pencil-line class="w-6 h-6 mx-3 text-blue-400" />

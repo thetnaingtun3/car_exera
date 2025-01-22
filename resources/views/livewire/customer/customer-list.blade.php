@@ -37,10 +37,11 @@
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
-                                @include('livewire.includes.table-sortable-th', [
+                                {{-- @include('livewire.includes.table-sortable-th', [
                                     'name' => 'lsp_name',
                                     'displayName' => 'LSP Name',
-                                ])
+                                ]) --}}
+                                <th scope="col" class="px-4 py-3">LSP Name</th>
                                 <th scope="col" class="px-4 py-3"> Customer Name</th>
                                 <th scope="col" class="px-4 py-3"> Customer Code</th>
 
