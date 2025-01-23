@@ -29,6 +29,10 @@ class TruckForm extends Form
     public function store()
     {
 
+        $this->validate([
+            'lsp_id' => 'required',
+        ]);
+
         $this->truck = Truck::create([
             'lsp_id' => $this->lsp_id,
             'licence_plate' => $this->licence_plate,
@@ -38,6 +42,7 @@ class TruckForm extends Form
     }
     public function update()
     {
+
         $this->truck->update([
             'lsp_id' => $this->lsp_id,
             'licence_plate' => $this->licence_plate,

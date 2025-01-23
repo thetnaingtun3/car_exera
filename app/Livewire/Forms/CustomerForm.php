@@ -23,7 +23,7 @@ class CustomerForm extends Form
     {
 
         $this->validate([
-            'customer_code' => 'required|max:11|unique:customers,customer_code',
+            'lsp_id' => 'required',
         ]);
         $this->customer = Customer::create([
             'lsp_id' => $this->lsp_id,
@@ -34,6 +34,7 @@ class CustomerForm extends Form
 
     public function update()
     {
+
         $this->customer->update([
 
             'lsp_id' => $this->lsp_id,

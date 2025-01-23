@@ -11,7 +11,7 @@
             <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800">
                 <div class="flex items-center justify-between p-4 d">
 
-                    <x-theme.button wire:navigate :href="route('create.customer')" :active="request()->routeIs('create.customer')">
+                    <x-theme.button wire:navigate :href="route('create.lsp')" :active="request()->routeIs('create.lsp')">
                         {{ __('Create New LSP') }}
                     </x-theme.button>
                     <div class="flex">
