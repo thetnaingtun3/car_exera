@@ -69,13 +69,6 @@ class SubmitCarRegister extends Component
     public $click_date;
     public $status = '0'; // Default value
 
-    // public function mount()
-    // {
-    //     $this->lsps = LSP::all();
-    //     $this->customers = Customer::all();
-    //     $this->trucks = Truck::all();
-    // }
-
     public function save()
     {
         $validatedData = $this->validate([
@@ -102,6 +95,12 @@ class SubmitCarRegister extends Component
             ->success()
             ->send();
         return to_route('reg.car');
+    }
+
+    public function other()
+    {
+
+        dd("I am o");
     }
 
 

@@ -60,11 +60,11 @@
                                                 'displayName' => 'Car Number',
                                             ]) --}}
                                 <th scope="col" class="px-4 py-3 ">LSP Name</th>
-                                <th scope="col" class="px-4 py-3 ">Car Number</th>
+                                <th scope="col" class="px-4 py-3 ">Truck Number</th>
                                 <th scope="col" class="px-4 py-3 ">Driver Name</th>
                                 <th scope="col" class="px-4 py-3 ">Customer Name</th>
                                 <th scope="col" class="px-4 py-3 ">Order Number</th>
-                                <th scope="col" class="px-4 py-3 ">Type of Truck</th>
+                                <th scope="col" class="px-4 py-3 ">Type Size</th>
                                 <th scope="col" class="px-4 py-3 ">Register Date</th>
                                 <th scope="col" class="px-4 py-3 ">Time</th>
 

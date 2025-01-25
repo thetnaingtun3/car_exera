@@ -10,7 +10,6 @@ use Livewire\Attributes\Validate;
 class TruckForm extends Form
 
 {
-    // 'lsp_id',
     //         'licence_plate',
     //         'vehicle_type',
     //         'size',
@@ -29,10 +28,11 @@ class TruckForm extends Form
     public function store()
     {
 
-        $this->validate([
-            'lsp_id' => 'required',
-        ]);
+        // validate
+        $validatedData = $this->validate([
+            'lsp_id' => 'required|integer',
 
+        ]);
         $this->truck = Truck::create([
             'lsp_id' => $this->lsp_id,
             'licence_plate' => $this->licence_plate,

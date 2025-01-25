@@ -21,8 +21,9 @@
                     <form wire:submit.prevent="save" enctype="multipart/form-data">
                         <div class="flex flex-wrap mt-8">
                             <div class="w-full px-4 lg:w-6/12">
+
                                 <x-form.select-box wire:model="lsp_id" label="Select LSP">
-                                    <option hidden>Select LSP</option>
+                                    <option selected>Select LSP</option>
                                     @foreach ($lsps as $item)
                                         <option value="{{ $item->id }}">{{ $item->lsp_name }}</option>
                                     @endforeach

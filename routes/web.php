@@ -76,9 +76,6 @@ Route::middleware('auth:admin')->group(callback: function () {
 
 
     Route::get('reg/car', SubmitCarRegister::class)->name('reg.car');
-
     Route::get('/order/history', CarRegisterHistory::class)->name('order.history');
-
     Route::get('/qrcode/{id}', [QrCodeGenController::class, "qrcodegen"])->name('qrcode.show');
-    // Route::get('/qrcode/{id}', QrCodePage::class)->name('qrcode.show');
 });

@@ -42,9 +42,9 @@
                                     'displayName' => 'LSP Name',
                                 ]) --}}
                                 <th scope="col" class="px-4 py-3">LSP Name</th>
-                                <th scope="col" class="px-4 py-3"> Licence Plate</th>
-                                <th scope="col" class="px-4 py-3"> Vehical Type</th>
-                                <th scope="col" class="px-4 py-3"> Size</th>
+                                <th scope="col" class="px-4 py-3"> Truck Number</th>
+                                <th scope="col" class="px-4 py-3"> Truck Type</th>
+                                <th scope="col" class="px-4 py-3"> Truck Size</th>
 
                                 <th scope="col" class="px-4 py-3 text-center">
                                     <span class="">Actions</span>

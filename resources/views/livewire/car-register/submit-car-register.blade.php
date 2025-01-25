@@ -15,46 +15,7 @@
                             <div class="flex-auto py-10 pt-0 ">
                                 <form wire:submit.prevent="save" enctype="multipart/form-data">
                                     <div class="flex flex-wrap mt-8">
-                                        <!-- Select LSP -->
-                                        {{-- <div class="w-full ">
-                                            <x-form.select-box wire:model="lsp_id" label="Select LSP">
-                                                <option>Select LSP</option>
-                                                @foreach ($lsps as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->lsp_name }}</option>
-                                                @endforeach
-                                            </x-form.select-box>
-                                            <x-form.input-error for="lsp_id" class="mt-2" />
-                                        </div>
-
-                                        <!-- Customer Name -->
-                                        <div class="w-full py-2">
-                                            <x-form.select-box wire:model="customer_id" label="Customer Name">
-                                                <option>Customer Name</option>
-                                                @foreach ($customers as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->customer_name }}
-                                                    </option>
-                                                @endforeach
-                                            </x-form.select-box>
-                                            <x-form.input-error for="customer_id" class="mt-2" />
-                                        </div>
-
-
-                                        <!-- Car Number -->
-
-                                        <div class="w-full py-2">
-
-
-                                            <x-form.select-box wire:model="car_id" label="Car Number">
-                                                <option>Car Number</option>
-                                                @foreach ($trucks as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->licence_plate }}
-                                                    </option>
-                                                @endforeach
-                                            </x-form.select-box>
-                                            <x-form.input-error for="car_id" class="mt-2" />
-                                        </div> --}}
                                         <!-- LSP Dropdown -->
-
                                         <div class="w-full py-2">
                                             <select wire:model.live="lsp_id"
                                                 class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
@@ -76,6 +37,7 @@
                                                     <option value="{{ $customer->id }}">{{ $customer->customer_name }}
                                                     </option>
                                                 @endforeach
+                                                <option value="other"> other</option>
                                             </select>
                                             <x-form.input-error for="customer_id" class="mt-2" />
 
