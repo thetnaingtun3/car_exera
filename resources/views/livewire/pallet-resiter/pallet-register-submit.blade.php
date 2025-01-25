@@ -1,75 +1,66 @@
-<div>
-    <!-- Product Type Dropdown -->
-    <label for="product-type">Product Type</label>
-    <select id="product-type" wire:model.live="productType" class="p-2 border rounded">
-        <option value="">Select a Product Type</option>
-        @foreach ($productData as $type => $lines)
-            <option value="{{ $type }}">{{ $type }}</option>
-        @endforeach
-    </select>
-
-    <!-- Production Line Dropdown -->
-    @if (!empty($availableProductionLines))
-        <div class="mt-4">
-            <label for="production-line">Production Line</label>
-            <select id="production-line" wire:model.live="productionLine" class="p-2 border rounded">
-                <option value="">Select a Production Line</option>
-                @foreach ($availableProductionLines as $line)
-                    <option value="{{ $line }}">{{ $line }}</option>
-                @endforeach
-            </select>
-        </div>
-    @endif
-
-    <!-- Input Fields -->
-    <div class="mt-4">
-        {{-- <label for="volume">Volume</label>
-        <input id="volume" type="text" wire:model="volume" class="p-2 border rounded" readonly>
-
-        <label for="unit">Unit</label>
-        <input id="unit" type="text" wire:model="unit" class="p-2 border rounded" readonly>
-
-        <label for="total">Total Amount per Pallet</label>
-        <input id="total" type="text" wire:model="totalAmountPerPallet" class="p-2 border rounded" readonly> --}}
-        <label for="start_pallet_number">Start Pallet Number</label>
-        <input id="start_pallet_number" type="number" wire:model="start_pallet_number" class="p-2 border rounded"
-            placeholder="Enter Start Pallet Number">
-
-        <!-- End Pallet Number -->
-        <label for="end_pallet_number" class="mt-2">End Pallet Number</label>
-        <input id="end_pallet_number" type="number" wire:model="end_pallet_number" class="p-2 border rounded"
-            placeholder="Enter End Pallet Number">
-
-        <!-- Product Type -->
-        <label for="product_type" class="mt-2">Product Type</label>
-        <input id="product_type" type="text" wire:model="productType" class="p-2 border rounded"
-            placeholder="Enter Product Type">
-
-        <!-- Production Line -->
-        <label for="production_line" class="mt-2">Production Line</label>
-        <input id="production_line" type="text" wire:model="productionLine" class="p-2 border rounded"
-            placeholder="Enter Production Line">
-
-        <!-- Volume -->
-        <label for="volume" class="mt-2">Volume</label>
-        <input id="volume" type="text" wire:model="volume" class="p-2 border rounded" placeholder="Enter Volume">
-
-        <!-- Unit -->
-        <label for="unit" class="mt-2">Unit</label>
-        <input id="unit" type="text" wire:model="unit" class="p-2 border rounded" placeholder="Enter Unit">
-
-        <!-- Total Amount per Pallet -->
-        <label for="total_amount_per_pallet" class="mt-2">Total Amount per Pallet</label>
-        <input id="total_amount_per_pallet" type="text" wire:model="totalAmountPerPallet" class="p-2 border rounded"
-            placeholder="Enter Total Amount per Pallet">
-
-        <!-- Submit Button -->
-        <button wire:click="store" class="px-4 py-2 mt-4 text-white bg-blue-500 rounded">Register Pallets</button>
-
+<div class="flex flex-wrap mt-8">
+    <!-- Start Pallet Number -->
+    <div class="w-full py-2">
+        <x-form.input wire:model="start_pallet_number" type="number" label="Start Pallet Number"
+            placeholder="Enter Start Pallet Number" />
+        <x-form.input-error for="start_pallet_number" class="mt-2" />
     </div>
-    @if (session()->has('success'))
-        <div class="mt-4 text-green-500">{{ session('success') }}</div>
-    @elseif (session()->has('error'))
-        <div class="mt-4 text-red-500">{{ session('error') }}</div>
-    @endif
+
+    <!-- End Pallet Number -->
+    <div class="w-full py-2">
+        <x-form.input wire:model="end_pallet_number" type="number" label="End Pallet Number"
+            placeholder="Enter End Pallet Number" />
+        <x-form.input-error for="end_pallet_number" class="mt-2" />
+    </div>
+
+    <!-- Product Type -->
+    <div class="w-full py-2">
+        <select wire:model.live="productType"
+            class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
+            <option value="">Select Product Type</option>
+            @foreach ($this->productData as $type => $lines)
+                <option value="{{ $type }}">{{ $type }}</option>
+            @endforeach
+        </select>
+        <x-form.input-error for="productType" class="mt-2" />
+    </div>
+
+    <!-- Production Line -->
+    <div class="w-full py-2">
+        <select wire:model.live="productionLine"
+            class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
+            <option value="">Select Production Line</option>
+            @foreach ($this->availableProductionLines as $line)
+                <option value="{{ $line }}">{{ $line }}</option>
+            @endforeach
+        </select>
+        <x-form.input-error for="productionLine" class="mt-2" />
+    </div>
+
+    <!-- Volume -->
+    <div class="w-full py-2">
+        <x-form.input wire:model="volume" type="text" label="Volume" placeholder="Volume" readonly />
+        <x-form.input-error for="volume" class="mt-2" />
+    </div>
+
+    <!-- Unit -->
+    <div class="w-full py-2">
+        <x-form.input wire:model="unit" type="text" label="Unit" placeholder="Unit" readonly />
+        <x-form.input-error for="unit" class="mt-2" />
+    </div>
+
+    <!-- Total Amount per Pallet -->
+    <div class="w-full py-2">
+        <x-form.input wire:model="totalAmountPerPallet" type="text" label="Total Amount per Pallet"
+            placeholder="Total Amount per Pallet" readonly />
+        <x-form.input-error for="totalAmountPerPallet" class="mt-2" />
+    </div>
+
+    <!-- Submit Button -->
+    <div class="w-full py-4">
+        <button wire:click="store"
+            class="w-full px-4 py-2 text-sm font-semibold text-white transition-all duration-150 ease-linear bg-blue-500 rounded shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
+            Register Pallets
+        </button>
+    </div>
 </div>
