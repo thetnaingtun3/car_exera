@@ -30,6 +30,7 @@ use App\Http\Controllers\QrCodeGenController;
 use App\Livewire\CarRegister\CarRegisterHistory;
 use App\Livewire\Production\ProductionAction;
 use App\Livewire\CarRegister\SubmitCarRegister;
+use App\Livewire\PalletResiter\PalletRegisterSubmit;
 
 //Route::get('register', SignUp::class)->name('register');
 
@@ -78,4 +79,8 @@ Route::middleware('auth:admin')->group(callback: function () {
     Route::get('reg/car', SubmitCarRegister::class)->name('reg.car');
     Route::get('/order/history', CarRegisterHistory::class)->name('order.history');
     Route::get('/qrcode/{id}', [QrCodeGenController::class, "qrcodegen"])->name('qrcode.show');
+
+
+    // pallet register
+    Route::get('pallet/register', PalletRegisterSubmit::class)->name('pallet.register');
 });

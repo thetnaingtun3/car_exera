@@ -142,7 +142,7 @@
                     {{-- Production Section --}}
                     @hasanyrole('production|root-admin')
                         <li>
-                            <a href="{{ route('index.production') }}" wire:navigate
+                            <a href="{{ route('pallet.register') }}" wire:navigate
                                 class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
                                 <x-phosphor.icons::regular.factory class="w-6 h-6 mx-3 text-blue-800" />
                                 <span class="ml-3" sidebar-toggle-item>Production</span>
