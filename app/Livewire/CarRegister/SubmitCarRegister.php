@@ -2,15 +2,13 @@
 
 namespace App\Livewire\CarRegister;
 
+use Livewire\Component;
 use App\Models\LSP;
 use App\Models\Truck;
-use Livewire\Component;
 use App\Models\Customer;
-use Livewire\Attributes\Url;
-use Livewire\Attributes\Title;
 use App\Models\CarRegistration;
+use App\Models\CarRegisterProduct;
 use Filament\Notifications\Notification;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Livewire\Attributes\Computed;
 
 class SubmitCarRegister extends Component
@@ -19,97 +17,97 @@ class SubmitCarRegister extends Component
     public $customer_id;
     public $car_id;
     public $driver_name;
-    public $product;
-    public $package;
-    public $unit;
     public $order_number;
     public $remark;
 
-    public function updatedLspId()
-    {
-        // Reset dependent dropdowns when LSP changes
-        $this->customer_id = null;
-        $this->car_id = null;
-    }
+    public $product = '';
+    public $package = '';
+    public $qty = '';
+    public $unit = '';
+
+    public $products = []; // To hold dynamically added products
 
     #[Computed]
     public function lsps()
     {
-        return LSP::all(); // Return all LSPs
+        return LSP::all();
     }
 
     #[Computed]
     public function customers()
     {
-        return $this->lsp_id ? Customer::where('lsp_id', $this->lsp_id)->get() : collect(); // Filter customers by LSP
+        return $this->lsp_id ? Customer::where('lsp_id', $this->lsp_id)->get() : collect();
     }
 
     #[Computed]
     public function trucks()
     {
-        return $this->lsp_id ? Truck::where('lsp_id', $this->lsp_id)->get() : collect(); // Filter trucks by LSP
+        return $this->lsp_id ? Truck::where('lsp_id', $this->lsp_id)->get() : collect();
     }
 
+    public function add()
+    {
+        // Validate the current product entry
+        $this->validate([
+            'product' => 'required|string',
+            'package' => 'required|string',
+            'qty' => 'required|integer',
+            'unit' => 'required|string',
+        ]);
 
-    #[Url(history: true)]
-    public $search = '';
+        // Add the product to the array
+        $this->products[] = [
+            'product' => $this->product,
+            'package' => $this->package,
+            'qty' => $this->qty,
+            'unit' => $this->unit,
+        ];
 
-
-    #[Url(history: true)]
-    public $sortBy = 'created_at';
-
-    #[Url(history: true)]
-    public $sortDir = 'DESC';
-    #[Url()]
-    public $perPage = 20;
-
-
-
-    public $qr_code;
-    public $click_date;
-    public $status = '0'; // Default value
-
+        // Reset the inputs for the next product entry
+        $this->reset(['product', 'package', 'qty', 'unit']);
+    }
     public function save()
     {
+        // Validate Car Registration data
         $validatedData = $this->validate([
             'lsp_id' => 'required|integer',
             'customer_id' => 'required|integer',
             'car_id' => 'required|integer',
             'driver_name' => 'required|string|max:255',
-            'product' => 'required|string',
-            'package' => 'required|string',
-            'unit' => 'required|string',
             'order_number' => 'required|string|max:50',
             'remark' => 'nullable|string',
         ]);
 
-        // Save the data (adjust to match your database structure)
-        CarRegistration::create($validatedData);
+        // Create Car Registration
+        $carRegistration = CarRegistration::create($validatedData);
+
+        // Save Products
+        foreach ($this->products as $product) {
+            CarRegisterProduct::create([
+                'car_registration_id' => $carRegistration->id,
+                'product' => $product['product'],
+                'package' => $product['package'],
+                'qty' => $product['qty'],
+                'unit' => $product['unit'],
+            ]);
+        }
 
         // Reset the form
-        $this->reset();
+        $this->reset(['lsp_id', 'customer_id', 'car_id', 'driver_name', 'order_number', 'remark', 'products']);
 
-        // Flash a success message
+        // Notify success
         Notification::make()
-            ->title('Car Register  Successfully')
+            ->title('Car Registration Submitted Successfully!')
             ->success()
             ->send();
+
         return to_route('reg.car');
     }
 
-    public function other()
-    {
-
-        dd("I am o");
-    }
-
-
-    #[Title('Car Register')]
     public function render()
     {
-        $registrations = CarRegistration::with(['lsp', 'customer', 'truck'])
-            ->orderBy('id', 'desc') // Replace 'column_name' with the actual column name you want to sort by
-            ->get();
+        $registrations = CarRegistration::with('products')->orderBy('id', 'desc')->get();
+
         return view('livewire.car-register.submit-car-register', compact('registrations'));
     }
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Livewire\CarRegister;
+namespace App\Livewire\PalletResiter;
 
+use App\Models\PalletRegister;
+use Livewire\Attributes\Title;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Url;
-use Livewire\Attributes\Title;
-use App\Models\CarRegistration;
 
-class CarRegisterHistory extends Component
+class PalletRegisterQrCodeHistory extends Component
 {
     use WithPagination;
 
@@ -36,7 +36,7 @@ class CarRegisterHistory extends Component
     // total data count
     public function mount()
     {
-        $this->count = CarRegistration::count();
+        $this->count = PalletRegister::count();
     }
 
     public function setSortBy($sortByField)
@@ -55,13 +55,12 @@ class CarRegisterHistory extends Component
         // The Livewire view will automatically update because these properties are reactive.
     }
 
-    #[Title('Car Register History')]
+    #[Title('Pallet Qr Code History')]
     public function render()
     {
-        $query = CarRegistration::search($this->search)
-            ->with(['lsp', 'customer', 'truck']);
 
-        // Apply date filters if set
+        $query = PalletRegister::search($this->search);
+
         if (!empty($this->startDate)) {
             $query->whereDate('created_at', '>=', $this->startDate);
         }
@@ -69,10 +68,9 @@ class CarRegisterHistory extends Component
             $query->whereDate('created_at', '<=', $this->endDate);
         }
 
-        $registrations = $query
+        $pallets = $query
             ->orderBy($this->sortBy, $this->sortDir)
             ->paginate($this->perPage);
-
-        return view('livewire.car-register.car-register-history', compact('registrations'));
+        return view('livewire.pallet-resiter.pallet-register-qr-code-history', compact('pallets'));
     }
 }

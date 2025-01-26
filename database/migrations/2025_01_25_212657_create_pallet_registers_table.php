@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('pallet_number')->nullable();
             $table->string('product_type')->nullable();
             $table->string('production_line')->nullable();
+            $table->string('package')->nullable();
             $table->string('volume')->nullable();
             $table->string('unit')->nullable();
             $table->string('total_amount_per_pallet')->nullable();

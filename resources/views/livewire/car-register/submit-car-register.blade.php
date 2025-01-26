@@ -15,7 +15,8 @@
                             <div class="flex-auto py-10 pt-0 ">
                                 <form wire:submit.prevent="save" enctype="multipart/form-data">
                                     <div class="flex flex-wrap mt-8">
-                                        <!-- LSP Dropdown -->
+                                        <!-- Select LSP -->
+
                                         <div class="w-full py-2">
                                             <select wire:model.live="lsp_id"
                                                 class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
@@ -37,7 +38,6 @@
                                                     <option value="{{ $customer->id }}">{{ $customer->customer_name }}
                                                     </option>
                                                 @endforeach
-                                                <option value="other"> other</option>
                                             </select>
                                             <x-form.input-error for="customer_id" class="mt-2" />
 
@@ -63,9 +63,8 @@
 
                                         <!-- Product -->
                                         <div class="w-full py-2">
-
                                             <x-form.select-box wire:model="product" label="Product">
-                                                <option>Product</option>
+                                                <option value="">Select Product</option>
                                                 @foreach (config('custom.products') as $item)
                                                     <option value="{{ $item }}">{{ $item }}</option>
                                                 @endforeach
@@ -74,10 +73,9 @@
                                         </div>
 
                                         <!-- Package -->
-
                                         <div class="w-full py-2">
                                             <x-form.select-box wire:model="package" label="Package">
-                                                <option>Package</option>
+                                                <option value="">Select Package</option>
                                                 @foreach (config('custom.package') as $item)
                                                     <option value="{{ $item }}">{{ $item }}</option>
                                                 @endforeach
@@ -86,33 +84,38 @@
                                         </div>
 
                                         <!-- Quantity -->
-
                                         <div class="w-full py-2">
-                                            <x-form.input wire:model="qty" type="text" label="Quantity" />
+                                            <x-form.input wire:model="qty" type="number" label="Quantity" />
                                             <x-form.input-error for="qty" class="mt-2" />
                                         </div>
 
-
-                                        {{-- <x-form.select-box wire:model="qty" label="Quantity">
-                                                <option>Quantity</option>
-                                                @foreach (config('custom.quantity') as $item)
-                                                    <option value="{{ $item }}">{{ $item }}</option>
-                                                @endforeach
-                                            </x-form.select-box>
-                                            <x-form.input-error for="qty" class="mt-2" />
-                                        </div> --}}
-
                                         <!-- Unit -->
-
                                         <div class="w-full py-2">
                                             <x-form.select-box wire:model="unit" label="Unit">
-
-                                                <option>Unit</option>
+                                                <option value="">Select Unit</option>
                                                 @foreach (config('custom.unit') as $item)
                                                     <option value="{{ $item }}">{{ $item }}</option>
                                                 @endforeach
                                             </x-form.select-box>
                                             <x-form.input-error for="unit" class="mt-2" />
+                                        </div>
+
+                                        <!-- Add Button -->
+                                        <div class="w-full py-2">
+                                            <button type="button" wire:click="add"
+                                                class="px-4 py-2 text-white bg-blue-500 rounded">Add Product</button>
+                                        </div>
+
+                                        <!-- Display Added Products -->
+                                        <div class="w-full mt-4 bg-gray-300">
+                                            @foreach ($products as $index => $product)
+                                                <div class="flex items-center py-2 border-b">
+                                                    <p class="w-1/4">{{ $product['product'] }}</p>
+                                                    <p class="w-1/4">{{ $product['package'] }}</p>
+                                                    <p class="w-1/4">{{ $product['qty'] }}</p>
+                                                    <p class="w-1/4">{{ $product['unit'] }}</p>
+                                                </div>
+                                            @endforeach
                                         </div>
 
                                         <!-- Order Number -->
@@ -132,10 +135,7 @@
                                                 placeholder="Enter your remark here"></textarea>
                                             <x-form.input-error for="remark" class="mt-2" />
                                         </div>
-                                        {{-- <div class="w-full py-2">
-                                            <x-form.input wire:model="remark" type="text" label="Remark" />
-                                            <x-form.input-error for="remark" class="mt-2" />
-                                        </div> --}}
+
                                     </div>
 
                                     <!-- Buttons -->
@@ -155,9 +155,9 @@
                                         <tr>
                                             <th scope="col" class=""> ID</th>
                                             {{-- @include('livewire.includes.table-sortable-th', [
-                                                'name' => 'lsp_name',
-                                                'displayName' => 'Car Number',
-                                            ]) --}}
+                                            'name' => 'lsp_name',
+                                            'displayName' => 'Car Number',
+                                        ]) --}}
                                             <th scope="col" class="">Car Number</th>
                                             <th scope="col" class="">Driver Name</th>
                                             <th scope="col" class="">Customer Name</th>
@@ -190,19 +190,26 @@
                                                         <x-phosphor.icons::fill.qr-code
                                                             class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}" />
                                                     </a>
+                                                    {{-- detials --}}
+                                                    <a class="hover:cursor-pointer"
+                                                        href="{{ route('reg.car.detials', $user->id) }}"
+                                                        title="View Details">
+                                                        <x-phosphor.icons::fill.eye
+                                                            class="w-6 h-6 mx-3 text-blue-400" />
+                                                    </a>
                                                     {{-- <a class=" hover:cursor-pointer" <a
-                                                        href="{{ route('qrcode.show', $user->id) }}" target="_blank"
-                                                        title="Generate QRcode">
+                                                    href="{{ route('qrcode.show', $user->id) }}" target="_blank"
+                                                    title="Generate QRcode">
 
-                                                        <x-phosphor.icons::fill.qr-code
-                                                            class="w-6 h-6 mx-3 text-blue-400" />
-                                                    </a> --}}
+                                                    <x-phosphor.icons::fill.qr-code
+                                                        class="w-6 h-6 mx-3 text-blue-400" />
+                                                </a> --}}
                                                     {{-- <button wire:click="generateQrCode({{ $user->id }})"
-                                                        class="px-4 py-2 text-white bg-blue-500 rounded">
-                                                        <x-phosphor.icons::fill.qr-code
-                                                            class="w-6 h-6 mx-3 text-blue-400" />
+                                                    class="px-4 py-2 text-white bg-blue-500 rounded">
+                                                    <x-phosphor.icons::fill.qr-code
+                                                        class="w-6 h-6 mx-3 text-blue-400" />
 
-                                                    </button> --}}
+                                                </button> --}}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -213,8 +220,6 @@
 
                     </div>
                 </div>
-
-
             </div>
         </div>
     </section>

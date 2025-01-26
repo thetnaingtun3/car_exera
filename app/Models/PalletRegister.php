@@ -10,6 +10,7 @@ class PalletRegister extends Model
         'pallet_number',
         'product_type',
         'production_line',
+        'package',
         'volume',
         'unit',
         'total_amount_per_pallet',
@@ -17,4 +18,26 @@ class PalletRegister extends Model
         'click_date',
         'status',
     ];
+    public function scopeFilterByDate($query, $startDate, $endDate)
+
+    {
+        // dd($startDate, $endDate);
+        if ($startDate) {
+            $query->whereDate('created_at', '>=', $startDate);
+        }
+        if ($endDate) {
+            $query->whereDate('created_at', '<=', $endDate);
+        }
+
+        return $query;
+    }
+    public function scopeSearch($query, $value)
+    {
+        $query->where('pallet_number', 'like', "%{$value}%")
+            ->orWhere('product_type', 'like', "%{$value}%")
+            ->orWhere('production_line', 'like', "%{$value}%")
+            ->orWhere('volume', 'like', "%{$value}%")
+            ->orWhere('unit', 'like', "%{$value}%")
+            ->orWhere('total_amount_per_pallet', 'like', "%{$value}%");
+    }
 }

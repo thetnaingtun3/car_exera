@@ -27,12 +27,15 @@ use App\Livewire\Customer\CreateCustomer;
 use App\Livewire\Customer\ImportCustomer;
 use App\Livewire\Transoper\TransoperAction;
 use App\Http\Controllers\QrCodeGenController;
+use App\Livewire\CarRegister\CarRegisterDetials;
 use App\Livewire\CarRegister\CarRegisterHistory;
+use App\Livewire\CarRegister\CarRegisterQrCodeHistory;
 use App\Livewire\Production\ProductionAction;
 use App\Livewire\CarRegister\SubmitCarRegister;
+use App\Livewire\PalletResiter\PalletRegisterHistory;
 use App\Livewire\PalletResiter\PalletRegisterSubmit;
+use App\Livewire\PalletResiter\PalletRegisterQrCodeHistory;
 
-//Route::get('register', SignUp::class)->name('register');
 
 Route::get('/', function () {
     return Redirect::route('dashboard');
@@ -63,7 +66,6 @@ Route::middleware('auth:admin')->group(callback: function () {
     Route::get('import/customer', ImportCustomer::class)->name('import.customer');
 
 
-
     Route::get('import/truck', ImportTruck::class)->name('import.truck');
     Route::get('truck/list', ListTruck::class)->name('index.truck');
     Route::get('create/truck', CreateTruck::class)->name('create.truck');
@@ -74,13 +76,20 @@ Route::middleware('auth:admin')->group(callback: function () {
     Route::get('lsp/{lsp}', LSPEdit::class)->name('edit.lsp');
 
 
-
-
     Route::get('reg/car', SubmitCarRegister::class)->name('reg.car');
+    Route::get('reg/car/detials/{registration}', CarRegisterDetials::class)->name('reg.car.detials');
     Route::get('/order/history', CarRegisterHistory::class)->name('order.history');
+    Route::get('/order/qrcode/history', CarRegisterQrCodeHistory::class)->name('order.qrcode.history');
+
     Route::get('/qrcode/{id}', [QrCodeGenController::class, "qrcodegen"])->name('qrcode.show');
 
 
     // pallet register
     Route::get('pallet/register', PalletRegisterSubmit::class)->name('pallet.register');
+
+    Route::get('/pallet/qrcode/{id}', [QrCodeGenController::class, "palletQrCode"])->name('palletqrcode.show');
+
+
+    Route::get('/pallet/history', PalletRegisterHistory::class)->name('pallet.history');
+    Route::get('/pallet/qr/code/history', PalletRegisterQrCodeHistory::class)->name('pallet.qrcode.history');
 });

@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Livewire\CarRegister;
+namespace App\Livewire\PalletResiter;
 
 use Livewire\Component;
-use Livewire\WithPagination;
 use Livewire\Attributes\Url;
+use Livewire\WithPagination;
+use App\Models\PalletRegister;
 use Livewire\Attributes\Title;
-use App\Models\CarRegistration;
 
-class CarRegisterHistory extends Component
+class PalletRegisterHistory extends Component
 {
     use WithPagination;
-
     public $count = 0;
     #[Url(history: true)]
     public $search = '';
@@ -36,9 +35,8 @@ class CarRegisterHistory extends Component
     // total data count
     public function mount()
     {
-        $this->count = CarRegistration::count();
+        $this->count = PalletRegister::count();
     }
-
     public function setSortBy($sortByField)
     {
         if ($this->sortBy === $sortByField) {
@@ -49,19 +47,17 @@ class CarRegisterHistory extends Component
         $this->sortBy = $sortByField;
         $this->sortDir = 'DESC';
     }
-
     public function applyDateFilter()
     {
         // The Livewire view will automatically update because these properties are reactive.
     }
+    #[Title('Pallet Register History')]
 
-    #[Title('Car Register History')]
     public function render()
     {
-        $query = CarRegistration::search($this->search)
-            ->with(['lsp', 'customer', 'truck']);
 
-        // Apply date filters if set
+        $query = PalletRegister::search($this->search);
+
         if (!empty($this->startDate)) {
             $query->whereDate('created_at', '>=', $this->startDate);
         }
@@ -69,10 +65,9 @@ class CarRegisterHistory extends Component
             $query->whereDate('created_at', '<=', $this->endDate);
         }
 
-        $registrations = $query
+        $pallets = $query
             ->orderBy($this->sortBy, $this->sortDir)
             ->paginate($this->perPage);
-
-        return view('livewire.car-register.car-register-history', compact('registrations'));
+        return view('livewire.pallet-resiter.pallet-register-history', compact('pallets'));
     }
 }

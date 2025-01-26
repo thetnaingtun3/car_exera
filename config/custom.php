@@ -27,7 +27,9 @@ return [
     ),
 
     'unit' => array(
-        'unit1' => 'pallet',
+        'unit1' => 'carton',
+        'unit2' => 'keg',
+
     ),
     'ChangProductionLine' => array(
         'cline1' => 'Canning line 1',

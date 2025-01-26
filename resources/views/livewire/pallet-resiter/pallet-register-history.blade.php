@@ -1,8 +1,7 @@
-@section('student-active', 'bg-gray-100 group')
+@section('pallet-active', 'bg-gray-100 group')
 <div>
     <div class="px-4 py-2 bg-gray-200">
-        <span class="text-gray-500 text-md">Home / <span class="text-blue-900">Car Registration QR Code
-                History</span></span>
+        <span class="text-gray-500 text-md">Home / <span class="text-blue-900">Pallet Register History</span></span>
     </div>
     <section class="mt-10">
 
@@ -51,54 +50,72 @@
 
                 </div>
                 <div class="overflow-x-auto ">
-                    {{-- count --}}
 
                     <h1> Totla Count {{ $count }}
                     </h1>
                     <table class="w-full mt-5 text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
-
-                                <th scope="col" class="px-4 py-3"> ID</th>
+                                <th scope="col" class="px-2"> ID</th>
                                 {{-- @include('livewire.includes.table-sortable-th', [
                                             'name' => 'lsp_name',
                                             'displayName' => 'Car Number',
                                         ]) --}}
-                                <th scope="col" class="px-4 py-3 ">LSP Name</th>
-                                <th scope="col" class="px-4 py-3 ">Truck Number</th>
-                                <th scope="col" class="px-4 py-3 ">Driver Name</th>
-                                <th scope="col" class="px-4 py-3 ">Customer Name</th>
-                                <th scope="col" class="px-4 py-3 ">Order Number</th>
-                                <th scope="col" class="px-4 py-3 ">Type Size</th>
-                                <th scope="col" class="px-4 py-3 ">Register Date</th>
-                                <th scope="col" class="px-4 py-3 ">Time</th>
 
+                                <th scope="col" class="">Pallet Number</th>
+                                <th scope="col" class="">Product Type</th>
+                                <th scope="col" class="">Production Line</th>
+                                {{--                            <th scope="col" class="">Package</th> --}}
+                                <th scope="col" class="">Volume</th>
+                                <th scope="col" class="">Unit</th>
+                                <th scope="col" class="">Total</th>
+                                <th scope="col" class="">Date</th>
+                                <th scope="col" class="">Time</th>
+
+
+                                <th scope="col" class="px-4 py-3 text-center">
+                                    <span class="">Actions</span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($registrations as $key => $user)
-                                <tr wire:key="{{ $user->id }}" class="border-b ">
+                            @foreach ($pallets as $key => $user)
+                                <tr wire:key="{{ $user->id }}" class="border-b">
 
-                                    <td class="px-4 py-3">{{ ++$key }}</td>
+                                    <td class="px-2 ">{{ ++$key }}</td>
 
-                                    <td class="px-4 py-3">{{ $user->lsp->lsp_name }}</td>
-                                    <td class="px-4 py-3">{{ $user->truck->licence_plate }}</td>
-                                    <th class="px-4 py-3"> {{ $user->driver_name }}</th>
-                                    <td class="px-4 py-3">{{ $user->customer->customer_name }}</td>
-                                    {{-- <td class="">{{ $user->order_number }}</td> --}}
-                                    <td class="px-4 py-3">
-                                        @php
-                                            $numbers = explode(',', $user->order_number);
-                                        @endphp
-                                        @foreach ($numbers as $number)
-                                            {{ $number }}<br>
-                                        @endforeach
+                                    <td class="">{{ $user->pallet_number }}</td>
+                                    <th class=""> {{ $user->product_type }}</th>
+
+                                    <td class="">{{ $user->production_line }}</td>
+                                    <td class="">{{ $user->volume }}</td>
+                                    <td class="">{{ $user->unit }}</td>
+                                    <td class="">{{ $user->total_amount_per_pallet }}</td>
+
+
+                                    <td class="">{{ $user->created_at->format('d-m-Y') }}</td>
+                                    <td class="">{{ $user->created_at->format('h:i:s A') }}</td>
+                                    <td class="flex items-center justify-center my-2">
+                                        <a class="hover:cursor-pointer"
+                                            href="{{ route('palletqrcode.show', $user->id) }}" target="_blank"
+                                            title="Generate QR Code">
+                                            <x-phosphor.icons::fill.qr-code
+                                                class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}" />
+                                        </a>
+                                        {{-- <a class=" hover:cursor-pointer" <a
+                                                    href="{{ route('qrcode.show', $user->id) }}" target="_blank"
+                                                    title="Generate QRcode">
+
+                                                    <x-phosphor.icons::fill.qr-code
+                                                        class="w-6 h-6 mx-3 text-blue-400" />
+                                                </a> --}}
+                                        {{-- <button wire:click="generateQrCode({{ $user->id }})"
+                                                    class="px-4 py-2 text-white bg-blue-500 rounded">
+                                                    <x-phosphor.icons::fill.qr-code
+                                                        class="w-6 h-6 mx-3 text-blue-400" />
+
+                                                </button> --}}
                                     </td>
-
-                                    <td class="px-4 py-3">{{ $user->truck->size }}</td>
-                                    <td class="px-4 py-3">{{ $user->created_at->format('d-m-Y') }}</td>
-                                    <td class="px-4 py-3">{{ $user->created_at->format('h:i:s A') }}</td>
-
                                 </tr>
                             @endforeach
                         </tbody>
@@ -106,7 +123,7 @@
                 </div>
 
                 <div class="px-3 py-4">
-                    {{ $registrations->links() }}
+                    {{ $pallets->links() }}
                 </div>
             </div>
         </div>

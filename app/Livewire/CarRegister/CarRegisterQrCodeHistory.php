@@ -2,13 +2,13 @@
 
 namespace App\Livewire\CarRegister;
 
+use App\Models\CarRegistration;
+use Livewire\Attributes\Title;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Url;
-use Livewire\Attributes\Title;
-use App\Models\CarRegistration;
 
-class CarRegisterHistory extends Component
+class CarRegisterQrCodeHistory extends Component
 {
     use WithPagination;
 
@@ -55,7 +55,7 @@ class CarRegisterHistory extends Component
         // The Livewire view will automatically update because these properties are reactive.
     }
 
-    #[Title('Car Register History')]
+    #[Title('Car Register Qr Code History')]
     public function render()
     {
         $query = CarRegistration::search($this->search)
@@ -63,16 +63,16 @@ class CarRegisterHistory extends Component
 
         // Apply date filters if set
         if (!empty($this->startDate)) {
-            $query->whereDate('created_at', '>=', $this->startDate);
+            $query->whereDate('click_date', '>=', $this->startDate);
         }
         if (!empty($this->endDate)) {
-            $query->whereDate('created_at', '<=', $this->endDate);
+            $query->whereDate('click_date', '<=', $this->endDate);
         }
 
         $registrations = $query
             ->orderBy($this->sortBy, $this->sortDir)
             ->paginate($this->perPage);
 
-        return view('livewire.car-register.car-register-history', compact('registrations'));
+        return view('livewire.car-register.car-register-qr-code-history', compact('registrations'));
     }
 }
