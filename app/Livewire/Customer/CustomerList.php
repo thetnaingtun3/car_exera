@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Customer;
 
-use App\Models\Customer;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Url;
+use App\Exports\CustomerDataExport;
 use Livewire\Component;
+use App\Models\Customer;
+use Livewire\Attributes\Url;
 use Livewire\WithPagination;
+use Livewire\Attributes\Title;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerList extends Component
 {
@@ -40,6 +42,10 @@ class CustomerList extends Component
         $this->sortDir = 'DESC';
     }
 
+    public function exportData()
+    {
+        return Excel::download(new CustomerDataExport, 'data.xlsx');
+    }
     #[Title('Customer List')]
 
     public function render()

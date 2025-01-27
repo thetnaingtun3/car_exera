@@ -31,6 +31,13 @@
                                 placeholder="Search" required="">
                         </div>
                     </div>
+                    <div class="relative">
+                        <button wire:click="exportData"
+                            class="px-4 py-2 mt-6 ml-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600">
+                            Export Data
+                        </button>
+                    </div>
+
 
                 </div>
                 <div class="overflow-x-auto ">

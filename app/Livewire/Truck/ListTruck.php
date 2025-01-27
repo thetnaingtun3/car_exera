@@ -3,9 +3,11 @@
 namespace App\Livewire\Truck;
 
 use App\Models\Truck;
-use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Title;
+use App\Exports\TruckDataExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ListTruck extends Component
 {
@@ -24,6 +26,10 @@ class ListTruck extends Component
     #[Url()]
     public $perPage = 20;
 
+    public function exportData()
+    {
+        return Excel::download(new TruckDataExport, 'data.xlsx');
+    }
 
     public function setSortBy($sortByField)
     {

@@ -3,10 +3,13 @@
 namespace App\Livewire\CarRegister;
 
 use Livewire\Component;
-use Livewire\WithPagination;
 use Livewire\Attributes\Url;
+use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 use App\Models\CarRegistration;
+use App\Exports\CarRegistrationExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class CarRegisterHistory extends Component
 {
@@ -39,6 +42,10 @@ class CarRegisterHistory extends Component
         $this->count = CarRegistration::count();
     }
 
+    public function exportData()
+    {
+        return Excel::download(new CarRegistrationExport, 'data.xlsx');
+    }
     public function setSortBy($sortByField)
     {
         if ($this->sortBy === $sortByField) {

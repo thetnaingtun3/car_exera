@@ -2,11 +2,13 @@
 
 namespace App\Livewire\CarRegister;
 
-use App\Models\CarRegistration;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\Attributes\Url;
 use Livewire\WithPagination;
+use Livewire\Attributes\Title;
+use App\Models\CarRegistration;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CarRegistrationExport;
 
 class CarRegisterQrCodeHistory extends Component
 {
@@ -38,7 +40,10 @@ class CarRegisterQrCodeHistory extends Component
     {
         $this->count = CarRegistration::count();
     }
-
+    public function exportData()
+    {
+        return Excel::download(new CarRegistrationExport, 'data.xlsx');
+    }
     public function setSortBy($sortByField)
     {
         if ($this->sortBy === $sortByField) {

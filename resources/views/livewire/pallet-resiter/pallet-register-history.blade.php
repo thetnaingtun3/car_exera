@@ -32,6 +32,12 @@
                             </button>
                         </div>
                     </form>
+                    <div class="relative">
+                        <button wire:click="exportData"
+                            class="px-4 py-2 mt-6 ml-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600">
+                            Export Data
+                        </button>
+                    </div>
                     <div class="flex">
                         <div class="relative w-full">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

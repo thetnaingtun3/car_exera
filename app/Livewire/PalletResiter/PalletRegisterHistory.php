@@ -7,6 +7,8 @@ use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use App\Models\PalletRegister;
 use Livewire\Attributes\Title;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PalletRegistrationExport;
 
 class PalletRegisterHistory extends Component
 {
@@ -31,7 +33,10 @@ class PalletRegisterHistory extends Component
     public $perPage = 20;
 
     protected $queryString = ['search', 'startDate', 'endDate', 'sortBy', 'sortDir', 'perPage'];
-
+    public function exportData()
+    {
+        return Excel::download(new PalletRegistrationExport, 'data.xlsx');
+    }
     // total data count
     public function mount()
     {

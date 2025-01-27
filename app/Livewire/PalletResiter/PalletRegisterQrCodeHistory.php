@@ -2,11 +2,13 @@
 
 namespace App\Livewire\PalletResiter;
 
+use Livewire\Component;
+use Livewire\Attributes\Url;
+use Livewire\WithPagination;
 use App\Models\PalletRegister;
 use Livewire\Attributes\Title;
-use Livewire\Attributes\Url;
-use Livewire\Component;
-use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PalletRegistrationExport;
 
 class PalletRegisterQrCodeHistory extends Component
 {
@@ -32,7 +34,10 @@ class PalletRegisterQrCodeHistory extends Component
     public $perPage = 20;
 
     protected $queryString = ['search', 'startDate', 'endDate', 'sortBy', 'sortDir', 'perPage'];
-
+    public function exportData()
+    {
+        return Excel::download(new PalletRegistrationExport, 'data.xlsx');
+    }
     // total data count
     public function mount()
     {
