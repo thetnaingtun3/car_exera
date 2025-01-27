@@ -29,6 +29,12 @@ class PalletRegisterHistory extends Component
     #[Url(history: true)]
     public $sortDir = 'DESC';
 
+
+
+    public $selectedPallets = []; // Array of selected pallet IDs
+    public $selectAll = false;    // Boolean for the "Select All" checkbox
+
+
     #[Url()]
     public $perPage = 20;
 
@@ -37,6 +43,37 @@ class PalletRegisterHistory extends Component
     {
         return Excel::download(new PalletRegistrationExport, 'data.xlsx');
     }
+
+
+
+
+    public function allCheck()
+    {
+        $this->selectedPallets = PalletRegister::pluck('id')->toArray(); // Select all IDs
+        $this->selectAll = true; // Ensure the "Select All" checkbox is checked
+    }
+
+    public function removeCheck()
+    {
+        $this->selectedPallets = []; // Clear all selections
+        $this->selectAll = false; // Ensure the "Select All" checkbox is unchecked
+    }
+
+
+    public function toggleCheckbox($id)
+    {
+        if (in_array($id, $this->selectedPallets)) {
+            // If clicked checkbox is already selected, deselect all
+            $this->selectedPallets = [];
+            $this->selectAll = false;
+        } else {
+            // If clicked checkbox is not selected, select all
+            $this->selectedPallets = PalletRegister::pluck('id')->toArray();
+            $this->selectAll = true;
+        }
+    }
+
+
     // total data count
     public function mount()
     {

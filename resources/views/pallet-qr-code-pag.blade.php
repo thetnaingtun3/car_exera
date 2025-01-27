@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <h1>Pallet QR Code</h1>
+    <h1>Pallet Code</h1>
     <div>
         {!! $qrCode !!}
     </div>

@@ -114,6 +114,11 @@
                                                     <p class="w-1/4">{{ $product['package'] }}</p>
                                                     <p class="w-1/4">{{ $product['qty'] }}</p>
                                                     <p class="w-1/4">{{ $product['unit'] }}</p>
+                                                    <button type="button"
+                                                        wire:click="removeProduct({{ $index }})"
+                                                        class="px-3 py-1 ml-4 text-xs text-white bg-red-500 rounded hover:bg-red-600">
+                                                        Delete
+                                                    </button>
                                                 </div>
                                             @endforeach
                                         </div>

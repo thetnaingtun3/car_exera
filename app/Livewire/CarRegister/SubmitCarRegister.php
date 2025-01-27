@@ -66,6 +66,11 @@ class SubmitCarRegister extends Component
         // Reset the inputs for the next product entry
         $this->reset(['product', 'package', 'qty', 'unit']);
     }
+    public function removeProduct($index)
+    {
+        unset($this->products[$index]);
+        $this->products = array_values($this->products); // Re-index the array
+    }
     public function save()
     {
         // Validate Car Registration data

@@ -32,6 +32,22 @@
                             </button>
                         </div>
                     </form>
+                    <div class="flex items-center justify-between p-4">
+                        <div class="flex space-x-2">
+                            <!-- All Check Button -->
+                            <button wire:click="allCheck"
+                                class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300">
+                                All Check
+                            </button>
+
+                            <!-- Remove Check Button -->
+                            <button wire:click="removeCheck"
+                                class="px-4 py-2 text-sm font-medium text-white bg-orange-500 rounded-lg hover:bg-orange-600 focus:ring-4 focus:ring-orange-300">
+                                Remove Check
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="relative">
                         <button wire:click="exportData"
                             class="px-4 py-2 mt-6 ml-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600">
@@ -62,6 +78,9 @@
                     <table class="w-full mt-5 text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
+                                <th scope="col" class="px-4 py-2">
+                                    <input type="checkbox" wire:model="selectAll" class="form-checkbox">
+                                </th>
                                 <th scope="col" class="px-2"> ID</th>
                                 {{-- @include('livewire.includes.table-sortable-th', [
                                             'name' => 'lsp_name',
@@ -87,7 +106,10 @@
                         <tbody>
                             @foreach ($pallets as $key => $user)
                                 <tr wire:key="{{ $user->id }}" class="border-b">
-
+                                    <td class="px-4 py-2">
+                                        <input type="checkbox" wire:model="selectedPallets" value="{{ $user->id }}"
+                                            class="form-checkbox">
+                                    </td>
                                     <td class="px-2 ">{{ ++$key }}</td>
 
                                     <td class="">{{ $user->pallet_number }}</td>

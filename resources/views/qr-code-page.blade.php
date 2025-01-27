@@ -10,7 +10,7 @@
 
 <body class="flex items-center justify-center min-h-screen bg-gray-100">
     <div class="p-6 bg-white rounded-lg shadow-lg">
-        <h1 class="mb-4 text-2xl font-bold">QR Code</h1>
+        <h1 class="mb-4 text-2xl font-bold">Transporter Registration Code</h1>
 
         <!-- Display QR Code -->
         <div class="mb-4">
