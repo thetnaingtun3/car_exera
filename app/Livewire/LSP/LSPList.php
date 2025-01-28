@@ -13,6 +13,8 @@ class LSPList extends Component
     use WithPagination;
 
 
+    public $count = 0;
+
     #[Url(history: true)]
     public $search = '';
 
@@ -24,7 +26,10 @@ class LSPList extends Component
     #[Url()]
     public $perPage = 20;
 
-
+    public function mount()
+    {
+        $this->count = LSP::count();
+    }
     #[Title('Customer List')]
     public function render()
     {
