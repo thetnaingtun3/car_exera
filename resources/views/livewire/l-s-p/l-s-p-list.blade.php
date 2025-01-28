@@ -10,10 +10,13 @@
 
             <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800">
                 <div class="flex items-center justify-between p-4 d">
-
-                    <x-theme.button wire:navigate :href="route('create.customer')" :active="request()->routeIs('create.customer')">
+                    <x-theme.button wire:navigate :href="route('import.lsp')" :active="request()->routeIs('import.lsp')">
+                        {{ __('Import LSP') }}
+                    </x-theme.button>
+                    <x-theme.button wire:navigate :href="route('create.lsp')" :active="request()->routeIs('create.lsp')">
                         {{ __('Create New LSP') }}
                     </x-theme.button>
+
                     <div class="flex">
                         <div class="relative w-full">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -35,11 +38,11 @@
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
-                                @include('livewire.includes.table-sortable-th', [
-                                    'name' => 'lsp_name',
-                                    'displayName' => 'LSP Name',
-                                ])
 
+
+                                <th scope="col" class="px-4 py-3 text-start">
+                                    <span class="">LSP Name</span>
+                                </th>
                                 <th scope="col" class="px-4 py-3 text-center">
                                     <span class="">Actions</span>
                                 </th>

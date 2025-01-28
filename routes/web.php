@@ -7,6 +7,7 @@ use App\Livewire\QrCodePage;
 use App\Livewire\LSP\LSPEdit;
 use App\Livewire\LSP\LSPList;
 use App\Livewire\LSP\LSPCreate;
+use App\Livewire\LSP\LSPImports;
 use App\Livewire\Admin\ListAdmin;
 use App\Livewire\Truck\EditTruck;
 use App\Livewire\Truck\ListTruck;
@@ -27,13 +28,13 @@ use App\Livewire\Customer\CreateCustomer;
 use App\Livewire\Customer\ImportCustomer;
 use App\Livewire\Transoper\TransoperAction;
 use App\Http\Controllers\QrCodeGenController;
-use App\Livewire\CarRegister\CarRegisterDetials;
-use App\Livewire\CarRegister\CarRegisterHistory;
-use App\Livewire\CarRegister\CarRegisterQrCodeHistory;
 use App\Livewire\Production\ProductionAction;
 use App\Livewire\CarRegister\SubmitCarRegister;
-use App\Livewire\PalletResiter\PalletRegisterHistory;
+use App\Livewire\CarRegister\CarRegisterDetials;
+use App\Livewire\CarRegister\CarRegisterHistory;
 use App\Livewire\PalletResiter\PalletRegisterSubmit;
+use App\Livewire\PalletResiter\PalletRegisterHistory;
+use App\Livewire\CarRegister\CarRegisterQrCodeHistory;
 use App\Livewire\PalletResiter\PalletRegisterQrCodeHistory;
 
 
@@ -74,6 +75,7 @@ Route::middleware('auth:admin')->group(callback: function () {
     Route::get('lsp/list', LSPList::class)->name('index.lsp');
     Route::get('create/lsp', LSPCreate::class)->name('create.lsp');
     Route::get('lsp/{lsp}', LSPEdit::class)->name('edit.lsp');
+    Route::get('import/lsp', LSPImports::class)->name('import.lsp');
 
 
     Route::get('reg/car', SubmitCarRegister::class)->name('reg.car');

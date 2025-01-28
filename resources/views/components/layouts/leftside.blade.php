@@ -98,7 +98,7 @@
                                     </span>
                                 </a>
                             </li>
-
+                            {{--
                             <li>
                                 <a href="{{ route('order.qrcode.history') }}" wire:navigate
                                     class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
@@ -108,7 +108,7 @@
                                         Car Registration Qr Code History
                                     </span>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     @endhasanyrole
 
@@ -164,7 +164,7 @@
 
 
                             <x-phosphor.icons::regular.factory class="w-6 h-6 mx-2 text-blue-800" />
-                            <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Paroduction Area
+                            <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Production Area
                             </span>
                             <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -192,13 +192,13 @@
                                     <span class="ml-3" sidebar-toggle-item>Pallet History</span>
                                 </a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="{{ route('pallet.qrcode.history') }}" wire:navigate
                                     class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
                                     <x-phosphor.icons::regular.factory class="w-6 h-6 mx-2 text-blue-800" />
                                     <span class="ml-3" sidebar-toggle-item>Pallet Qr Code History</span>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     @endhasanyrole
 

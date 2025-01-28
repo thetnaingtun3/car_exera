@@ -35,27 +35,19 @@
                             </button>
                         </div>
                     </form>
-                    <form wire:submit.prevent="applyDateFilter" class="flex  gap-4">
-                        <div class="relative">
-                            <label for="start_date"
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300">Start
-                                Date</label>
-                            <input wire:model="startDate" type="date" id="start_date"
-                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 dark:bg-gray-800 focus:ring-primary-500 focus:border-primary-500">
-                        </div>
-                        <div class="relative">
-                            <label for="end_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">End
-                                Date</label>
-                            <input wire:model="endDate" type="date" id="end_date"
-                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 dark:bg-gray-800 focus:ring-primary-500 focus:border-primary-500">
-                        </div>
-                        <div class="relative">
-                            <button type="submit"
-                                class="px-4 py-2 mt-6 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600">
-                                Search
-                            </button>
-                        </div>
-                    </form>
+                    <div class="relative">
+                        <label for="lsp"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">LSP</label>
+                        <select wire:model.live="selectedLsp" id="lsp"
+                            class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 dark:bg-gray-800 focus:ring-primary-500 focus:border-primary-500">
+                            <option value="">Select LSP</option>
+                            @foreach ($lsps as $lsp)
+                                <option value="{{ $lsp->id }}">{{ $lsp->lsp_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
 
                     <div class="">
                         <div class="relative w-full">
