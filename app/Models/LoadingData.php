@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class LoadingData extends Model
 {
     protected $fillable = [
-        'pallet_number',
+        'delivery_date',
+        'delivery_order_number',
+        'lsp_name',
+        'customer_name',
+        'truck_type',
+        'truck_driver_name',
         'product_type',
-        'production_line',
-        'package_type',
         'volume',
-        'unit',
-        'total',
-        'date',
-        'car_number',
+        'production_line',
+        'pallet_number',
     ];
 }

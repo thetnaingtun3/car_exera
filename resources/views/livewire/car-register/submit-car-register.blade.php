@@ -68,17 +68,16 @@
                                         </div>
 
 
-
                                         {{-- <div class="w-full py-2">
-                                            <select wire:model.live="driver_id"
-                                                class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
-                                                <option value="">Select Deiver Name</option>
-                                                @foreach ($this->trucks as $truck)
-                                                    <option value="{{ $truck->id }}">{{ $truck->driver_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div> --}}
+                                        <select wire:model.live="driver_id"
+                                            class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
+                                            <option value="">Select Deiver Name</option>
+                                            @foreach ($this->trucks as $truck)
+                                                <option value="{{ $truck->id }}">{{ $truck->driver_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div> --}}
 
                                         <!-- Driver Name -->
                                         {{--
@@ -136,7 +135,8 @@
                                         <!-- Add Button -->
                                         <div class="w-full py-2">
                                             <button type="button" wire:click="add"
-                                                class="px-4 py-2 text-white bg-blue-500 rounded">Add Product</button>
+                                                class="px-4 py-2 text-white bg-blue-500 rounded">Add Product
+                                            </button>
                                         </div>
 
                                         <!-- Display Added Products -->
@@ -160,7 +160,7 @@
 
                                         <div class="w-full py-2">
                                             <x-form.input wire:model="order_number" type="text"
-                                                label="Order Number" />
+                                                label="Delivery Order  Number" />
                                             <x-form.input-error for="order_number" class="mt-2" />
                                         </div>
 
@@ -193,9 +193,9 @@
                                         <tr>
                                             <th scope="col" class=""> ID</th>
                                             {{-- @include('livewire.includes.table-sortable-th', [
-                                            'name' => 'lsp_name',
-                                            'displayName' => 'Car Number',
-                                        ]) --}}
+                                        'name' => 'lsp_name',
+                                        'displayName' => 'Car Number',
+                                    ]) --}}
                                             <th scope="col" class="">Car Number</th>
                                             <th scope="col" class="">Driver Name</th>
                                             <th scope="col" class="">Customer Name</th>
@@ -244,19 +244,7 @@
                                                         <x-phosphor.icons::fill.eye
                                                             class="w-6 h-6 mx-3 text-blue-400" />
                                                     </a>
-                                                    {{-- <a class=" hover:cursor-pointer" <a
-                                                    href="{{ route('qrcode.show', $user->id) }}" target="_blank"
-                                                    title="Generate QRcode">
 
-                                                    <x-phosphor.icons::fill.qr-code
-                                                        class="w-6 h-6 mx-3 text-blue-400" />
-                                                </a> --}}
-                                                    {{-- <button wire:click="generateQrCode({{ $user->id }})"
-                                                    class="px-4 py-2 text-white bg-blue-500 rounded">
-                                                    <x-phosphor.icons::fill.qr-code
-                                                        class="w-6 h-6 mx-3 text-blue-400" />
-
-                                                </button> --}}
                                                 </td>
                                             </tr>
                                         @endforeach

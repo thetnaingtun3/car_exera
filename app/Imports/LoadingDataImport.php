@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\LoadingData;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class LoadingDataImport implements ToModel
+class LoadingDataImport implements ToModel, WithHeadingRow
 {
     /**
      * @param array $row
@@ -14,16 +15,18 @@ class LoadingDataImport implements ToModel
      */
     public function model(array $row)
     {
+
         return new LoadingData([
-            'pallet_number' => $row['pallet_number'] ?? null,
-            'product_type' => $row['product_type'] ?? null,
-            'production_line' => $row['production_line'] ?? null,
-            'package_type' => $row['package_type'] ?? null,
-            'volume' => $row['volume'] ?? null,
-            'unit' => $row['unit'] ?? null,
-            'total' => $row['total'] ?? null,
-            'date' => $row['date'] ?? null,
-            'car_number' => $row['car_number'] ?? null,
+            'delivery_date' => $row['delivery_date'],
+            'delivery_order_number' => $row['delivery_order_number'],
+            'lsp_name' => $row['lsp_name'],
+            'customer_name' => $row['customer_name'],
+            'truck_type' => $row['truck_type'],
+            'truck_driver_name' => $row['truck_driver_name'],
+            'product_type' => $row['product_type'],
+            'volume' => $row['volume'],
+            'production_line' => $row['production_line'],
+            'pallet_number' => $row['pallet_number'],
         ]);
     }
 }

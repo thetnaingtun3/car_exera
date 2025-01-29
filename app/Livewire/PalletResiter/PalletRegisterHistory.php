@@ -3,6 +3,7 @@
 namespace App\Livewire\PalletResiter;
 
 use Livewire\Component;
+use Illuminate\Http\Request;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use App\Models\PalletRegister;
@@ -79,6 +80,29 @@ class PalletRegisterHistory extends Component
     {
         $this->render();
     }
+    public function printQRCodesPage(Request $request)
+    {
+        $palletIds = explode(',', $request->query('ids'));
+        $selectedPallets = PalletRegister::whereIn('id', $palletIds)->get();
+
+        return view('livewire.pallet-resiter.print-qr-codes', compact('selectedPallets'));
+    }
+
+    public function printSelectedQRCodes()
+    {
+        if (empty($this->selectedPallets)) {
+            Notification::make()
+                ->title('No pallets selected for printing.')
+                ->danger()
+                ->send();
+            return;
+        }
+
+        // Emit event to open print page
+        $this->dispatch('openPrintPage', $this->selectedPallets);
+    }
+
+
 
     #[Title('Pallet Register History')]
     public function render()

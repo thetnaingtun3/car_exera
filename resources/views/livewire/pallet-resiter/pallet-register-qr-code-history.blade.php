@@ -65,11 +65,6 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-2"> ID</th>
-                                {{-- @include('livewire.includes.table-sortable-th', [
-                                            'name' => 'lsp_name',
-                                            'displayName' => 'Car Number',
-                                        ]) --}}
-
                                 <th scope="col" class="">Pallet Number</th>
                                 <th scope="col" class="">Product Type</th>
                                 <th scope="col" class="">Production Line</th>
@@ -80,7 +75,6 @@
                                 <th scope="col" class="">Date</th>
                                 <th scope="col" class="">Time</th>
 
-
                                 <th scope="col" class="px-4 py-3 text-center">
                                     <span class="">Actions</span>
                                 </th>
@@ -89,18 +83,13 @@
                         <tbody>
                             @foreach ($pallets as $key => $user)
                                 <tr wire:key="{{ $user->id }}" class="border-b">
-
                                     <td class="px-2 ">{{ ++$key }}</td>
-
                                     <td class="">{{ $user->pallet_number }}</td>
                                     <th class=""> {{ $user->product_type }}</th>
-
                                     <td class="">{{ $user->production_line }}</td>
                                     <td class="">{{ $user->volume }}</td>
                                     <td class="">{{ $user->unit }}</td>
                                     <td class="">{{ $user->total_amount_per_pallet }}</td>
-
-
                                     <td class="">{{ $user->created_at->format('d-m-Y') }}</td>
                                     <td class="">{{ $user->created_at->format('h:i:s A') }}</td>
                                     <td class="flex items-center justify-center my-2">
@@ -110,19 +99,7 @@
                                             <x-phosphor.icons::fill.qr-code
                                                 class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}" />
                                         </a>
-                                        {{-- <a class=" hover:cursor-pointer" <a
-                                                    href="{{ route('qrcode.show', $user->id) }}" target="_blank"
-                                                    title="Generate QRcode">
 
-                                                    <x-phosphor.icons::fill.qr-code
-                                                        class="w-6 h-6 mx-3 text-blue-400" />
-                                                </a> --}}
-                                        {{-- <button wire:click="generateQrCode({{ $user->id }})"
-                                                    class="px-4 py-2 text-white bg-blue-500 rounded">
-                                                    <x-phosphor.icons::fill.qr-code
-                                                        class="w-6 h-6 mx-3 text-blue-400" />
-
-                                                </button> --}}
                                     </td>
                                 </tr>
                             @endforeach

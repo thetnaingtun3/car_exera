@@ -10,8 +10,8 @@
             <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800 p-6">
 
                 <!-- FILTER SECTION -->
-                <h2 class="text-lg font-semibold text-gray-700 mb-4">Filters</h2>
 
+                <h2 class="text-lg font-semibold text-gray-700 mb-4">Total Count {{ $count }}</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
                     <!-- Start Date -->
@@ -130,13 +130,25 @@
                                 <td class="px-4 py-3">{{ $user->created_at->format('d-m-Y') }}</td>
                                 <td class="px-4 py-3">{{ $user->created_at->format('h:i:s A') }}</td>
                                 <td class="flex items-center justify-center">
-                                    <a href="{{ route('qrcode.show', $user->id) }}" target="_blank"
+                                    {{-- <a href="{{ route('qrcode.show', $user->id) }}" target="_blank"
                                         title="Generate QR Code">
                                         <x-phosphor.icons::fill.qr-code class="w-6 h-6 mx-3 text-blue-400" />
                                     </a>
                                     <a href="{{ route('reg.car.detials', $user->id) }}" title="View Details">
                                         <x-phosphor.icons::fill.eye class="w-6 h-6 mx-3 text-blue-400" />
+                                    </a> --}}
+                                    <a class="hover:cursor-pointer" href="{{ route('qrcode.show', $user->id) }}"
+                                        target="_blank" title="Generate QR Code">
+                                        <x-phosphor.icons::fill.qr-code
+                                            class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}" />
                                     </a>
+                                    {{-- detials --}}
+                                    <a class="hover:cursor-pointer" href="{{ route('reg.car.detials', $user->id) }}"
+                                        title="View Details">
+                                        <x-phosphor.icons::fill.eye class="w-6 h-6 mx-3 text-blue-400" />
+                                    </a>
+
+
                                 </td>
                             </tr>
                         @endforeach

@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('loading_data', function (Blueprint $table) {
             $table->id();
-            $table->string('pallet_number')->nullable();
+            $table->date('delivery_date')->nullable();
+            $table->string('delivery_order_number')->nullable();
+            $table->string('lsp_name')->nullable();
+            $table->string('customer_name')->nullable();
+            $table->string('truck_type')->nullable();
+            $table->string('truck_driver_name')->nullable();
             $table->string('product_type')->nullable();
-            $table->string('production_line')->nullable();
-            $table->string('package_type')->nullable();
             $table->string('volume')->nullable();
-            $table->string('unit')->nullable();
-            $table->string('total')->nullable();
-            $table->dateTime('date')->nullable();
-            $table->string('car_number')->nullable();
+            $table->string('production_line')->nullable();
+            $table->string('pallet_number')->nullable();
             $table->timestamps();
         });
     }

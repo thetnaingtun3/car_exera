@@ -11,13 +11,16 @@ class Truck extends Model
         'lsp_id',
         'licence_plate',
         'vehicle_type',
+        'driver_name',
         'size',
+        'status',
     ];
     public function scopeSearch($query, $value)
     {
         $query->where('licence_plate', 'like', "%{$value}%")
             ->orWhere('vehicle_type', 'like', "%{$value}%")
             ->orWhere('size', 'like', "%{$value}%")
+            ->orWhere('driver_name', 'like', "%{$value}%")
 
             ->orWhereHas('lsp', function ($query) use ($value) {
                 $query->where('lsp_name', 'like', "%{$value}%"); // Assuming 'name' is a column in the LSP model

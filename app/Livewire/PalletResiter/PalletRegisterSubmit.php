@@ -28,7 +28,11 @@ class PalletRegisterSubmit extends Component
             'Keg line 2' => ['package' => 'Keg', 'volume' => '30 L', 'unit' => 'keg', 'total' => '8 kegs'],
         ],
         'Tapper beer' => [
-            'Canning line 1' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
+            'Canning line 1' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '70 cartons'],
+            'Canning line 2' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '70 cartons'],
+            'Canning line 1 (550)' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '100 cartons'],
+            'Canning lines 2 (550)' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '100 cartons'],
+
         ],
     ];
 

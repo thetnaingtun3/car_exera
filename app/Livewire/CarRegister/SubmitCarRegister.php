@@ -33,19 +33,19 @@ class SubmitCarRegister extends Component
     #[Computed]
     public function lsps()
     {
-        return LSP::all();
+        return LSP::where('status', 'active')->get();
     }
 
     #[Computed]
     public function customers()
     {
-        return $this->lsp_id ? Customer::where('lsp_id', $this->lsp_id)->get() : collect();
+        return $this->lsp_id ? Customer::where('lsp_id', $this->lsp_id)->where('status', 'active')->get() : collect();
     }
 
     #[Computed]
     public function trucks()
     {
-        return $this->lsp_id ? Truck::where('lsp_id', $this->lsp_id)->get() : collect();
+        return $this->lsp_id ? Truck::where('lsp_id', $this->lsp_id)->where('status', 'active')->get() : collect();
     }
 
     public function add()
@@ -69,6 +69,7 @@ class SubmitCarRegister extends Component
         // Reset the inputs for the next product entry
         $this->reset(['product', 'package', 'qty', 'unit']);
     }
+
     public function updatedDriverId()
     {
         if ($this->driver_id === 'other') {
@@ -76,7 +77,7 @@ class SubmitCarRegister extends Component
             $this->driver_name = ''; // Reset driver name input
         } else {
             $this->isOtherDriver = false; // Hide input field when a driver is selected
-            $this->driver_name = Truck::where('id', $this->driver_id)->value('driver_name'); // Auto-fill driver name
+            $this->driver_name = Truck::where('id', $this->driver_id)->where('status', 'active')->value('driver_name'); // Auto-fill driver name
         }
     }
 
@@ -86,10 +87,11 @@ class SubmitCarRegister extends Component
         unset($this->products[$index]);
         $this->products = array_values($this->products); // Re-index the array
     }
+
     public function save()
     {
         $driverIdToStore = $this->isOtherDriver ? null : $this->driver_id;
-        $driverNameToStore = $this->isOtherDriver ? $this->driver_name : Truck::where('id', $this->driver_id)->value('driver_name');
+        $driverNameToStore = $this->isOtherDriver ? $this->driver_name : Truck::where('id', $this->driver_id)->where('status', 'active')->value('driver_name');
 
         // Create Car Registration without validation
         $carRegistration = CarRegistration::create([

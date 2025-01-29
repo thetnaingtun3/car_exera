@@ -53,14 +53,14 @@ class CarRegisterHistory extends Component
     public function mount()
     {
 
-        $this->lsps = LSP::all();
+        $this->lsps = LSP::where('status', 'active')->get();
         $this->customers = collect(); // Start empty
         $this->count = CarRegistration::count();
     }
     public function updatedSelectedLsp()
     {
         if (!empty($this->selectedLsp)) {
-            $this->customers = Customer::where('lsp_id', $this->selectedLsp)->get();
+            $this->customers = Customer::where('lsp_id', $this->selectedLsp)->where('status', 'active')->get();
         } else {
             $this->customers = collect(); // Reset customers when no LSP is selected
         }

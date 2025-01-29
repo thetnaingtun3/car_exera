@@ -10,6 +10,9 @@ class CustomerForm extends Form
     public ?Customer $customer = null;
     public $customer_name, $customer_code, $lsp_id;
 
+    public $status = 'active';
+
+
 
     public function setCustomer(Customer $customer)
     {
@@ -17,6 +20,8 @@ class CustomerForm extends Form
         $this->customer_name = $customer->customer_name;
         $this->customer_code = $customer->customer_code;
         $this->lsp_id = $customer->lsp_id;
+
+        $this->status = $customer->status;
     }
 
     public function store()
@@ -29,6 +34,8 @@ class CustomerForm extends Form
             'lsp_id' => $this->lsp_id,
             'customer_name' => $this->customer_name,
             'customer_code' => $this->customer_code,
+            'status' => $this->status,
+
         ]);
     }
 
@@ -40,6 +47,8 @@ class CustomerForm extends Form
             'lsp_id' => $this->lsp_id,
             'customer_name' => $this->customer_name,
             'customer_code' => $this->customer_code,
+
+            'status' => $this->status,
         ]);
     }
 }

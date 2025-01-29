@@ -1,9 +1,7 @@
 <?php
 
 use App\Livewire\Login;
-use App\Livewire\SignUp;
 use App\Livewire\Dashboard;
-use App\Livewire\QrCodePage;
 use App\Livewire\LSP\LSPEdit;
 use App\Livewire\LSP\LSPList;
 use App\Livewire\LSP\LSPCreate;
@@ -94,8 +92,10 @@ Route::middleware('auth:admin')->group(callback: function () {
 
     Route::get('/pallet/qrcode/{id}', [QrCodeGenController::class, "palletQrCode"])->name('palletqrcode.show');
 
+    Route::get('/pallet-register/print-qr', [PalletRegisterHistory::class, 'printSelectedQRCodes'])->name('pallet.print.qr');
 
     Route::get('/pallet/history', PalletRegisterHistory::class)->name('pallet.history');
+
     Route::get('/loading/data', LoadingDataList::class)->name('loading.data');
     Route::get('/loading/create', LoadingDataCreate::class)->name('loading.create');
 

@@ -7,6 +7,16 @@
     <section class="mt-10">
         <div class="w-full px-6 mx-auto mt-6">
             <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800 p-4">
+                <!-- Total Count -->
+                <!-- Total Count -->
+                <div class="flex gap-10 items-start justify-start">
+                    <h2 class="text-lg font-semibold text-gray-700 mb-4">Total Count {{ $count }}</h2>
+                    <a href="{{ route('create.customer') }}"
+                        class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300">Create</a>
+                    <a href="{{ route('import.customer') }}"
+                        class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300">Import</a>
+
+                </div>
 
                 <!-- FILTER SECTION -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -37,10 +47,6 @@
                         </select>
                     </div>
 
-                    <!-- Total Count -->
-                    <div class="text-center flex items-end">
-                        <h3 class="text-md font-semibold text-gray-700">Total Count: {{ $count }}</h3>
-                    </div>
 
                 </div>
 
@@ -54,6 +60,12 @@
                             Reset Filters
                         </button>
                     </div>
+                    <!-- Apply Filters -->
+                    <button wire:click="applyDateFilter"
+                        class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
+                        Apply Filters
+                    </button>
+
 
                     <!-- Export Data -->
                     <button wire:click="exportData"
@@ -80,6 +92,7 @@
                             <th class="px-4 py-3">LSP Name</th>
                             <th class="px-4 py-3">Customer Name</th>
                             <th class="px-4 py-3">Customer Code</th>
+                            <th class="px-4 py-3">Status</th>
                             <th class="px-4 py-3 text-center">Actions</th>
                         </tr>
                     </thead>
@@ -89,6 +102,12 @@
                                 <td class="px-4 py-3">{{ $customer->lsp->lsp_name ?? 'N/A' }}</td>
                                 <td class="px-4 py-3">{{ $customer->customer_name }}</td>
                                 <td class="px-4 py-3">{{ $customer->customer_code }}</td>
+                                @if ($lsp->status == 'active')
+                                    <td class="px-4 py-3 font-medium text-green-500">{{ $lsp->status }}</td>
+                                @else
+                                    <td class="px-4 py-3 font-medium text-red-500">{{ $lsp->status }}</td>
+                                @endif
+
                                 <td class="flex items-center justify-center">
                                     <a href="{{ route('edit.customer', $customer->id) }}" title="Edit">
                                         <x-phosphor.icons::fill.pencil-line class="w-6 h-6 mx-3 text-blue-400" />

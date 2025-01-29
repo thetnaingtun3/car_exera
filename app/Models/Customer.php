@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Customer extends Model
 {
-    protected $fillable = ['lsp_id', 'customer_code', 'customer_name'];
+    protected $fillable = ['lsp_id', 'customer_code', 'status', 'customer_name'];
 
     public function scopeSearch($query, $value)
     {

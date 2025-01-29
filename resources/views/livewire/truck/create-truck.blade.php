@@ -51,6 +51,17 @@
                                 <x-form.input wire:model="form.size" type="text" label="Size " />
                                 <x-form.input-error for="form.size" class="mt-2" />
                             </div>
+                            <div class="w-full px-4 mt-4 lg:w-3/12">
+                                <label for="status"
+                                    class="block mb-2 text-sm font-medium text-gray-700">Status</label>
+                                <select wire:model="form.status" id="status" name="status"
+                                    class="shadow-sm bg-gray-50 border text-sm rounded-lg w-full p-2.5 focus:ring-black-500 focus:border-black">
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                                <x-form.input-error for="form.status" class="mt-2" />
+                            </div>
+
 
 
                         </div>
