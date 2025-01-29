@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('vehicle_type')->nullable();
             $table->string('size')->nullable();
 
+            $table->enum('status', array('active', 'inactive'))->default('active');
             $table->timestamps();
         });
     }

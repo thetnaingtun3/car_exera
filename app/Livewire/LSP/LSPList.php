@@ -42,16 +42,16 @@ class LSPList extends Component
 
     public function applyDateFilter()
     {
-//        if (!empty($this->startDate) && !empty($this->endDate)) {
-//            $diff = now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate));
-//            if ($diff > 14) {
-//                Notification::make()
-//                    ->title('Date range cannot exceed 14 days.')
-//                    ->danger()
-//                    ->send();
-//                return;
-//            }
-//        }
+        //        if (!empty($this->startDate) && !empty($this->endDate)) {
+        //            $diff = now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate));
+        //            if ($diff > 14) {
+        //                Notification::make()
+        //                    ->title('Date range cannot exceed 14 days.')
+        //                    ->danger()
+        //                    ->send();
+        //                return;
+        //            }
+        //        }
     }
 
     public function resetFilters()
@@ -100,5 +100,34 @@ class LSPList extends Component
             ->paginate($this->perPage);
 
         return view('livewire.l-s-p.l-s-p-list', compact('lsps'));
+    }
+    public function deleteLSP($lspId)
+    {
+        $lsp = LSP::find($lspId);
+
+        if (!$lsp) {
+            Notification::make()
+                ->title('LSP not found.')
+                ->danger()
+                ->send();
+            return;
+        }
+
+        // Check if LSP is related to any customers or trucks
+        if ($lsp->customers()->exists() || $lsp->trucks()->exists()) {
+            Notification::make()
+                ->title('Cannot delete LSP. It is related to customers or trucks.')
+                ->danger()
+                ->send();
+            return;
+        }
+
+        // Delete LSP if not related to customers or trucks
+        $lsp->delete();
+
+        Notification::make()
+            ->title('LSP deleted successfully.')
+            ->success()
+            ->send();
     }
 }
