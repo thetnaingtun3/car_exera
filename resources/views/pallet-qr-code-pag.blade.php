@@ -17,6 +17,7 @@
         <p><strong>Pallet Number:</strong> {{ $record->pallet_number }}</p>
         <p><strong>Product Type:</strong> {{ $record->product_type }}</p>
         <p><strong>Production Line:</strong> {{ $record->production_line }}</p>
+        <p><strong>Package:</strong> {{ $record->package }}</p>
         <p><strong>Volume:</strong> {{ $record->volume }}</p>
         <p><strong>Unit:</strong> {{ $record->unit }}</p>
         <p><strong>Total:</strong> {{ $record->total_amount_per_pallet }}</p>

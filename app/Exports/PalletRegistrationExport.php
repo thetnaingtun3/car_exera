@@ -9,20 +9,35 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 
 class PalletRegistrationExport implements FromCollection, WithHeadings, WithMapping
 {
+    protected $startDate;
+    protected $endDate;
+
     /**
-     * Fetch all PalletRegister data.
+     * Constructor to receive start and end dates.
+     */
+    public function __construct($startDate, $endDate)
+    {
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+    }
+
+    /**
+     * Fetch the PalletRegister data based on selected dates.
      *
      * @return \Illuminate\Support\Collection
      */
     public function collection()
     {
-        return PalletRegister::all();
+        // Validate the date range (max 14 days)
+        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 14) {
+            return collect([]); // Return empty collection if invalid
+        }
+
+        return PalletRegister::whereBetween('created_at', [$this->startDate, $this->endDate])->get();
     }
 
     /**
      * Define the column headings for the Excel file.
-     *
-     * @return array
      */
     public function headings(): array
     {
@@ -41,9 +56,6 @@ class PalletRegistrationExport implements FromCollection, WithHeadings, WithMapp
 
     /**
      * Map the data to match the headings structure.
-     *
-     * @param $pallet
-     * @return array
      */
     public function map($pallet): array
     {
@@ -55,8 +67,8 @@ class PalletRegistrationExport implements FromCollection, WithHeadings, WithMapp
             $pallet->volume ?? 0,
             $pallet->unit ?? 'N/A',
             $pallet->total_amount_per_pallet ?? 0,
-            $pallet->created_at ? $pallet->created_at->format('d-m-Y') : 'N/A', // Extract date from created_at
-            $pallet->created_at ? $pallet->created_at->format('H:i:s') : 'N/A', // Extract time from created_at
+            $pallet->created_at ? $pallet->created_at->format('d-m-Y') : 'N/A',
+            $pallet->created_at ? $pallet->created_at->format('H:i:s') : 'N/A',
         ];
     }
 }

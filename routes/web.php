@@ -26,6 +26,7 @@ use App\Livewire\Login\ProductionLogin;
 use Illuminate\Support\Facades\Redirect;
 use App\Livewire\Customer\CreateCustomer;
 use App\Livewire\Customer\ImportCustomer;
+use App\Livewire\Loading\ImportLoadingData;
 use App\Livewire\Transoper\TransoperAction;
 use App\Http\Controllers\QrCodeGenController;
 use App\Livewire\Production\ProductionAction;
@@ -35,6 +36,8 @@ use App\Livewire\CarRegister\CarRegisterHistory;
 use App\Livewire\PalletResiter\PalletRegisterSubmit;
 use App\Livewire\PalletResiter\PalletRegisterHistory;
 use App\Livewire\CarRegister\CarRegisterQrCodeHistory;
+use App\Livewire\Loading\LoadingDataCreate;
+use App\Livewire\Loading\LoadingDataList;
 use App\Livewire\PalletResiter\PalletRegisterQrCodeHistory;
 
 
@@ -93,5 +96,8 @@ Route::middleware('auth:admin')->group(callback: function () {
 
 
     Route::get('/pallet/history', PalletRegisterHistory::class)->name('pallet.history');
+    Route::get('/loading/data', LoadingDataList::class)->name('loading.data');
+    Route::get('/loading/create', LoadingDataCreate::class)->name('loading.create');
+
     Route::get('/pallet/qr/code/history', PalletRegisterQrCodeHistory::class)->name('pallet.qrcode.history');
 });

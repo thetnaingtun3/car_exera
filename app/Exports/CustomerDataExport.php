@@ -4,20 +4,33 @@ namespace App\Exports;
 
 use App\Models\Customer;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class CustomerDataExport implements FromCollection, WithHeadings, WithMapping
+class CustomerDataExport implements FromQuery, WithHeadings, WithMapping
 {
+    protected $startDate;
+    protected $endDate;
+
+    /**
+     * Constructor to receive start and end dates.
+     */
+    public function __construct($startDate, $endDate)
+    {
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+    }
     /**
      * Fetch all customer data with the LSP relationship.
      *
      * @return \Illuminate\Support\Collection
      */
-    public function collection()
+    public function query()
     {
         // Use eager-loading to fetch LSP data along with customer data
-        return Customer::with('lsp')->get();
+        return Customer::with('lsp')
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);;
     }
 
     /**

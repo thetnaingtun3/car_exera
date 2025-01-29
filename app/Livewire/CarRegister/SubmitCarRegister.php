@@ -16,6 +16,7 @@ class SubmitCarRegister extends Component
     public $lsp_id;
     public $customer_id;
     public $car_id;
+    public $driver_id;
     public $driver_name;
     public $order_number;
     public $remark;
@@ -26,7 +27,9 @@ class SubmitCarRegister extends Component
     public $unit = '';
 
     public $products = []; // To hold dynamically added products
+    public $isOtherDriver = false; // Tracks if "Other" option is selected
 
+    // updatedDriverId
     #[Computed]
     public function lsps()
     {
@@ -66,6 +69,18 @@ class SubmitCarRegister extends Component
         // Reset the inputs for the next product entry
         $this->reset(['product', 'package', 'qty', 'unit']);
     }
+    public function updatedDriverId()
+    {
+        if ($this->driver_id === 'other') {
+            $this->isOtherDriver = true; // Show input field when "Other" is selected
+            $this->driver_name = ''; // Reset driver name input
+        } else {
+            $this->isOtherDriver = false; // Hide input field when a driver is selected
+            $this->driver_name = Truck::where('id', $this->driver_id)->value('driver_name'); // Auto-fill driver name
+        }
+    }
+
+
     public function removeProduct($index)
     {
         unset($this->products[$index]);
@@ -73,18 +88,19 @@ class SubmitCarRegister extends Component
     }
     public function save()
     {
-        // Validate Car Registration data
-        $validatedData = $this->validate([
-            'lsp_id' => 'required|integer',
-            'customer_id' => 'required|integer',
-            'car_id' => 'required|integer',
-            'driver_name' => 'required|string|max:255',
-            'order_number' => 'required|string|max:50',
-            'remark' => 'nullable|string',
-        ]);
+        $driverIdToStore = $this->isOtherDriver ? null : $this->driver_id;
+        $driverNameToStore = $this->isOtherDriver ? $this->driver_name : Truck::where('id', $this->driver_id)->value('driver_name');
 
-        // Create Car Registration
-        $carRegistration = CarRegistration::create($validatedData);
+        // Create Car Registration without validation
+        $carRegistration = CarRegistration::create([
+            'lsp_id' => $this->lsp_id,
+            'customer_id' => $this->customer_id,
+            'car_id' => $this->car_id,
+            'driver_id' => $driverIdToStore,  // Store NULL if "Other" is selected
+            'driver_name' => $driverNameToStore,  // Store entered name if "Other" is selected
+            'order_number' => $this->order_number,
+            'remark' => $this->remark,
+        ]);
 
         // Save Products
         foreach ($this->products as $product) {
@@ -98,7 +114,7 @@ class SubmitCarRegister extends Component
         }
 
         // Reset the form
-        $this->reset(['lsp_id', 'customer_id', 'car_id', 'driver_name', 'order_number', 'remark', 'products']);
+        $this->reset(['lsp_id', 'customer_id', 'car_id', 'driver_id', 'driver_name', 'order_number', 'remark', 'products']);
 
         // Notify success
         Notification::make()
@@ -108,6 +124,7 @@ class SubmitCarRegister extends Component
 
         return to_route('reg.car');
     }
+
 
     public function render()
     {

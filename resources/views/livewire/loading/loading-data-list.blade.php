@@ -1,7 +1,7 @@
 @section('lsp-active', 'bg-gray-100 group')
 <div>
     <div class="px-4 py-2 bg-gray-200">
-        <span class="text-gray-500 text-md">Home / <span class="text-blue-900">LSP</span></span>
+        <span class="text-gray-500 text-md">Home / <span class="text-blue-900">Loading Data</span></span>
     </div>
 
     <section class="mt-10">

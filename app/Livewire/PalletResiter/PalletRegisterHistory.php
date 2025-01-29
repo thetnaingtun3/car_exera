@@ -8,98 +8,89 @@ use Livewire\WithPagination;
 use App\Models\PalletRegister;
 use Livewire\Attributes\Title;
 use Maatwebsite\Excel\Facades\Excel;
+use Filament\Notifications\Notification;
 use App\Exports\PalletRegistrationExport;
 
 class PalletRegisterHistory extends Component
 {
     use WithPagination;
-    public $count = 0;
-    #[Url(history: true)]
-    public $search = '';
 
-    #[Url(history: true)]
-    public $startDate = '';
+    public $count;
+    public $selectedPallets = []; // Selected checkbox IDs
+    public $selectAll = false;    // Select All checkbox
 
-    #[Url(history: true)]
-    public $endDate = '';
+    #[Url(history: true)] public $search = '';
+    #[Url(history: true)] public $startDate = '';
+    #[Url(history: true)] public $endDate = '';
+    #[Url(history: true)] public $startPalletNumber = ''; // Start pallet filter
+    #[Url(history: true)] public $endPalletNumber = '';   // End pallet filter
+    #[Url(history: true)] public $selectedProductType = ''; // Product Type filter
+    #[Url(history: true)] public $selectedProductionLine = ''; // Production Line filter
+    #[Url(history: true)] public $selectedVolume = ''; // Volume filter
+    #[Url(history: true)] public $sortBy = 'created_at';
+    #[Url(history: true)] public $sortDir = 'DESC';
+    #[Url()] public $perPage = 100;
 
-    #[Url(history: true)]
-    public $sortBy = 'created_at';
+    protected $queryString = ['search', 'startDate', 'endDate', 'startPalletNumber', 'endPalletNumber', 'selectedProductType', 'selectedProductionLine', 'selectedVolume', 'sortBy', 'sortDir', 'perPage'];
 
-    #[Url(history: true)]
-    public $sortDir = 'DESC';
-
-
-
-    public $selectedPallets = []; // Array of selected pallet IDs
-    public $selectAll = false;    // Boolean for the "Select All" checkbox
-
-
-    #[Url()]
-    public $perPage = 20;
-
-    protected $queryString = ['search', 'startDate', 'endDate', 'sortBy', 'sortDir', 'perPage'];
-    public function exportData()
+    // Reset filters to default state
+    public function resetFilters()
     {
-        return Excel::download(new PalletRegistrationExport, 'data.xlsx');
+        $this->reset(['startPalletNumber', 'endPalletNumber', 'search', 'startDate', 'endDate', 'selectedProductType', 'selectedProductionLine', 'selectedVolume']);
     }
 
-
-
-
-    public function allCheck()
-    {
-        $this->selectedPallets = PalletRegister::pluck('id')->toArray(); // Select all IDs
-        $this->selectAll = true; // Ensure the "Select All" checkbox is checked
-    }
-
-    public function removeCheck()
-    {
-        $this->selectedPallets = []; // Clear all selections
-        $this->selectAll = false; // Ensure the "Select All" checkbox is unchecked
-    }
-
-
-    public function toggleCheckbox($id)
-    {
-        if (in_array($id, $this->selectedPallets)) {
-            // If clicked checkbox is already selected, deselect all
-            $this->selectedPallets = [];
-            $this->selectAll = false;
-        } else {
-            // If clicked checkbox is not selected, select all
-            $this->selectedPallets = PalletRegister::pluck('id')->toArray();
-            $this->selectAll = true;
-        }
-    }
-
-
-    // total data count
     public function mount()
     {
         $this->count = PalletRegister::count();
     }
-    public function setSortBy($sortByField)
+    // Export pallet data as Excel file
+    public function exportData()
     {
-        if ($this->sortBy === $sortByField) {
-            $this->sortDir = ($this->sortDir == "ASC") ? 'DESC' : "ASC";
+        // Validate that user-selected date range does not exceed 14 days
+        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 14) {
+            Notification::make()
+                ->title('Date range cannot exceed 14 days.')
+                ->danger()
+                ->send();
+
             return;
         }
 
-        $this->sortBy = $sortByField;
-        $this->sortDir = 'DESC';
+        return Excel::download(new PalletRegistrationExport($this->startDate, $this->endDate), 'filtered_data.xlsx');
     }
-    public function applyDateFilter()
-    {
-        // The Livewire view will automatically update because these properties are reactive.
-    }
-    #[Title('Pallet Register History')]
 
+
+    // Select all checkboxes
+    public function allCheck()
+    {
+        $this->selectedPallets = PalletRegister::pluck('id')->toArray();
+        $this->selectAll = true;
+    }
+
+    // Deselect all checkboxes
+    public function removeCheck()
+    {
+        $this->selectedPallets = [];
+        $this->selectAll = false;
+    }
+
+    // Apply pallet number filters correctly
+    public function applyFilters()
+    {
+        $this->render();
+    }
+
+    #[Title('Pallet Register History')]
     public function render()
     {
+        $query = PalletRegister::query();
 
-        $query = PalletRegister::search($this->search);
+        // Search Filter
+        if (!empty($this->search)) {
+            $query->where('pallet_number', 'like', "%{$this->search}%");
+        }
 
+        // Date Filters
         if (!empty($this->startDate)) {
             $query->whereDate('created_at', '>=', $this->startDate);
         }
@@ -107,9 +98,39 @@ class PalletRegisterHistory extends Component
             $query->whereDate('created_at', '<=', $this->endDate);
         }
 
-        $pallets = $query
-            ->orderBy($this->sortBy, $this->sortDir)
-            ->paginate($this->perPage);
-        return view('livewire.pallet-resiter.pallet-register-history', compact('pallets'));
+        // Pallet Number Range Filter (Extract numeric part correctly)
+        if (!empty($this->startPalletNumber) && !empty($this->endPalletNumber)) {
+            $query->whereRaw("CAST(SUBSTRING_INDEX(pallet_number, '-', -1) AS UNSIGNED) BETWEEN ? AND ?", [
+                (int) $this->startPalletNumber,
+                (int) $this->endPalletNumber
+            ]);
+        }
+
+        // Product Type Filter
+        if (!empty($this->selectedProductType)) {
+            $query->where('product_type', $this->selectedProductType);
+        }
+
+        // Production Line Filter
+        if (!empty($this->selectedProductionLine)) {
+            $query->where('production_line', $this->selectedProductionLine);
+        }
+
+        // Volume Filter
+        if (!empty($this->selectedVolume)) {
+            $query->where('volume', $this->selectedVolume);
+        }
+
+        // ✅ Order By Numeric Part of Pallet Number
+        $query->orderByRaw("CAST(SUBSTRING_INDEX(pallet_number, '-', -1) AS UNSIGNED) ASC");
+
+        $pallets = $query->paginate($this->perPage);
+
+        // Get distinct values for dropdown filters
+        $productTypes = PalletRegister::distinct()->pluck('product_type');
+        $productionLines = PalletRegister::distinct()->pluck('production_line');
+        $volumes = PalletRegister::distinct()->pluck('volume');
+
+        return view('livewire.pallet-resiter.pallet-register-history', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
     }
 }

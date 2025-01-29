@@ -4,20 +4,29 @@ namespace App\Exports;
 
 use App\Models\Truck;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class TruckDataExport implements FromCollection, WithHeadings, WithMapping
+class TruckDataExport implements FromQuery, WithHeadings, WithMapping
 {
+    protected $startDate;
+    protected $endDate;
+
     /**
-     * Fetch all Truck data with the LSP relationship.
-     *
-     * @return \Illuminate\Support\Collection
+     * Constructor to receive start and end dates.
      */
-    public function collection()
+    public function __construct($startDate, $endDate)
     {
-        // Eager load the LSP relationship to avoid N+1 queries
-        return Truck::with('lsp')->get();
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+    }
+
+
+    public function query()
+    {
+        return Truck::with(['lsp'])
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
     }
 
     /**

@@ -54,12 +54,45 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <!-- Driver Name -->
 
+                                        <div class="w-full py-2">
+                                            <select wire:model.live="driver_id"
+                                                class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
+                                                <option value="">Select Driver Name</option>
+                                                @foreach ($this->trucks as $truck)
+                                                    <option value="{{ $truck->id }}">{{ $truck->driver_name }}
+                                                    </option>
+                                                @endforeach
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+
+
+
+                                        {{-- <div class="w-full py-2">
+                                            <select wire:model.live="driver_id"
+                                                class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
+                                                <option value="">Select Deiver Name</option>
+                                                @foreach ($this->trucks as $truck)
+                                                    <option value="{{ $truck->id }}">{{ $truck->driver_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div> --}}
+
+                                        <!-- Driver Name -->
+                                        {{--
                                         <div class="w-full py-2">
                                             <x-form.input wire:model="driver_name" type="text" label="Driver Name" />
                                             <x-form.input-error for="driver_name" class="mt-2" />
-                                        </div>
+                                        </div> --}}
+                                        @if ($isOtherDriver)
+                                            <div class="w-full py-2">
+                                                <x-form.input wire:model.live="driver_name" type="text"
+                                                    label="Enter Driver Name" />
+                                            </div>
+                                        @endif
+
 
                                         <!-- Product -->
                                         <div class="w-full py-2">
@@ -182,7 +215,16 @@
                                                 <td class="">{{ ++$key }}</td>
 
                                                 <td class="">{{ $user->truck->licence_plate }}</td>
-                                                <th class=""> {{ $user->driver_name }}</th>
+
+                                                <td class="">
+
+                                                    @if ($user->driver_id == null)
+                                                        {{ $user->driver_name }}
+                                                    @else
+                                                        {{ $user->truck->driver_name }}
+                                                    @endif
+                                                </td>
+
                                                 <td class="">{{ $user->customer->customer_name }}</td>
 
                                                 <td class="">{{ $user->truck->size }}</td>

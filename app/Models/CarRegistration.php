@@ -16,6 +16,7 @@ class CarRegistration extends Model
         'car_number',
         'cusomter_name', // Note: Typo here, should it be 'customer_name'?
         'driver_name',
+        'driver_id',
         'type_of_truck',
         'type_of_truck_type',
         'product',

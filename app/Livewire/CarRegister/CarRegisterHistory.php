@@ -4,12 +4,14 @@ namespace App\Livewire\CarRegister;
 
 use App\Models\LSP;
 use Livewire\Component;
+use App\Models\Customer;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 use App\Models\CarRegistration;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CarRegistrationExport;
+use Filament\Notifications\Notification;
 
 
 class CarRegisterHistory extends Component
@@ -38,6 +40,10 @@ class CarRegisterHistory extends Component
 
     #[Url()]
     public $perPage = 20;
+    #[Url(history: true)]
+    public $selectedCustomer = ''; // Stores the selected Customer ID
+
+    public $customers = []; // Holds the available customers based on LSP selection
 
     // protected $queryString = ['search', 'startDate', 'endDate', 'sortBy', 'sortDir', 'perPage'];
     protected $queryString = ['search', 'startDate', 'endDate', 'sortBy', 'sortDir', 'perPage', 'selectedLsp'];
@@ -46,14 +52,50 @@ class CarRegisterHistory extends Component
     // total data count
     public function mount()
     {
+
         $this->lsps = LSP::all();
+        $this->customers = collect(); // Start empty
         $this->count = CarRegistration::count();
+    }
+    public function updatedSelectedLsp()
+    {
+        if (!empty($this->selectedLsp)) {
+            $this->customers = Customer::where('lsp_id', $this->selectedLsp)->get();
+        } else {
+            $this->customers = collect(); // Reset customers when no LSP is selected
+        }
+        $this->selectedCustomer = ''; // Reset customer selection when LSP changes
+    }
+    public function resetFilters()
+    {
+        $this->reset(['selectedLsp', 'selectedCustomer', 'startDate', 'endDate', 'search']);
+        $this->customers = collect(); // Reset customer list
     }
 
     public function exportData()
     {
-        return Excel::download(new CarRegistrationExport, 'data.xlsx');
+        // Ensure user selects a valid date range
+        if (empty($this->startDate) || empty($this->endDate)) {
+            Notification::make()
+                ->title('Please select a valid date range.')
+                ->danger()
+                ->send();
+            return;
+        }
+
+        // Ensure the date range is exactly 14 days or less
+        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 14) {
+            Notification::make()
+                ->title('Date range cannot exceed 14 days.')
+                ->danger()
+                ->send();
+            return;
+        }
+
+        return Excel::download(new CarRegistrationExport($this->startDate, $this->endDate), 'car_registration.xlsx');
     }
+
+
     public function setSortBy($sortByField)
     {
         if ($this->sortBy === $sortByField) {
@@ -87,6 +129,11 @@ class CarRegisterHistory extends Component
         // Apply LSP filter if selected
         if (!empty($this->selectedLsp)) {
             $query->where('lsp_id', $this->selectedLsp);
+        }
+
+        // Apply Customer filter if selected
+        if (!empty($this->selectedCustomer)) {
+            $query->where('customer_id', $this->selectedCustomer);
         }
 
         $registrations = $query

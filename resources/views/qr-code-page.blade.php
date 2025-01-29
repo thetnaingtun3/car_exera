@@ -19,13 +19,13 @@
 
         <!-- Display Record Details -->
         <div class="text-left">
-            <p><strong>LSP Name/ </strong> {{ $record->lsp?->lsp_name ?? 'No Truck Assigned' }}</p>
-            <p><strong>Car Number/ </strong> {{ $record->truck?->licence_plate ?? 'No Truck Assigned' }}</p>
-            <p><strong>Driver Name/ </strong> {{ $record->driver_name }}</p>
-            <p><strong>Type of Truck/ </strong> {{ $record->truck?->size ?? 'Unknown Size' }}</p>
-            <p><strong>Customer Name/ </strong> {{ $record->customer?->customer_name ?? 'No Customer Assigned' }}</p>
+            <p><strong>LSP Name: </strong> {{ $record->lsp?->lsp_name ?? 'No Truck Assigned' }}</p>
+            <p><strong>Car Number: </strong> {{ $record->truck?->licence_plate ?? 'No Truck Assigned' }}</p>
+            <p><strong>Driver Name: </strong> {{ $record->driver_name }}</p>
+            <p><strong>Type of Truck: </strong> {{ $record->truck?->size ?? 'Unknown Size' }}</p>
+            <p><strong>Customer Name: </strong> {{ $record->customer?->customer_name ?? 'No Customer Assigned' }}</p>
             {{-- <p><strong>Date and Time/ </strong> {{ $record->click_date }}</p> --}}
-            <p><strong>Date and Time/ </strong> {{ \Carbon\Carbon::parse($record->click_date)->format('d-m-Y H:i:s') }}
+            <p><strong>Date and Time: </strong> {{ \Carbon\Carbon::parse($record->click_date)->format('d-m-Y H:i:s') }}
             </p>
         </div>
 

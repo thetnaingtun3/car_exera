@@ -15,7 +15,7 @@ class TruckForm extends Form
     //         'size',
     public ?Truck $truck = null;
 
-    public $lsp_id, $licence_plate, $vehicle_type, $size;
+    public $lsp_id, $licence_plate, $vehicle_type, $size, $driver_name;
 
     public function setTruck(Truck $truck)
     {
@@ -23,6 +23,7 @@ class TruckForm extends Form
         $this->lsp_id = $truck->lsp_id;
         $this->licence_plate = $truck->licence_plate;
         $this->vehicle_type = $truck->vehicle_type;
+        $this->driver_name = $truck->driver_name;
         $this->size = $truck->size;
     }
     public function store()
@@ -37,6 +38,7 @@ class TruckForm extends Form
             'lsp_id' => $this->lsp_id,
             'licence_plate' => $this->licence_plate,
             'vehicle_type' => $this->vehicle_type,
+            'driver_name' => $this->driver_name,
             'size' => $this->size,
         ]);
     }
@@ -47,6 +49,7 @@ class TruckForm extends Form
             'lsp_id' => $this->lsp_id,
             'licence_plate' => $this->licence_plate,
             'vehicle_type' => $this->vehicle_type,
+            'driver_name' => $this->driver_name,
             'size' => $this->size,
         ]);
     }

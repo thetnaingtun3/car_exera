@@ -4,29 +4,36 @@ namespace App\Exports;
 
 use App\Models\CarRegistration;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
 class CarRegistrationExport implements FromQuery, WithHeadings, WithMapping
 {
+    protected $startDate;
+    protected $endDate;
+
     /**
-     * @return \Illuminate\Support\Collection
+     * Constructor to receive start and end dates.
      */
-    // public function collection()
-    // {
-    //     return CarRegistration::all();
-    // }
+    public function __construct($startDate, $endDate)
+    {
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+    }
+
+    /**
+     * Query the data, ensuring only records within the selected date range (Max: 14 Days)
+     */
     public function query()
     {
-        // Query users with their roles using eager loading
-
-
-        return CarRegistration::with(['lsp', 'customer', 'truck']);
-        // return CarRegistration::all();
+        return CarRegistration::with(['lsp', 'customer', 'truck'])
+            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
     }
-    public function headings(): array
 
+    /**
+     * Define the column headings for the Excel export
+     */
+    public function headings(): array
     {
         return [
             'ID',
@@ -34,13 +41,16 @@ class CarRegistrationExport implements FromQuery, WithHeadings, WithMapping
             'Customer Name',
             'Truck Number',
             'Type of Truck',
-            'Driver Name', // Add any custom field you want
-            'Order Number',        // Include related data
-            'Type Size',
+            'Driver Name',
+            'Order Number',
+            'Truck Size',
             'Created At',
-
         ];
     }
+
+    /**
+     * Map the data for the exported Excel file
+     */
     public function map($carRegisterProduct): array
     {
         return [

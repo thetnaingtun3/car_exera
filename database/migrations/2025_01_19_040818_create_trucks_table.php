@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('lsp_id')->nullable();
             $table->string('licence_plate')->nullable();
+            $table->string('driver_name')->nullable();
             $table->string('vehicle_type')->nullable();
             $table->string('size')->nullable();
 

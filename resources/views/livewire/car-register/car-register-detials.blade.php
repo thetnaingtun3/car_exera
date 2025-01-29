@@ -17,6 +17,22 @@
         </thead>
         <tbody>
             <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 text-sm text-gray-700 border border-gray-200">LSP Name</td>
+
+
+                <td class="px-4 py-2 text-sm text-gray-700 border border-gray-200">{{ $registration->lsp->lsp_name }}
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 text-sm text-gray-700 border border-gray-200">Customer Name</td>
+
+
+                <td class="px-4 py-2 text-sm text-gray-700 border border-gray-200">
+                    {{ $registration->customer->customer_name }}
+            </tr>
+
+
+
+            <tr class="hover:bg-gray-50">
                 <td class="px-4 py-2 text-sm text-gray-700 border border-gray-200">Order Number</td>
                 <td class="px-4 py-2 text-sm text-gray-700 border border-gray-200">
 
@@ -30,9 +46,18 @@
 
                 </td>
             </tr>
+
             <tr class="hover:bg-gray-50">
                 <td class="px-4 py-2 text-sm text-gray-700 border border-gray-200">Driver Name</td>
-                <td class="px-4 py-2 text-sm text-gray-700 border border-gray-200">{{ $registration['driver_name'] }}
+                <td class="px-4 py-2 text-sm text-gray-700 border border-gray-200">
+
+
+
+                    @if ($registration->driver_id == null)
+                        {{ $registration->driver_name }}
+                    @else
+                        {{ $registration->truck->driver_name }}
+                    @endif
                 </td>
             </tr>
             <tr class="hover:bg-gray-50">
