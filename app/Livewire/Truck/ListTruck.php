@@ -43,7 +43,8 @@ class ListTruck extends Component
     {
 
         $this->count = Truck::count();
-        $this->lsps = LSP::all();
+
+        $this->lsps =  LSP::where('status', 'active')->get();
     }
 
     public function setSortBy($sortByField)
@@ -58,16 +59,16 @@ class ListTruck extends Component
 
     public function applyDateFilter()
     {
-//        if (!empty($this->startDate) && !empty($this->endDate)) {
-//            $diff = now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate));
-//            if ($diff > 14) {
-//                Notification::make()
-//                    ->title('Date range cannot exceed 14 days.')
-//                    ->danger()
-//                    ->send();
-//                return;
-//            }
-//        }
+        //        if (!empty($this->startDate) && !empty($this->endDate)) {
+        //            $diff = now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate));
+        //            if ($diff > 14) {
+        //                Notification::make()
+        //                    ->title('Date range cannot exceed 14 days.')
+        //                    ->danger()
+        //                    ->send();
+        //                return;
+        //            }
+        //        }
     }
 
     public function resetFilters()

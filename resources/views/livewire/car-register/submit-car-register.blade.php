@@ -54,7 +54,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-
+                                        {{--
                                         <div class="w-full py-2">
                                             <select wire:model.live="driver_id"
                                                 class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
@@ -65,26 +65,18 @@
                                                 @endforeach
                                                 <option value="other">Other</option>
                                             </select>
-                                        </div>
-
-
-                                        {{-- <div class="w-full py-2">
-                                        <select wire:model.live="driver_id"
-                                            class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
-                                            <option value="">Select Deiver Name</option>
-                                            @foreach ($this->trucks as $truck)
-                                                <option value="{{ $truck->id }}">{{ $truck->driver_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div> --}}
-
-                                        <!-- Driver Name -->
-                                        {{--
-                                        <div class="w-full py-2">
-                                            <x-form.input wire:model="driver_name" type="text" label="Driver Name" />
-                                            <x-form.input-error for="driver_name" class="mt-2" />
                                         </div> --}}
+                                        <div class="w-full py-2">
+                                            <select wire:model.live="driver_id"
+                                                class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
+                                                <option value="">Select Driver Name</option>
+                                                @foreach ($this->truckDrivers as $truck)
+                                                    <option value="{{ $truck->id }}">{{ $truck->driver_name }}
+                                                    </option>
+                                                @endforeach
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
                                         @if ($isOtherDriver)
                                             <div class="w-full py-2">
                                                 <x-form.input wire:model.live="driver_name" type="text"

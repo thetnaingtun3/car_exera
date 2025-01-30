@@ -47,6 +47,16 @@ class SubmitCarRegister extends Component
     {
         return $this->lsp_id ? Truck::where('lsp_id', $this->lsp_id)->where('status', 'active')->get() : collect();
     }
+    #[Computed]
+    public function truckDrivers()
+    {
+        if ($this->car_id) {
+            // Fetch the selected truck and return its driver details
+            return Truck::where('id', $this->car_id)->where('status', 'active')->get(['id', 'driver_name']);
+        }
+
+        return collect(); // Return an empty collection if no truck is selected
+    }
 
     public function add()
     {

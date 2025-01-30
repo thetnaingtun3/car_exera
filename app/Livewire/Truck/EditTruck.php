@@ -16,7 +16,8 @@ class EditTruck extends Component
 
     public function mount(Truck $truck)
     {
-        $this->lsps = LSP::all();
+        $this->lsps =  LSP::where('status', 'active')->get();
+
         $this->form->setTruck($truck);
 
         // Set the LSP ID
@@ -35,6 +36,7 @@ class EditTruck extends Component
     }
     public function render()
     {
-        return view('livewire.truck.edit-truck');
+
+        return view('livewire.truck.create-truck');
     }
 }
