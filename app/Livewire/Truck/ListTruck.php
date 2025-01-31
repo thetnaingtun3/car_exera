@@ -82,24 +82,25 @@ class ListTruck extends Component
     public function exportData()
     {
         // Ensure user selects a valid date range
-        if (empty($this->startDate) || empty($this->endDate)) {
-            Notification::make()
-                ->title('Please select a valid date range.')
-                ->danger()
-                ->send();
-            return;
-        }
+//        if (empty($this->startDate) || empty($this->endDate)) {
+//            Notification::make()
+//                ->title('Please select a valid date range.')
+//                ->danger()
+//                ->send();
+//            return;
+//        }
+//
+//        // Ensure the date range is exactly 14 days or less
+//        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 14) {
+//            Notification::make()
+//                ->title('Date range cannot exceed 14 days.')
+//                ->danger()
+//                ->send();
+//            return;
+//        }
 
-        // Ensure the date range is exactly 14 days or less
-        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 14) {
-            Notification::make()
-                ->title('Date range cannot exceed 14 days.')
-                ->danger()
-                ->send();
-            return;
-        }
-
-        return Excel::download(new TruckDataExport($this->startDate, $this->endDate), 'truck_data.xlsx');
+//        return Excel::download(new TruckDataExport($this->startDate, $this->endDate), 'truck_data.xlsx');
+        return Excel::download(new TruckDataExport(), 'truck_data.xlsx');
     }
 
 

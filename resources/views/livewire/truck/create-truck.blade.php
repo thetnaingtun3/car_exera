@@ -37,10 +37,10 @@
                             </div>
 
 
-                            <div class="w-full px-4 pt-5 lg:w-6/12">
-                                <x-form.input wire:model="form.vehicle_type" type="text" label="Vehicle type" />
-                                <x-form.input-error for="form.vehicle_type" class="mt-2" />
-                            </div>
+{{--                            <div class="w-full px-4 pt-5 lg:w-6/12">--}}
+{{--                                <x-form.input wire:model="form.vehicle_type" type="text" label="Vehicle type" />--}}
+{{--                                <x-form.input-error for="form.vehicle_type" class="mt-2" />--}}
+{{--                            </div>--}}
                             <div class="w-full px-4 pt-5 lg:w-6/12">
                                 <x-form.input wire:model="form.driver_name" type="text" label="Driver Name " />
                                 <x-form.input-error for="form.driver_name" class="mt-2" />

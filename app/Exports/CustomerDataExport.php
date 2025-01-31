@@ -16,11 +16,11 @@ class CustomerDataExport implements FromQuery, WithHeadings, WithMapping
     /**
      * Constructor to receive start and end dates.
      */
-    public function __construct($startDate, $endDate)
-    {
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
-    }
+//    public function __construct($startDate, $endDate)
+//    {
+//        $this->startDate = $startDate;
+//        $this->endDate = $endDate;
+//    }
     /**
      * Fetch all customer data with the LSP relationship.
      *
@@ -29,8 +29,8 @@ class CustomerDataExport implements FromQuery, WithHeadings, WithMapping
     public function query()
     {
         // Use eager-loading to fetch LSP data along with customer data
-        return Customer::with('lsp')
-            ->whereBetween('created_at', [$this->startDate, $this->endDate]);;
+        return Customer::with('lsp');
+//            ->whereBetween('created_at', [$this->startDate, $this->endDate]);;
     }
 
     /**
@@ -45,6 +45,7 @@ class CustomerDataExport implements FromQuery, WithHeadings, WithMapping
             'LSP Name',
             'Customer Code',
             'Customer Name',
+            'Status',
         ];
     }
 
@@ -61,6 +62,7 @@ class CustomerDataExport implements FromQuery, WithHeadings, WithMapping
             $customer->lsp->lsp_name ?? 'N/A', // Fetch the LSP name, fallback to 'N/A' if null
             $customer->customer_code ?? 'N/A',
             $customer->customer_name ?? 'N/A',
+            $customer->status == 'active' ? 'Active' : 'Inactive',
         ];
     }
 }

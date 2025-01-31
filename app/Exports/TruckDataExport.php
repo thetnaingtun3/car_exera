@@ -16,17 +16,17 @@ class TruckDataExport implements FromQuery, WithHeadings, WithMapping
     /**
      * Constructor to receive start and end dates.
      */
-    public function __construct($startDate, $endDate)
-    {
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
-    }
+//    public function __construct($startDate, $endDate)
+//    {
+//        $this->startDate = $startDate;
+//        $this->endDate = $endDate;
+//    }
 
 
     public function query()
     {
-        return Truck::with(['lsp'])
-            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+        return Truck::with(['lsp']);
+//            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
     }
 
     /**
@@ -40,8 +40,8 @@ class TruckDataExport implements FromQuery, WithHeadings, WithMapping
             'ID',
             'LSP Name',
             'Licence Plate',
-            'Vehicle Type',
             'Size',
+            'Status',
         ];
     }
 
@@ -57,8 +57,8 @@ class TruckDataExport implements FromQuery, WithHeadings, WithMapping
             $truck->id,
             $truck->lsp->lsp_name ?? 'N/A', // Fetch the LSP name, fallback to 'N/A' if null
             $truck->licence_plate ?? 'N/A',
-            $truck->vehicle_type ?? 'N/A',
             $truck->size ?? 'N/A',
+            $truck->status == 'active' ? 'Active' : 'Inactive',
         ];
     }
 }

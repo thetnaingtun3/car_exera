@@ -16,18 +16,23 @@ class ExportLspData implements FromCollection, WithHeadings, WithMapping
     {
         return LSP::all();
     }
+
     public function headings(): array
     {
         return [
             'ID',
             'LSP Name',
+            'Status',
         ];
     }
+
     public function map($truck): array
     {
         return [
             $truck->id,
             $truck->lsp_name ?? 'N/A', // Fetch the LSP name, fallback to 'N/A' if null
+//            $table->enum('status', array('active', 'inactive'))->default('active');
+            $truck->status == 'active' ? 'Active' : 'Inactive',
         ];
     }
 }
