@@ -26,7 +26,7 @@ class TruckForm extends Form
     {
         $this->validate([
             'lsp_id' => 'required|integer',
-            'licence_plate' => 'required|regex:/^\d[A-Z]-\d{4}$/',
+            'licence_plate' => 'required|regex:/^\d[A-Z]-\d{4}$/|unique:trucks,licence_plate',
         ]);
 
         $this->truck = Truck::create([
@@ -42,7 +42,7 @@ class TruckForm extends Form
     {
         $this->validate([
             'lsp_id' => 'required|integer',
-            'licence_plate' => 'required|regex:/^[A-Z0-9]{1,2}-\d{4}$/',
+            'licence_plate' => 'required|regex:/^[A-Z0-9]{1,2}-\d{4}$/|unique:trucks,licence_plate,' . $this->truck->id,
         ]);
 
         $this->truck->update([
