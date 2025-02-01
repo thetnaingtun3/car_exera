@@ -17,14 +17,14 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <!-- Start Date -->
                     <div>
-                        <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date</label>
+                        <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date  (MM/DD/YYYY)  </label>
                         <input wire:model.live="startDate" type="date" id="start_date"
                             class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <!-- End Date -->
                     <div>
-                        <label for="end_date" class="block text-sm font-medium text-gray-700">End Date</label>
+                        <label for="end_date" class="block text-sm font-medium text-gray-700">End Date  (MM/DD/YYYY)  </label>
                         <input wire:model.live="endDate" type="date" id="end_date"
                             class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                     </div>
@@ -104,10 +104,11 @@
                             Reset Filters
                         </button>
 
-                        <button wire:click="exportData"
-                            class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300">
+                       <button wire:click="exportData"
+                                class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">
                             Export Data
                         </button>
+
                     </div>
 
                     <!-- Select / Remove All -->

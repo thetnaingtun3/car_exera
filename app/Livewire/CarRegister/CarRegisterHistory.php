@@ -17,6 +17,7 @@ use Filament\Notifications\Notification;
 class CarRegisterHistory extends Component
 {
     use WithPagination;
+
     public $lsps;
     public $count = 0;
 
@@ -39,7 +40,7 @@ class CarRegisterHistory extends Component
     public $sortDir = 'DESC';
 
     #[Url()]
-    public $perPage = 20;
+    public $perPage = 70;
     #[Url(history: true)]
     public $selectedCustomer = ''; // Stores the selected Customer ID
 
@@ -57,6 +58,7 @@ class CarRegisterHistory extends Component
         $this->customers = collect(); // Start empty
         $this->count = CarRegistration::count();
     }
+
     public function updatedSelectedLsp()
     {
         if (!empty($this->selectedLsp)) {
@@ -66,6 +68,7 @@ class CarRegisterHistory extends Component
         }
         $this->selectedCustomer = ''; // Reset customer selection when LSP changes
     }
+
     public function resetFilters()
     {
         $this->reset(['selectedLsp', 'selectedCustomer', 'startDate', 'endDate', 'search']);
@@ -84,9 +87,9 @@ class CarRegisterHistory extends Component
         }
 
         // Ensure the date range is exactly 14 days or less
-        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 14) {
+        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 30) {
             Notification::make()
-                ->title('Date range cannot exceed 14 days.')
+                ->title('Date range cannot exceed 30 days.')
                 ->danger()
                 ->send();
             return;

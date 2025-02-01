@@ -12,8 +12,6 @@ class CustomerForm extends Form
 
     public $status = 'active';
 
-
-
     public function setCustomer(Customer $customer)
     {
         $this->customer = $customer;
@@ -26,28 +24,32 @@ class CustomerForm extends Form
 
     public function store()
     {
-
         $this->validate([
             'lsp_id' => 'required',
+            'customer_name' => 'required|string',
+            'customer_code' => 'required|regex:/^\d{9}$/', // Exactly 9 digits only
         ]);
+
         $this->customer = Customer::create([
             'lsp_id' => $this->lsp_id,
             'customer_name' => $this->customer_name,
             'customer_code' => $this->customer_code,
             'status' => $this->status,
-
         ]);
     }
 
     public function update()
     {
+        $this->validate([
+            'lsp_id' => 'required',
+            'customer_name' => 'required|string',
+            'customer_code' => 'required|regex:/^\d{9}$/', // Exactly 9 digits only
+        ]);
 
         $this->customer->update([
-
             'lsp_id' => $this->lsp_id,
             'customer_name' => $this->customer_name,
             'customer_code' => $this->customer_code,
-
             'status' => $this->status,
         ]);
     }

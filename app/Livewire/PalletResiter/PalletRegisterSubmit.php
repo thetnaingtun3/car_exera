@@ -23,15 +23,14 @@ class PalletRegisterSubmit extends Component
         'Chang beer' => [
             'Canning line 1' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
             'Canning line 2' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
-            'Bottling line' => ['package' => 'Bottle', 'volume' => '620 mL', 'unit' => 'carton', 'total' => '75 cartons'],
-            'Keg line 1' => ['package' => 'Keg', 'volume' => '620 mL', 'unit' => 'crate', 'total' => '70 crates'],
+            'Bottling line Carton' => ['package' => 'Bottle', 'volume' => '620 mL', 'unit' => 'carton', 'total' => '75 cartons'],
+            'Bottling line Crate' => ['package' => 'Bottle', 'volume' => '620 mL', 'unit' => 'crate', 'total' => '70 crates'],
+            'Keg line 1' => ['package' => 'Keg', 'volume' => '30 L', 'unit' => 'keg', 'total' => '8 kegs'],
             'Keg line 2' => ['package' => 'Keg', 'volume' => '30 L', 'unit' => 'keg', 'total' => '8 kegs'],
         ],
         'Tapper beer' => [
-            'Canning line 1' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '70 cartons'],
-            'Canning line 2' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '70 cartons'],
-            'Canning line 1 (550)' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '100 cartons'],
-            'Canning lines 2 (550)' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '100 cartons'],
+            'Canning line 1' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
+            'Canning line 2 ' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
 
         ],
     ];

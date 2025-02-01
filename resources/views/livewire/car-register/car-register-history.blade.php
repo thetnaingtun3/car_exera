@@ -72,13 +72,15 @@
                     </button>
 
                     <!-- Export Data -->
+
                     <button wire:click="exportData"
-                            class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300">
+                            class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">
                         Export Data
                     </button>
 
                     <!-- Search Input -->
-                    <div class="relative w-60">
+
+                        <div class="relative w-[23rem]">
                         <input wire:model.live.debounce.300ms="search" type="text"
                                class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                                placeholder="Search">
