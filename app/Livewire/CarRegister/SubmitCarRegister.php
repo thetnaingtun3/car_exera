@@ -52,7 +52,7 @@ class SubmitCarRegister extends Component
     {
         if ($this->car_id) {
             // Fetch the selected truck and return its driver details
-            return Truck::where('id', $this->car_id)->where('status', 'active')->get(['id', 'driver_name']);
+            return Truck::where('id', $this->car_id)->where('status', 'active')->where('driver_name',"!=", 'null')->get(['id', 'driver_name']);
         }
 
         return collect(); // Return an empty collection if no truck is selected
