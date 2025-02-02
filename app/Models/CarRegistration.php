@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\LSP;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CarRegistration extends Model
 {
@@ -15,6 +16,7 @@ class CarRegistration extends Model
         'car_number',
         'cusomter_name', // Note: Typo here, should it be 'customer_name'?
         'driver_name',
+        'driver_id',
         'type_of_truck',
         'type_of_truck_type',
         'product',
@@ -27,6 +29,10 @@ class CarRegistration extends Model
         'click_date',
         'status',
     ];
+    public function products(): HasMany
+    {
+        return $this->hasMany(CarRegisterProduct::class, 'car_registration_id');
+    }
 
     public function lsp(): BelongsTo
     {

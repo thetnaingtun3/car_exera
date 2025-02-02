@@ -19,8 +19,9 @@ class CreateCustomer extends Component
     public function mount()
     {
 
-        $this->lsps = LSP::all();
+        $this->lsps = LSP::where('status', 'active')->get();
     }
+
     #[Title('Create Customer')]
     public function render()
     {

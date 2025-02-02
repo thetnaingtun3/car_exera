@@ -21,8 +21,9 @@
                     <form wire:submit.prevent="save" enctype="multipart/form-data">
                         <div class="flex flex-wrap mt-8">
                             <div class="w-full px-4 lg:w-6/12">
+
                                 <x-form.select-box wire:model="lsp_id" label="Select LSP">
-                                    <option hidden>Select LSP</option>
+                                    <option selected>Select LSP</option>
                                     @foreach ($lsps as $item)
                                         <option value="{{ $item->id }}">{{ $item->lsp_name }}</option>
                                     @endforeach
@@ -36,15 +37,33 @@
                             </div>
 
 
+{{--                            <div class="w-full px-4 pt-5 lg:w-6/12">--}}
+{{--                                <x-form.input wire:model="form.vehicle_type" type="text" label="Vehicle type" />--}}
+{{--                                <x-form.input-error for="form.vehicle_type" class="mt-2" />--}}
+{{--                            </div>--}}
                             <div class="w-full px-4 pt-5 lg:w-6/12">
-                                <x-form.input wire:model="form.vehicle_type" type="text" label="Vehicle type" />
-                                <x-form.input-error for="form.vehicle_type" class="mt-2" />
+                                <x-form.input wire:model="form.driver_name" type="text" label="Driver Name " />
+                                <x-form.input-error for="form.driver_name" class="mt-2" />
                             </div>
+
 
                             <div class="w-full px-4 pt-5 lg:w-6/12">
                                 <x-form.input wire:model="form.size" type="text" label="Size " />
                                 <x-form.input-error for="form.size" class="mt-2" />
                             </div>
+                            <div class="w-full px-4 mt-4 lg:w-3/12">
+                                <label for="status"
+                                    class="block mb-2 text-sm font-medium text-gray-700">Status</label>
+                                <select wire:model="form.status" id="status" name="status"
+                                    class="shadow-sm bg-gray-50 border text-sm rounded-lg w-full p-2.5 focus:ring-black-500 focus:border-black">
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                                <x-form.input-error for="form.status" class="mt-2" />
+                            </div>
+
+
+
                         </div>
 
                         <div class="flex justify-end mt-4 space-x-2">

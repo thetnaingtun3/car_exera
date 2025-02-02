@@ -29,6 +29,7 @@ class ImportTruck extends Component
 
         return redirect()->route('index.truck');
     }
+
     public function user_excel_download()
     {
         return response()->download(public_path('file/truck_eg.xlsx'));
@@ -38,8 +39,9 @@ class ImportTruck extends Component
     public function mount()
     {
 
-        $this->lsps = LSP::all();
+        $this->lsps = LSP::where('status', 'active')->get();
     }
+
     public function render()
     {
         return view('livewire.truck.import-truck');

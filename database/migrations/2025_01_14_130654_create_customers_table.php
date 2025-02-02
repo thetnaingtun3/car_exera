@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('lsp_id')->nullable();
             $table->string('customer_code');
             $table->string('customer_name')->nullable();
+            $table->enum('status', array('active', 'inactive'))->default('active');
             $table->timestamps();
         });
     }

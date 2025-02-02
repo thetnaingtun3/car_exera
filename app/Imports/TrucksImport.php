@@ -27,8 +27,8 @@ class TrucksImport implements ToModel, WithHeadingRow
 
             'lsp_id' => $this->lsp_id,
             'licence_plate' => $row['truck_number'],
-            // 'vehicle_type' => $row['2],
             'size' => $row['truck_type'],
+            'driver_name' => $row['driver_name'],
         ]);
     }
 }

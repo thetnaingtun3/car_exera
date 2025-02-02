@@ -38,7 +38,8 @@ class ImportCustomer extends Component
     public function mount()
     {
 
-        $this->lsps = LSP::all();
+
+        $this->lsps = LSP::where('status', 'active')->get();
     }
     public function render()
     {

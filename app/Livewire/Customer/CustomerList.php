@@ -2,57 +2,116 @@
 
 namespace App\Livewire\Customer;
 
-use App\Models\Customer;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Url;
 use Livewire\Component;
+use App\Models\Customer;
+use App\Models\LSP;
 use Livewire\WithPagination;
+use Livewire\Attributes\Url;
+use Livewire\Attributes\Title;
+use App\Exports\CustomerDataExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Filament\Notifications\Notification;
 
 class CustomerList extends Component
 {
-
     use WithPagination;
-
 
     #[Url(history: true)]
     public $search = '';
 
     #[Url(history: true)]
-    public $status = '';
+    public $selectedLsp = '';
+
+    #[Url(history: true)]
+    public $startDate = '';
+
+    #[Url(history: true)]
+    public $endDate = '';
 
     #[Url(history: true)]
     public $sortBy = 'created_at';
 
     #[Url(history: true)]
     public $sortDir = 'DESC';
+
     #[Url()]
     public $perPage = 20;
 
-    public function setSortBy($sortByField)
+    public $lsps;
+    public $count = 0;
+
+    public function mount()
     {
 
-        if ($this->sortBy === $sortByField) {
-            $this->sortDir = ($this->sortDir == "ASC") ? 'DESC' : "ASC";
-            return;
-        }
+        $this->lsps =  LSP::where('status', 'active')->get();
+        $this->count = Customer::count();
+    }
 
-        $this->sortBy = $sortByField;
-        $this->sortDir = 'DESC';
+    public function applyDateFilter()
+    {
+        //        if (!empty($this->startDate) && !empty($this->endDate)) {
+        //            $diff = now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate));
+        //            if ($diff > 14) {
+        //                Notification::make()
+        //                    ->title('Date range cannot exceed 14 days.')
+        //                    ->danger()
+        //                    ->send();
+        //                return;
+        //            }
+        //        }
+    }
+
+    public function resetFilters()
+    {
+        $this->startDate = '';
+        $this->endDate = '';
+        $this->search = '';
+        $this->selectedLsp = '';
+    }
+
+    public function exportData()
+    {
+//        if (empty($this->startDate) || empty($this->endDate)) {
+//            Notification::make()
+//                ->title('Please select a valid date range.')
+//                ->danger()
+//                ->send();
+//            return;
+//        }
+//
+//        $diff = now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate));
+//        if ($diff > 14) {
+//            Notification::make()
+//                ->title('Date range cannot exceed 14 days.')
+//                ->danger()
+//                ->send();
+//            return;
+//        }
+
+        return Excel::download(new CustomerDataExport(), 'customer_data.xlsx');
+//        return Excel::download(new CustomerDataExport($this->startDate, $this->endDate), 'customer_data.xlsx');
     }
 
     #[Title('Customer List')]
-
     public function render()
     {
+        $query = Customer::search($this->search)
+            ->with("lsp");
 
-        $status = ($this->status === 'active') ? 'active' : (($this->status === 'inactive') ? 'inactive' : '');
-        $customers = Customer::search($this->search)
-            ->with("lsp")
-            ->when($status !== '', function ($query) use ($status) {
-                $query->where('status', $status);
-            })
+        if (!empty($this->selectedLsp)) {
+            $query->where('lsp_id', $this->selectedLsp);
+        }
+
+        if (!empty($this->startDate)) {
+            $query->whereDate('created_at', '>=', $this->startDate);
+        }
+        if (!empty($this->endDate)) {
+            $query->whereDate('created_at', '<=', $this->endDate);
+        }
+
+        $customers = $query
             ->orderBy($this->sortBy, $this->sortDir)
-            ->paginate(20);
+            ->paginate($this->perPage);
 
         return view('livewire.customer.customer-list', compact('customers'));
     }

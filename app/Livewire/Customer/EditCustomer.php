@@ -16,9 +16,9 @@ class EditCustomer extends Component
     public function mount(Customer $customer)
     {
         // Load all LSPs
-        $this->lsps = LSP::all();
 
         // Initialize the CustomerForm and set the customer
+        $this->lsps =  LSP::where('status', 'active')->get();
         $this->form->setCustomer($customer);
 
         // Set initial LSP ID if applicable
