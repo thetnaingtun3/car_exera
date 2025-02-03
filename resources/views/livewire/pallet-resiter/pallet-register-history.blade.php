@@ -17,14 +17,16 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <!-- Start Date -->
                     <div>
-                        <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date  (MM/DD/YYYY)  </label>
+                        <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date (MM/DD/YYYY)
+                        </label>
                         <input wire:model.live="startDate" type="date" id="start_date"
                             class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <!-- End Date -->
                     <div>
-                        <label for="end_date" class="block text-sm font-medium text-gray-700">End Date  (MM/DD/YYYY)  </label>
+                        <label for="end_date" class="block text-sm font-medium text-gray-700">End Date (MM/DD/YYYY)
+                        </label>
                         <input wire:model.live="endDate" type="date" id="end_date"
                             class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                     </div>
@@ -104,8 +106,8 @@
                             Reset Filters
                         </button>
 
-                       <button wire:click="exportData"
-                                class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">
+                        <button wire:click="exportData"
+                            class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">
                             Export Data
                         </button>
 
@@ -126,6 +128,11 @@
                             class="px-4 py-2 text-white bg-purple-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
                             Print QR Codes
                         </button>
+                        <button id="printQRCodesButton"
+                            class="px-4 py-2 text-white bg-purple-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
+                            Print
+                        </button>
+
                     </div>
 
                     <!-- Search Box -->
@@ -210,11 +217,33 @@
         </div>
     </section>
 </div>
-<script>
+{{-- <script>
     document.addEventListener('livewire:load', function() {
         Livewire.on('openPrintPage', (selectedPallets) => {
+            if (selectedPallets.length === 0) {
+                alert('No pallets selected.');
+                return;
+            }
             let url = "{{ route('pallet.print.qr') }}?ids=" + selectedPallets.join(',');
             window.open(url, '_blank'); // Open print page in a new tab
+        });
+    });
+</script> --}}
+
+<script>
+    document.addEventListener('livewire:load', function() {
+        document.getElementById('printQRCodesButton').addEventListener('click', function() {
+            // Emit the Livewire event to get the print URL
+            Livewire.emit('getPrintUrl');
+
+            // Listen for the response and open the new tab
+            Livewire.on('receivePrintUrl', (url) => {
+                if (!url) {
+                    alert('No pallets selected.');
+                    return;
+                }
+                window.open(url, '_blank');
+            });
         });
     });
 </script>

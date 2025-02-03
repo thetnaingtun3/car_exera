@@ -96,6 +96,9 @@ Route::middleware('auth:admin')->group(callback: function () {
 
     Route::get('/pallet/history', PalletRegisterHistory::class)->name('pallet.history');
 
+    Route::get('/pallet/print-qr', [QrCodeGenController::class, 'printQRCodes'])->name('pallet.print.qr');
+
+
     Route::get('/loading/data', LoadingDataList::class)->name('loading.data');
     Route::get('/loading/create', LoadingDataCreate::class)->name('loading.create');
 

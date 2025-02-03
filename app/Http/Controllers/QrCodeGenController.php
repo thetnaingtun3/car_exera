@@ -90,4 +90,11 @@ class QrCodeGenController extends Controller
             'record' => $record,
         ]);
     }
+    public function printQRCodes(Request $request)
+    {
+        $palletIds = explode(',', $request->query('ids'));
+        $selectedPallets = PalletRegister::whereIn('id', $palletIds)->get();
+
+        return view('livewire.pallet-resiter.print-qr-codes', compact('selectedPallets'));
+    }
 }
