@@ -27,13 +27,14 @@
                                 <x-form.input-error for="lsp_id" class="mt-2"/>
                             </div>
                             <div class="w-full px-4 lg:w-6/12">
-                                <x-form.input
-                                    wire:model="form.customer_code"
-                                    type="number"
-                                    label="Customer Code"
-                                    maxlength="9"
-                                    oninput="if(this.value.length > 9) this.value = this.value.slice(0, 9);"
-                                />
+                            <x-form.input
+                                wire:model="form.customer_code"
+                                type="text" 
+                                label="Customer Code"
+                                maxlength="9"
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
+                            />
                                 <x-form.input-error for="form.customer_code" class="mt-2"/>
                             </div>
 
