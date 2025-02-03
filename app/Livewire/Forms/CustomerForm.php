@@ -18,8 +18,8 @@ class CustomerForm extends Form
 
     public function updatedFormCustomerCode($value)
     {
-        if (strlen($value) > 9) {
-            $this->form['customer_code'] = substr($value, 0, 9);
+        if (strlen($value) > 7) {
+            $this->form['customer_code'] = substr($value, 0, 7);
         }
     }
 
