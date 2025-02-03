@@ -9,28 +9,53 @@
 </head>
 
 <body class="flex items-center justify-center min-h-screen bg-gray-100">
+
 <div class="p-6 bg-white rounded-lg shadow-lg">
-    <h1 class="mb-4 text-2xl font-bold">LSP Registration Code</h1>
 
-    <!-- Display QR Code -->
-    <div class="mb-4">
-        {!! $qrCode !!}
+
+    <div id="printArea">
+
+        <h1 class="mb-4 text-2xl font-bold">LSP Registration Code</h1>
+
+        <!-- Display QR Code -->
+        <div class="mb-4">
+            {!! $qrCode !!}
+        </div>
+
+        <!-- Display Record Details -->
+        <div class="text-left">
+            <p><strong>LSP Name: </strong> {{ $record->lsp?->lsp_name ?? 'No Truck Assigned' }}</p>
+            <p><strong>Car Number: </strong> {{ $record->truck?->licence_plate ?? 'No Truck Assigned' }}</p>
+            <p><strong>Driver Name: </strong> {{ $record->driver_name }}</p>
+            <p><strong>Type of Truck: </strong> {{ $record->truck?->size ?? 'Unknown Size' }}</p>
+            <p><strong>Customer Name: </strong> {{ $record->customer?->customer_name ?? 'No Customer Assigned' }}</p>
+            {{-- <p><strong>Date and Time/ </strong> {{ $record->click_date }}</p> --}}
+            <p><strong>Date and Time: </strong> {{ \Carbon\Carbon::parse($record->click_date)->format('d-m-Y H:i:s') }}
+            </p>
+        </div>
+
     </div>
-
-    <!-- Display Record Details -->
-    <div class="text-left">
-        <p><strong>LSP Name: </strong> {{ $record->lsp?->lsp_name ?? 'No Truck Assigned' }}</p>
-        <p><strong>Car Number: </strong> {{ $record->truck?->licence_plate ?? 'No Truck Assigned' }}</p>
-        <p><strong>Driver Name: </strong> {{ $record->driver_name }}</p>
-        <p><strong>Type of Truck: </strong> {{ $record->truck?->size ?? 'Unknown Size' }}</p>
-        <p><strong>Customer Name: </strong> {{ $record->customer?->customer_name ?? 'No Customer Assigned' }}</p>
-        {{-- <p><strong>Date and Time/ </strong> {{ $record->click_date }}</p> --}}
-        <p><strong>Date and Time: </strong> {{ \Carbon\Carbon::parse($record->click_date)->format('d-m-Y H:i:s') }}
-        </p>
+    <div class="mt-4 px-4">
+        <button onclick="printQRCode()" class="px-4 py-2 text-white bg-green-500 rounded">Print QR Code</button>
+        <a href="{{ url()->previous() }}" class="inline-block px-4 py-2 ml-2 text-white bg-blue-500 rounded">Go Back</a>
     </div>
-
-    <a href="{{ url()->previous() }}" class="inline-block px-4 py-2 mt-4 text-white bg-blue-500 rounded">Go Back</a>
 </div>
+<script>
+    function printQRCode() {
+        // Clone the content to a new print window
+        var printContents = document.getElementById('printArea').innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        var printWindow = window.open('', '', 'height=600,width=800');
+        printWindow.document.write('<html><head><title>Print QR Code</title>');
+        printWindow.document.write('<style>body { font-family: Arial, sans-serif; }</style>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write(printContents);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+</script>
 </body>
 
 </html>
