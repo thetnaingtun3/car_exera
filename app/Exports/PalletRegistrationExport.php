@@ -68,7 +68,7 @@ class PalletRegistrationExport implements FromCollection, WithHeadings, WithMapp
             $pallet->unit ?? 'N/A',
             $pallet->total_amount_per_pallet ?? 0,
             $pallet->created_at ? $pallet->created_at->format('d-m-Y') : 'N/A',
-            $pallet->created_at ? $pallet->created_at->format('H:i:s') : 'N/A',
+            $pallet->created_at ? $pallet->created_at->format('h:i:s') : 'N/A',
         ];
     }
 }

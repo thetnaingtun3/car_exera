@@ -38,13 +38,13 @@ class CarRegistrationExport implements FromQuery, WithHeadings, WithMapping
         return [
             'ID',
             'LSP Name',
-            'Customer Name',
             'Truck Number',
-            'Type of Truck',
             'Driver Name',
+            'Customer Name',
             'Order Number',
             'Truck Size',
-            'Created At',
+            'Register Date',
+            'Time',
         ];
     }
 
@@ -56,13 +56,13 @@ class CarRegistrationExport implements FromQuery, WithHeadings, WithMapping
         return [
             $carRegisterProduct->id,
             $carRegisterProduct->lsp->lsp_name ?? 'N/A', // Fetch LSP name, fallback to 'N/A' if null
-            $carRegisterProduct->customer->customer_name ?? 'N/A', // Fetch Customer name
             $carRegisterProduct->truck->licence_plate ?? $carRegisterProduct->car_number, // Truck number or car_number
-            $carRegisterProduct->truck->vehicle_type ?? 'N/A', // Type of Truck
             $carRegisterProduct->driver_name ?? 'N/A', // Driver Name
+            $carRegisterProduct->customer->customer_name ?? 'N/A', // Fetch Customer name
             $carRegisterProduct->order_number ?? 'N/A', // Order Number
             $carRegisterProduct->truck->size ?? 'N/A', // Type Size
-            $carRegisterProduct->created_at->format('d-m-Y H:i:s'), // Created At
+            $carRegisterProduct->created_at->format('d-m-Y'), // Created At
+            $carRegisterProduct->created_at->format('h:i:s'), // Created At
         ];
     }
 }

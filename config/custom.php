@@ -29,6 +29,7 @@ return [
     'unit' => array(
         'unit1' => 'carton',
         'unit2' => 'keg',
+        'unit3' => 'crate',
 
     ),
     'ChangProductionLine' => array(
