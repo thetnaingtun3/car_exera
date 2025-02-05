@@ -42,7 +42,7 @@ class ListTruck extends Component
     public function mount()
     {
 
-        $this->count = Truck::count();
+        // $this->count = Truck::count();
 
         $this->lsps =  LSP::where('status', 'active')->get();
     }
@@ -82,24 +82,24 @@ class ListTruck extends Component
     public function exportData()
     {
         // Ensure user selects a valid date range
-//        if (empty($this->startDate) || empty($this->endDate)) {
-//            Notification::make()
-//                ->title('Please select a valid date range.')
-//                ->danger()
-//                ->send();
-//            return;
-//        }
-//
-//        // Ensure the date range is exactly 14 days or less
-//        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 14) {
-//            Notification::make()
-//                ->title('Date range cannot exceed 14 days.')
-//                ->danger()
-//                ->send();
-//            return;
-//        }
+        //        if (empty($this->startDate) || empty($this->endDate)) {
+        //            Notification::make()
+        //                ->title('Please select a valid date range.')
+        //                ->danger()
+        //                ->send();
+        //            return;
+        //        }
+        //
+        //        // Ensure the date range is exactly 14 days or less
+        //        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 14) {
+        //            Notification::make()
+        //                ->title('Date range cannot exceed 14 days.')
+        //                ->danger()
+        //                ->send();
+        //            return;
+        //        }
 
-//        return Excel::download(new TruckDataExport($this->startDate, $this->endDate), 'truck_data.xlsx');
+        //        return Excel::download(new TruckDataExport($this->startDate, $this->endDate), 'truck_data.xlsx');
         return Excel::download(new TruckDataExport(), 'truck_data.xlsx');
     }
 
@@ -120,6 +120,8 @@ class ListTruck extends Component
             })
             ->orderBy($this->sortBy, $this->sortDir)
             ->paginate($this->perPage);
+
+        $this->count = $query->total();
 
         return view('livewire.truck.list-truck', compact('query'));
     }

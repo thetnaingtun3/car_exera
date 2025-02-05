@@ -44,7 +44,6 @@ class CustomerList extends Component
     {
 
         $this->lsps =  LSP::where('status', 'active')->get();
-        $this->count = Customer::count();
     }
 
     public function applyDateFilter()
@@ -71,25 +70,25 @@ class CustomerList extends Component
 
     public function exportData()
     {
-//        if (empty($this->startDate) || empty($this->endDate)) {
-//            Notification::make()
-//                ->title('Please select a valid date range.')
-//                ->danger()
-//                ->send();
-//            return;
-//        }
-//
-//        $diff = now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate));
-//        if ($diff > 14) {
-//            Notification::make()
-//                ->title('Date range cannot exceed 14 days.')
-//                ->danger()
-//                ->send();
-//            return;
-//        }
+        //        if (empty($this->startDate) || empty($this->endDate)) {
+        //            Notification::make()
+        //                ->title('Please select a valid date range.')
+        //                ->danger()
+        //                ->send();
+        //            return;
+        //        }
+        //
+        //        $diff = now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate));
+        //        if ($diff > 14) {
+        //            Notification::make()
+        //                ->title('Date range cannot exceed 14 days.')
+        //                ->danger()
+        //                ->send();
+        //            return;
+        //        }
 
         return Excel::download(new CustomerDataExport(), 'customer_data.xlsx');
-//        return Excel::download(new CustomerDataExport($this->startDate, $this->endDate), 'customer_data.xlsx');
+        //        return Excel::download(new CustomerDataExport($this->startDate, $this->endDate), 'customer_data.xlsx');
     }
 
     #[Title('Customer List')]
@@ -113,6 +112,7 @@ class CustomerList extends Component
             ->orderBy($this->sortBy, $this->sortDir)
             ->paginate($this->perPage);
 
+        $this->count = $customers->total();
         return view('livewire.customer.customer-list', compact('customers'));
     }
 }

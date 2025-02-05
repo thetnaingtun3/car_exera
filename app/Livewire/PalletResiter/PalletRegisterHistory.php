@@ -46,10 +46,10 @@ class PalletRegisterHistory extends Component
         'perPage'
     ];
 
-    public function mount()
-    {
-        $this->count = PalletRegister::count();
-    }
+    // public function mount()
+    // {
+    //     $this->count = PalletRegister::count();
+    // }
 
     public function resetFilters()
     {
@@ -154,6 +154,8 @@ class PalletRegisterHistory extends Component
         $productTypes = PalletRegister::distinct()->pluck('product_type');
         $productionLines = PalletRegister::distinct()->pluck('production_line');
         $volumes = PalletRegister::distinct()->pluck('volume');
+
+        $this->count = $pallets->total();
 
         return view('livewire.pallet-resiter.pallet-register-history', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
     }

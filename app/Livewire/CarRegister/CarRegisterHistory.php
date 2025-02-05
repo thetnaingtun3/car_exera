@@ -55,7 +55,7 @@ class CarRegisterHistory extends Component
     {
 
         $this->lsps = LSP::where('status', 'active')->get();
-        $this->customers = collect(); // Start empty
+        // $this->customers = collect(); // Start empty
         $this->count = CarRegistration::count();
     }
 
@@ -142,6 +142,8 @@ class CarRegisterHistory extends Component
         $registrations = $query
             ->orderBy($this->sortBy, $this->sortDir)
             ->paginate($this->perPage);
+
+        $this->count = $registrations->total();
 
         return view('livewire.car-register.car-register-history', compact('registrations'));
     }
