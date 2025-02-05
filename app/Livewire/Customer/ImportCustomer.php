@@ -24,9 +24,10 @@ class ImportCustomer extends Component
 
     public function save()
     {
-        $import = new CustomersImport($this->lsp_id);
-        Excel::import($import, $this->file->path());
+        // $import = new CustomersImport($this->lsp_id);
+        // Excel::import($import, $this->file->path());
 
+        Excel::import(new CustomersImport($this->lsp_id), $this->file->path());
         // Collect validation errors after import
         $this->importErrors = $import->errors;
 

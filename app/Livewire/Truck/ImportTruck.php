@@ -18,9 +18,16 @@ class ImportTruck extends Component
     public $lsps;
     public $lsp_id;
 
+    public $importErrors = [];  // Store validation errors to display to the user
     public function save()
     {
         Excel::import(new TrucksImport($this->lsp_id), $this->file->path());
+
+
+        // Collect validation errors after import
+        $this->importErrors = $import->errors;
+
+
         $this->reset('file');
         Notification::make()
             ->title('Customer Data Imported Successfully!')
