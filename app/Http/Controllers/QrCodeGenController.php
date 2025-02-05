@@ -32,10 +32,11 @@ class QrCodeGenController extends Controller
 
         // Format the data for the QR code
         $qrData = sprintf(
-            "LSPName:  %s\nCar Number:  %s\nDriver Name:  %s\nType of Truck:  %s\nCustomer Name:  %s\nDate and Time:  %s",
+            "LSPName:  %s\nCar Number:  %s\nDriver Name:  %s\nDelivery Order Number: %s\nType of Truck:  %s\nCustomer Name:  %s\nDate and Time:  %s",
             $record->lsp?->lsp_name ?? 'No LSP Assigned',
             $record->truck?->licence_plate ?? 'No Truck Assigned',
             $record->driver_name,
+            $record->order_number,
             $record->truck?->size ?? 'Unknown Size',
             $record->customer?->customer_name ?? 'No Customer Assigned',
 
