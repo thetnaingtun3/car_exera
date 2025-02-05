@@ -43,9 +43,20 @@
 
                             <x-form.input-error for="file" class="mt-2" />
 
+
                         </div>
                     </div>
-
+                    <!-- Display Validation Errors -->
+                    @if (!empty($importErrors))
+                        <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                            <strong>Validation Errors:</strong>
+                            <ul class="mt-2">
+                                @foreach ($importErrors as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="flex justify-center mt-8 space-x-2">
                         <x-form.button color="quaternary" wire:navigate :href="route('index.customer')">Cancel
                         </x-form.button>

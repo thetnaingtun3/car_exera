@@ -18,18 +18,44 @@ class ImportCustomer extends Component
     public $lsps;
     public $lsp_id;
 
+
+
+    public $importErrors = [];  // Store validation errors to display to the user
+
     public function save()
     {
+        $import = new CustomersImport($this->lsp_id);
+        Excel::import($import, $this->file->path());
 
-        Excel::import(new CustomersImport($this->lsp_id), $this->file->path());
+        // Collect validation errors after import
+        $this->importErrors = $import->errors;
+
         $this->reset('file');
-        Notification::make()
-            ->title('Customer Data Imported Successfully!')
-            ->success()
-            ->send();
 
-        return redirect()->route('index.customer');
+        // Show success notification if no errors
+        if (empty($this->importErrors)) {
+            Notification::make()
+                ->title('Customer Data Imported Successfully!')
+                ->success()
+                ->send();
+
+            return redirect()->route('index.customer');
+        }
     }
+
+
+    // public function save()
+    // {
+
+    //     Excel::import(new CustomersImport($this->lsp_id), $this->file->path());
+    //     $this->reset('file');
+    //     Notification::make()
+    //         ->title('Customer Data Imported Successfully!')
+    //         ->success()
+    //         ->send();
+
+    //     return redirect()->route('index.customer');
+    // }
     public function user_excel_download()
     {
         return response()->download(public_path('file/customer_eg.xlsx'));
