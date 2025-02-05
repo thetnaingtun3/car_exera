@@ -15,6 +15,7 @@ class LoadingDataExport implements FromQuery, WithHeadings, WithMapping
     protected $startDate;
     protected $endDate;
 
+    protected $counter = 1; // Counter starts at 1
     /**
      * Constructor to receive start and end dates.
      */
@@ -48,6 +49,7 @@ class LoadingDataExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
+            'ID',
             'Delivery Date',
             'Delivery Order Number',
             'LSP Name',
@@ -64,6 +66,8 @@ class LoadingDataExport implements FromQuery, WithHeadings, WithMapping
     public function map($loading): array
     {
         return [
+
+            $this->counter++, // Auto-incrementing ID starting from 1
             $loading->delivery_date,
             $loading->delivery_order_number,
             $loading->lsp_name,

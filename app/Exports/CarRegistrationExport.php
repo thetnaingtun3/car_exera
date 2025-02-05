@@ -12,6 +12,8 @@ class CarRegistrationExport implements FromQuery, WithHeadings, WithMapping
     protected $startDate;
     protected $endDate;
 
+    protected $counter = 1; // Counter starts at 1
+
     /**
      * Constructor to receive start and end dates.
      */
@@ -54,7 +56,8 @@ class CarRegistrationExport implements FromQuery, WithHeadings, WithMapping
     public function map($carRegisterProduct): array
     {
         return [
-            $carRegisterProduct->id,
+
+            $this->counter++, // Auto-incrementing ID starting from 1
             $carRegisterProduct->lsp->lsp_name ?? 'N/A', // Fetch LSP name, fallback to 'N/A' if null
             $carRegisterProduct->truck->licence_plate ?? $carRegisterProduct->car_number, // Truck number or car_number
             $carRegisterProduct->driver_name ?? 'N/A', // Driver Name

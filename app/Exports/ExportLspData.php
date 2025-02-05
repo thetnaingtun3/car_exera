@@ -9,6 +9,8 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 
 class ExportLspData implements FromCollection, WithHeadings, WithMapping
 {
+
+    protected $counter = 1; // Counter starts at 1
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -29,10 +31,11 @@ class ExportLspData implements FromCollection, WithHeadings, WithMapping
     public function map($truck): array
     {
         return [
-            $truck->id,
+
+            $this->counter++, // Auto-incrementing ID starting from 1
             $truck->lsp_name ?? 'N/A', // Fetch the LSP name, fallback to 'N/A' if null
-//            $table->enum('status', array('active', 'inactive'))->default('active');
             $truck->status == 'active' ? 'Active' : 'Inactive',
+
         ];
     }
 }

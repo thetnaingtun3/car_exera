@@ -13,6 +13,7 @@ class PalletRegistrationExport implements FromQuery, WithHeadings, WithMapping
 {
     protected $startDate;
     protected $endDate;
+    protected $counter = 1; // Counter starts at 1
 
     /**
      * Constructor to receive start and end dates.
@@ -65,7 +66,9 @@ class PalletRegistrationExport implements FromQuery, WithHeadings, WithMapping
     public function map($pallet): array
     {
         return [
-            $pallet->id,
+
+            $this->counter++, // Auto-incrementing ID starting from 1
+
             $pallet->pallet_number ?? 'N/A',
             $pallet->product_type ?? 'N/A',
             $pallet->production_line ?? 'N/A',
