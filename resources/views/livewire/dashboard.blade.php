@@ -5,6 +5,8 @@
     </div>
     <section class="mt-6 flex flex-wrap lg:flex-nowrap gap-6">
         <div class="w-full lg:w-1/2 bg-white shadow-md dark:bg-gray-800 rounded-lg p-4">
+        @hasanyrole('admin|transoper|loading|production|root-admin')
+        @if(auth()->user()->hasRole('transoper') || auth()->user()->hasRole('root-admin'))
             <h3 class="text-md font-semibold text-gray-700 dark:text-gray-300 text-center mb-3">LSP Report</h3>
             <!-- Year and Month Selection -->
             <div class="flex items-center justify-center mb-4">
@@ -46,7 +48,9 @@
                 </table>
             </div>
         </div>
+        @endif
         <!-- Right Side: Production Report Chart -->
+        @if(auth()->user()->hasRole('production') || auth()->user()->hasRole('root-admin'))
         <div class="w-full lg:w-1/2 bg-white shadow-md dark:bg-gray-800 rounded-lg p-4 mt-6">
             <div class="flex flex-col items-center">
                 <label for="productionYearSelect"
@@ -58,8 +62,10 @@
             </div>
             <canvas id="productionChart"></canvas>
         </div>
+        @endif
     </section>
     <!-- Right Side: CarQr code Report -->
+    @if(auth()->user()->hasRole('transoper') || auth()->user()->hasRole('root-admin'))
     <div class="w-full lg:w-1/2 bg-white shadow-md dark:bg-gray-800 rounded-lg p-4">
         <div class="flex flex-col items-center">
             <label for="yearSelect" class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">CarQr Code
@@ -71,6 +77,8 @@
         </div>
         <canvas id="dashboardChart"></canvas>
     </div>
+    @endif
+    @if(auth()->user()->hasRole('loading') || auth()->user()->hasRole('root-admin'))
     <!-- Dropdown for selecting year and month -->
     <div class="flex flex-col items-center">
         <label for="loadingReportYearSelect" class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">Loading
@@ -143,9 +151,11 @@
             </div>
         </div>
     </div>
+    @endif
+    @endhasanyrole
 </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ asset('js/chart.js') }}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const productionCtx = document.getElementById('productionChart').getContext('2d');
