@@ -150,8 +150,8 @@
                                         <!-- Temporary Order Number Input -->
                                         <div class="w-full mt-4 py-2">
                                             <x-form.input wire:model="temporaryOrderNumber" type="number"
-                                                label="Enter Order Number"
-                                                placeholder="Enter a 10-digit order number" />
+                                                label="Delivery Order Number"
+                                                placeholder="Enter a 10-digit delivery order number" />
                                             <x-form.input-error for="temporaryOrderNumber" class="mt-2" />
                                         </div>
 
@@ -160,14 +160,14 @@
                                             <button type="button" wire:click="addOrderNumber"
                                                 class="px-4 py-2 text-white bg-blue-500 rounded"
                                                 @if (count($orderNumbers) >= 10) disabled @endif>
-                                                Add Order Number
+                                                Add Delivery Order Number
                                             </button>
                                         </div>
 
                                         <!-- Display Error Message if max limit is reached -->
                                         @if (count($orderNumbers) >= 10)
                                             <p class="text-red-500 text-sm">You have reached the maximum limit of 10
-                                                order numbers.</p>
+                                                delivery order numbers.</p>
                                         @endif
 
                                         <!-- Display Added Order Numbers -->

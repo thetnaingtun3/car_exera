@@ -43,6 +43,7 @@ class TrucksImport implements ToModel, WithHeadingRow
             return null;  // Skip invalid row
         }
 
+
         // Return a new Truck model to be inserted into the database
         return new Truck([
             'lsp_id' => $this->lsp_id,

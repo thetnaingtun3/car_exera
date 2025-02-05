@@ -33,7 +33,9 @@
 
 
             <tr class="hover:bg-gray-50">
-                <td class="px-4 py-2 text-sm text-gray-700 border border-gray-200">Order Number</td>
+                <td class="px-4 py-2 text-sm text-gray-700 border border-gray-200">
+                    Delivery Order Number
+                </td>
                 <td class="px-4 py-2 text-sm text-gray-700 border border-gray-200">
 
 

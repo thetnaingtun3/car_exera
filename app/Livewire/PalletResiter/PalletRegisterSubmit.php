@@ -64,6 +64,18 @@ class PalletRegisterSubmit extends Component
 
     public function store()
     {
+        // Validate the inputs
+        $validatedData = $this->validate(
+            [
+                'productType' => 'required|string|max:255',
+                'productionLine' => 'required|string|max:255',
+                'package' => 'required|string|max:255',
+                'volume' => 'required|min:1',
+                'unit' => 'required|string|max:255',
+                'totalAmountPerPallet' => 'required|min:1',
+            ]
+        );
+
         // Ensure that the start pallet number is less than or equal to the end pallet number
         if ($this->start_pallet_number > $this->end_pallet_number) {
             session()->flash('error', 'Start Pallet Number must be less than or equal to End Pallet Number.');

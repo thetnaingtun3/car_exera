@@ -23,7 +23,8 @@ class CustomersImport implements ToModel, WithHeadingRow
     {
         // Validate customer_code with exactly 7 digits
         $validator = Validator::make($row, [
-            'customer_code' => 'required|digits:7',
+
+            'customer_code' => 'required|regex:/^\d{7}$/|unique:customers,customer_code', // Unique validation for new entries
             'customer_name' => 'required|string',
         ]);
 
