@@ -21,16 +21,20 @@ class ImportTruck extends Component
     public $importErrors = [];  // Store validation errors to display to the user
     public function save()
     {
+        // $import = new TrucksImport($this->lsp_id);
+        // Excel::import($import, $this->file->path());
+
+
         Excel::import(new TrucksImport($this->lsp_id), $this->file->path());
 
 
         // Collect validation errors after import
-        $this->importErrors = $import->errors;
+        // $this->importErrors = $import->errors;
 
 
         $this->reset('file');
         Notification::make()
-            ->title('Customer Data Imported Successfully!')
+            ->title('Truck Data Imported Successfully!')
             ->success()
             ->send();
 

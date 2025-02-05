@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('loading_data', function (Blueprint $table) {
             $table->id();
-            $table->date('delivery_date')->nullable();
+            $table->string('delivery_date')->nullable();
             $table->string('delivery_order_number')->nullable();
             $table->string('lsp_name')->nullable();
             $table->string('customer_name')->nullable();

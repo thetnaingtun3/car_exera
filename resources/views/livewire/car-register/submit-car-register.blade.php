@@ -129,7 +129,7 @@
                                                     <p class="flex-1 text-sm">{{ $product['package'] }}</p>
 
                                                     <!-- Quantity -->
-                                                    <p class=" text-sm text-center">{{ $product['qty'] }}</p>
+                                                    <p class="text-sm text-center">{{ $product['qty'] }}</p>
 
                                                     <!-- Unit -->
                                                     <p class="w-16 text-sm text-center">{{ $product['unit'] }}</p>
@@ -146,20 +146,7 @@
                                             @endforeach
                                         </div>
 
-                                        <!-- Order Number -->
 
-                                        {{-- <div class="w-full mt-4 py-2">
-                                            <x-form.input wire:model="order_number" type="text"
-                                                label="Delivery Order  Number" />
-                                            <x-form.input-error for="order_number" class="mt-2" />
-                                        </div> --}}
-                                        <!-- Order Number Input -->
-                                        {{-- <div class="w-full mt-4 py-2">
-                                            <x-form.input wire:model="order_number" type="text"
-                                                label="Delivery Order Number"
-                                                placeholder="Enter order numbers (comma-separated)" />
-                                            <x-form.input-error for="order_number" class="mt-2" />
-                                        </div> --}}
                                         <!-- Temporary Order Number Input -->
                                         <div class="w-full mt-4 py-2">
                                             <x-form.input wire:model="temporaryOrderNumber" type="number"
@@ -231,10 +218,7 @@
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                         <tr>
                                             <th scope="col" class=""> ID</th>
-                                            {{-- @include('livewire.includes.table-sortable-th', [
-                                    'name' => 'lsp_name',
-                                    'displayName' => 'Car Number',
-                                ]) --}}
+
                                             <th scope="col" class="">Car Number</th>
                                             <th scope="col" class="">Driver Name</th>
                                             <th scope="col" class="">Customer Name</th>
