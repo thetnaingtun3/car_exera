@@ -24,34 +24,29 @@
                                         <option value="{{ $item->id }}">{{ $item->lsp_name }}</option>
                                     @endforeach
                                 </x-form.select-box>
-                                <x-form.input-error for="lsp_id" class="mt-2"/>
+                                <x-form.input-error for="lsp_id" class="mt-2" />
                             </div>
                             <div class="w-full px-4 lg:w-6/12">
-                            <x-form.input
-                                wire:model="form.customer_code"
-                                type="text" 
-                                label="Customer Code"
-                                maxlength="9"
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
-                            />
-                                <x-form.input-error for="form.customer_code" class="mt-2"/>
+                                <x-form.input wire:model="form.customer_code" type="text" label="Customer Code"
+                                    maxlength="7" onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);" />
+                                <x-form.input-error for="form.customer_code" class="mt-2" />
                             </div>
 
 
                             <div class="w-full px-4 pt-5 lg:w-6/12">
-                                <x-form.input wire:model="form.customer_name" type="text" label="Customer Name"/>
-                                <x-form.input-error for="form.customer_name" class="mt-2"/>
+                                <x-form.input wire:model="form.customer_name" type="text" label="Customer Name" />
+                                <x-form.input-error for="form.customer_name" class="mt-2" />
                             </div>
                             <div class="w-full px-4 mt-4 lg:w-3/12">
                                 <label for="status"
-                                       class="block mb-2 text-sm font-medium text-gray-700">Status</label>
+                                    class="block mb-2 text-sm font-medium text-gray-700">Status</label>
                                 <select wire:model="form.status" id="status" name="status"
-                                        class="shadow-sm bg-gray-50 border text-sm rounded-lg w-full p-2.5 focus:ring-black-500 focus:border-black">
+                                    class="shadow-sm bg-gray-50 border text-sm rounded-lg w-full p-2.5 focus:ring-black-500 focus:border-black">
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
                                 </select>
-                                <x-form.input-error for="form.status" class="mt-2"/>
+                                <x-form.input-error for="form.status" class="mt-2" />
                             </div>
 
 

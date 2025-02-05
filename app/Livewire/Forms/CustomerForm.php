@@ -13,7 +13,7 @@ class CustomerForm extends Form
     public $status = 'active';
 
     protected $rules = [
-        'form.customer_code' => 'required|digits:9',  // Ensures exactly 9 digits
+        'form.customer_code' => 'required|digits:7',  // Ensures exactly 9 digits
     ];
 
     public function updatedFormCustomerCode($value)
@@ -37,7 +37,7 @@ class CustomerForm extends Form
         $this->validate([
             'lsp_id' => 'required',
             'customer_name' => 'required|string',
-            'customer_code' => 'required|regex:/^\d{9}$/|unique:customers,customer_code', // Unique validation for new entries
+            'customer_code' => 'required|regex:/^\d{7}$/|unique:customers,customer_code', // Unique validation for new entries
         ]);
 
         $this->customer = Customer::create([
@@ -53,7 +53,7 @@ class CustomerForm extends Form
         $this->validate([
             'lsp_id' => 'required',
             'customer_name' => 'required|string',
-            'customer_code' => 'required|regex:/^\d{9}$/|unique:customers,customer_code,' . $this->customer->id, // Ignore current customer's code during update
+            'customer_code' => 'required|regex:/^\d{7}$/|unique:customers,customer_code,' . $this->customer->id, // Ignore current customer's code during update
         ]);
 
         $this->customer->update([

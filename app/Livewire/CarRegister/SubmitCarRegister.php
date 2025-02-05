@@ -19,6 +19,9 @@ class SubmitCarRegister extends Component
     public $driver_id;
     public $driver_name;
     public $order_number;
+    public $temporaryOrderNumber = '';
+    public $orderNumbers = [];  // Store multiple order numbers before saving
+
     public $remark;
 
     public $product = '';
@@ -29,7 +32,6 @@ class SubmitCarRegister extends Component
     public $products = []; // To hold dynamically added products
     public $isOtherDriver = false; // Tracks if "Other" option is selected
 
-    // updatedDriverId
     #[Computed]
     public function lsps()
     {
@@ -47,20 +49,35 @@ class SubmitCarRegister extends Component
     {
         return $this->lsp_id ? Truck::where('lsp_id', $this->lsp_id)->where('status', 'active')->get() : collect();
     }
+
     #[Computed]
     public function truckDrivers()
     {
         if ($this->car_id) {
-            // Fetch the selected truck and return its driver details
-            return Truck::where('id', $this->car_id)->where('status', 'active')->where('driver_name',"!=", 'null')->get(['id', 'driver_name']);
+            return Truck::where('id', $this->car_id)->where('status', 'active')->where('driver_name', '!=', 'null')->get(['id', 'driver_name']);
         }
-
-        return collect(); // Return an empty collection if no truck is selected
+        return collect();
     }
 
+    #[Computed]
+    public function getAvailablePackagesProperty()
+    {
+        // Dynamically return the correct package list based on the selected product
+        if ($this->product === 'Chang') {
+            return config('custom.package');  // Show package1 for Chang
+        } elseif ($this->product === 'Tapper') {
+            return config('custom.package2');  // Show package2 for Tapper
+        }
+        return [];  // Return empty array if no product is selected
+    }
+
+    public function updatedProduct($value)
+    {
+        // Reset the package selection when product changes
+        $this->package = '';
+    }
     public function add()
     {
-        // Validate the current product entry
         $this->validate([
             'product' => 'required|string',
             'package' => 'required|string',
@@ -68,7 +85,6 @@ class SubmitCarRegister extends Component
             'unit' => 'required|string',
         ]);
 
-        // Add the product to the array
         $this->products[] = [
             'product' => $this->product,
             'package' => $this->package,
@@ -76,45 +92,170 @@ class SubmitCarRegister extends Component
             'unit' => $this->unit,
         ];
 
-        // Reset the inputs for the next product entry
         $this->reset(['product', 'package', 'qty', 'unit']);
     }
 
     public function updatedDriverId()
     {
         if ($this->driver_id === 'other') {
-            $this->isOtherDriver = true; // Show input field when "Other" is selected
-            $this->driver_name = ''; // Reset driver name input
+            $this->isOtherDriver = true;
+            $this->driver_name = '';
         } else {
-            $this->isOtherDriver = false; // Hide input field when a driver is selected
-            $this->driver_name = Truck::where('id', $this->driver_id)->where('status', 'active')->value('driver_name'); // Auto-fill driver name
+            $this->isOtherDriver = false;
+            $this->driver_name = Truck::where('id', $this->driver_id)->where('status', 'active')->value('driver_name');
         }
     }
-
 
     public function removeProduct($index)
     {
         unset($this->products[$index]);
-        $this->products = array_values($this->products); // Re-index the array
+        $this->products = array_values($this->products);
     }
 
+    // public function save()
+    // {
+    //     $driverIdToStore = $this->isOtherDriver ? null : $this->driver_id;
+    //     $driverNameToStore = $this->isOtherDriver ? $this->driver_name : Truck::where('id', $this->driver_id)->where('status', 'active')->value('driver_name');
+
+    //     $carRegistration = CarRegistration::create([
+    //         'lsp_id' => $this->lsp_id,
+    //         'customer_id' => $this->customer_id,
+    //         'car_id' => $this->car_id,
+    //         'driver_id' => $driverIdToStore,
+    //         'driver_name' => $driverNameToStore,
+    //         'order_number' => $this->order_number,
+    //         'remark' => $this->remark,
+    //     ]);
+
+    //     foreach ($this->products as $product) {
+    //         CarRegisterProduct::create([
+    //             'car_registration_id' => $carRegistration->id,
+    //             'product' => $product['product'],
+    //             'package' => $product['package'],
+    //             'qty' => $product['qty'],
+    //             'unit' => $product['unit'],
+    //         ]);
+    //     }
+
+    //     $this->reset(['lsp_id', 'customer_id', 'car_id', 'driver_id', 'driver_name', 'order_number', 'remark', 'products']);
+
+    //     Notification::make()
+    //         ->title('Car Registration Submitted Successfully!')
+    //         ->success()
+    //         ->send();
+
+    //     return to_route('reg.car');
+    // }
+    public function addOrderNumber()
+    {
+        // Validate that the temporary order number is exactly 10 digits
+        $this->validate([
+            'temporaryOrderNumber' => 'required|digits:10',
+        ]);
+
+        // Check if we already have 10 order numbers added
+        if (count($this->orderNumbers) >= 10) {
+            $this->addError('orderNumbers', 'You can only add a maximum of 10 order numbers.');
+            return;
+        }
+
+        // Check for duplicate order numbers
+        if (in_array($this->temporaryOrderNumber, $this->orderNumbers)) {
+            $this->addError('temporaryOrderNumber', 'This order number has already been added.');
+            return;
+        }
+
+        // Add the valid order number to the list
+        $this->orderNumbers[] = $this->temporaryOrderNumber;
+
+        // Reset the input field for the next entry
+        $this->temporaryOrderNumber = '';
+    }
+    public function removeOrderNumber($index)
+    {
+        // Remove the selected order number from the list
+        unset($this->orderNumbers[$index]);
+        $this->orderNumbers = array_values($this->orderNumbers);  // Re-index the array
+    }
+
+    // public function save()
+    // {
+    //     // Validate that the order number input is not empty and follows the rules
+    //     $this->validate([
+    //         'order_number' => ['required', 'string', function ($attribute, $value, $fail) {
+    //             $orderNumbers = explode(',', $value);
+    //             foreach ($orderNumbers as $number) {
+    //                 $trimmedNumber = trim($number);
+    //                 if (!preg_match('/^\d{10}$/', $trimmedNumber)) {
+    //                     $fail("Order number '$trimmedNumber' must be exactly 10 digits.");
+    //                 }
+    //             }
+    //         }],
+    //     ]);
+
+    //     // Split and trim the order numbers, then combine them into a single string
+    //     $orderNumbers = array_map('trim', explode(',', $this->order_number));
+    //     $concatenatedOrderNumbers = implode(',', $orderNumbers);
+
+    //     $driverIdToStore = $this->isOtherDriver ? null : $this->driver_id;
+    //     $driverNameToStore = $this->isOtherDriver ? $this->driver_name : Truck::where('id', $this->driver_id)->where('status', 'active')->value('driver_name');
+
+    //     // Create a single Car Registration record with all order numbers
+    //     $carRegistration = CarRegistration::create([
+    //         'lsp_id' => $this->lsp_id,
+    //         'customer_id' => $this->customer_id,
+    //         'car_id' => $this->car_id,
+    //         'driver_id' => $driverIdToStore,
+    //         'driver_name' => $driverNameToStore,
+    //         'order_number' => $concatenatedOrderNumbers,  // Store all order numbers as a single string
+    //         'remark' => $this->remark,
+    //     ]);
+
+    //     // Store associated products for the car registration
+    //     foreach ($this->products as $product) {
+    //         CarRegisterProduct::create([
+    //             'car_registration_id' => $carRegistration->id,
+    //             'product' => $product['product'],
+    //             'package' => $product['package'],
+    //             'qty' => $product['qty'],
+    //             'unit' => $product['unit'],
+    //         ]);
+    //     }
+
+    //     // Reset the form
+    //     $this->reset(['lsp_id', 'customer_id', 'car_id', 'driver_id', 'driver_name', 'order_number', 'remark', 'products']);
+
+    //     // Show a success notification
+    //     Notification::make()
+    //         ->title('Car Registration Submitted Successfully!')
+    //         ->success()
+    //         ->send();
+
+    //     return to_route('reg.car');
+    // }
     public function save()
     {
+        if (empty($this->orderNumbers)) {
+            $this->addError('orderNumbers', 'Please add at least one valid order number.');
+            return;
+        }
+
+        // Concatenate order numbers into a single string
+        $concatenatedOrderNumbers = implode(',', $this->orderNumbers);
+
         $driverIdToStore = $this->isOtherDriver ? null : $this->driver_id;
         $driverNameToStore = $this->isOtherDriver ? $this->driver_name : Truck::where('id', $this->driver_id)->where('status', 'active')->value('driver_name');
 
-        // Create Car Registration without validation
         $carRegistration = CarRegistration::create([
             'lsp_id' => $this->lsp_id,
             'customer_id' => $this->customer_id,
             'car_id' => $this->car_id,
-            'driver_id' => $driverIdToStore,  // Store NULL if "Other" is selected
-            'driver_name' => $driverNameToStore,  // Store entered name if "Other" is selected
-            'order_number' => $this->order_number,
+            'driver_id' => $driverIdToStore,
+            'driver_name' => $driverNameToStore,
+            'order_number' => $concatenatedOrderNumbers,  // Store concatenated order numbers
             'remark' => $this->remark,
         ]);
 
-        // Save Products
         foreach ($this->products as $product) {
             CarRegisterProduct::create([
                 'car_registration_id' => $carRegistration->id,
@@ -125,10 +266,9 @@ class SubmitCarRegister extends Component
             ]);
         }
 
-        // Reset the form
-        $this->reset(['lsp_id', 'customer_id', 'car_id', 'driver_id', 'driver_name', 'order_number', 'remark', 'products']);
+        // Reset form inputs
+        $this->reset(['lsp_id', 'customer_id', 'car_id', 'driver_id', 'driver_name', 'orderNumbers', 'remark', 'products']);
 
-        // Notify success
         Notification::make()
             ->title('Car Registration Submitted Successfully!')
             ->success()
@@ -136,6 +276,7 @@ class SubmitCarRegister extends Component
 
         return to_route('reg.car');
     }
+
 
 
     public function render()

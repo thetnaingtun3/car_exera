@@ -12,21 +12,22 @@ class TruckDataExport implements FromQuery, WithHeadings, WithMapping
 {
     protected $startDate;
     protected $endDate;
+    protected $counter = 1; // Counter starts at 1
 
     /**
      * Constructor to receive start and end dates.
      */
-//    public function __construct($startDate, $endDate)
-//    {
-//        $this->startDate = $startDate;
-//        $this->endDate = $endDate;
-//    }
+    //    public function __construct($startDate, $endDate)
+    //    {
+    //        $this->startDate = $startDate;
+    //        $this->endDate = $endDate;
+    //    }
 
 
     public function query()
     {
         return Truck::with(['lsp']);
-//            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+        //            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
     }
 
     /**
@@ -54,7 +55,8 @@ class TruckDataExport implements FromQuery, WithHeadings, WithMapping
     public function map($truck): array
     {
         return [
-            $truck->id,
+
+            $this->counter++, // Auto-incrementing ID starting from 1
             $truck->lsp->lsp_name ?? 'N/A', // Fetch the LSP name, fallback to 'N/A' if null
             $truck->licence_plate ?? 'N/A',
             $truck->size ?? 'N/A',

@@ -27,7 +27,7 @@ class LoadingDataCreate extends Component
     }
     public function user_excel_download()
     {
-        return response()->download(public_path('file/lsp_eg.xlsx'));
+        return response()->download(public_path('file/loading.xlsx'));
     }
 
     public function render()

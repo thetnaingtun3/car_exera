@@ -13,6 +13,11 @@ return [
         'package4' => 'Keg 30 litre',
 
     ),
+    'package2' => array(
+        'package1' => 'Can 330 ml',
+        'package2' => 'Can 500 ml',
+
+    ),
     'quantity' => array(
         'quantity5' => '100',
         'quantity3' => '250',
@@ -22,13 +27,12 @@ return [
         'quantity2' => '1000',
 
     ),
-    'tracktype' => array(
-        '' => 'Carton',
-    ),
+
 
     'unit' => array(
         'unit1' => 'carton',
         'unit2' => 'keg',
+        'unit3' => 'crate',
 
     ),
     'ChangProductionLine' => array(

@@ -54,18 +54,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        {{--
-                                        <div class="w-full py-2">
-                                            <select wire:model.live="driver_id"
-                                                class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
-                                                <option value="">Select Driver Name</option>
-                                                @foreach ($this->trucks as $truck)
-                                                    <option value="{{ $truck->id }}">{{ $truck->driver_name }}
-                                                    </option>
-                                                @endforeach
-                                                <option value="other">Other</option>
-                                            </select>
-                                        </div> --}}
+
                                         <div class="w-full py-2">
                                             <select wire:model.live="driver_id"
                                                 class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
@@ -87,21 +76,20 @@
 
                                         <!-- Product -->
                                         <div class="w-full py-2">
-                                            <x-form.select-box wire:model="product" label="Product">
+                                            <x-form.select-box wire:model.live="product" label="Product">
                                                 <option value="">Select Product</option>
-                                                @foreach (config('custom.products') as $item)
-                                                    <option value="{{ $item }}">{{ $item }}</option>
+                                                @foreach (config('custom.products') as $key => $product)
+                                                    <option value="{{ $product }}">{{ $product }}</option>
                                                 @endforeach
                                             </x-form.select-box>
                                             <x-form.input-error for="product" class="mt-2" />
                                         </div>
-
                                         <!-- Package -->
                                         <div class="w-full py-2">
-                                            <x-form.select-box wire:model="package" label="Package">
+                                            <x-form.select-box wire:model.live="package" label="Package">
                                                 <option value="">Select Package</option>
-                                                @foreach (config('custom.package') as $item)
-                                                    <option value="{{ $item }}">{{ $item }}</option>
+                                                @foreach ($this->availablePackages as $key => $package)
+                                                    <option value="{{ $key }}">{{ $package }}</option>
                                                 @endforeach
                                             </x-form.select-box>
                                             <x-form.input-error for="package" class="mt-2" />
@@ -109,13 +97,13 @@
 
                                         <!-- Quantity -->
                                         <div class="w-full  py-2">
-                                            <x-form.input wire:model="qty" type="number" label="Quantity" />
+                                            <x-form.input wire:model.live="qty" type="number" label="Quantity" />
                                             <x-form.input-error for="qty" class="mt-2" />
                                         </div>
 
                                         <!-- Unit -->
                                         <div class="w-full py-2">
-                                            <x-form.select-box wire:model="unit" label="Unit">
+                                            <x-form.select-box wire:model.live="unit" label="Unit">
                                                 <option value="">Select Unit</option>
                                                 @foreach (config('custom.unit') as $item)
                                                     <option value="{{ $item }}">{{ $item }}</option>
@@ -160,11 +148,60 @@
 
                                         <!-- Order Number -->
 
-                                        <div class="w-full mt-4 py-2">
+                                        {{-- <div class="w-full mt-4 py-2">
                                             <x-form.input wire:model="order_number" type="text"
                                                 label="Delivery Order  Number" />
                                             <x-form.input-error for="order_number" class="mt-2" />
+                                        </div> --}}
+                                        <!-- Order Number Input -->
+                                        {{-- <div class="w-full mt-4 py-2">
+                                            <x-form.input wire:model="order_number" type="text"
+                                                label="Delivery Order Number"
+                                                placeholder="Enter order numbers (comma-separated)" />
+                                            <x-form.input-error for="order_number" class="mt-2" />
+                                        </div> --}}
+                                        <!-- Temporary Order Number Input -->
+                                        <div class="w-full mt-4 py-2">
+                                            <x-form.input wire:model="temporaryOrderNumber" type="number"
+                                                label="Enter Order Number"
+                                                placeholder="Enter a 10-digit order number" />
+                                            <x-form.input-error for="temporaryOrderNumber" class="mt-2" />
                                         </div>
+
+                                        <!-- Add Order Number Button -->
+                                        <div class="w-full py-2">
+                                            <button type="button" wire:click="addOrderNumber"
+                                                class="px-4 py-2 text-white bg-blue-500 rounded"
+                                                @if (count($orderNumbers) >= 10) disabled @endif>
+                                                Add Order Number
+                                            </button>
+                                        </div>
+
+                                        <!-- Display Error Message if max limit is reached -->
+                                        @if (count($orderNumbers) >= 10)
+                                            <p class="text-red-500 text-sm">You have reached the maximum limit of 10
+                                                order numbers.</p>
+                                        @endif
+
+                                        <!-- Display Added Order Numbers -->
+                                        @if (!empty($orderNumbers))
+                                            <div class="w-full mt-4 bg-gray-300 rounded-md">
+                                                @foreach ($orderNumbers as $index => $orderNumber)
+                                                    <div class="flex items-center px-4 py-2 border-b">
+                                                        <!-- Order Number -->
+                                                        <p class="flex-1 text-sm">{{ $orderNumber }}</p>
+
+                                                        <!-- Delete Button -->
+                                                        <button type="button"
+                                                            wire:click="removeOrderNumber({{ $index }})"
+                                                            class="px-2 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600">
+                                                            Remove
+                                                        </button>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
+
 
                                         <!-- Remark -->
                                         <div class="w-full py-2">

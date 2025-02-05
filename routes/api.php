@@ -15,3 +15,6 @@ Route::get('/test', function () {
 Route::get('/table', [DashboardController::class, 'table'])->name('api.table');
 Route::get('/graphic', [DashboardController::class, 'graphic'])->name('api.graphic');
 Route::get('/productionreport', [DashboardController::class, 'productionreport'])->name('api.productionreport');
+
+Route::get('/loadingreport', [DashboardController::class, 'loadingreport'])->name('api.loadingreport');
+
