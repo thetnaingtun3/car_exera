@@ -45,10 +45,20 @@ class LoadingDataList extends Component
     }
     public function exportData()
     {
-        // Validate that user-selected date range does not exceed 14 days
-        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 14) {
+
+        if (empty($this->startDate) || empty($this->endDate)) {
             Notification::make()
-                ->title('Date range cannot exceed 14 days.')
+                ->title('Please select a date range to export data.')
+                ->danger()
+                ->send();
+            return;
+        }
+
+
+        // Validate that user-selected date range does not exceed 14 days
+        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 31) {
+            Notification::make()
+                ->title('Date range cannot exceed 31 days.')
                 ->danger()
                 ->send();
 

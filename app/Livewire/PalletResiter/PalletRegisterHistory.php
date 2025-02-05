@@ -67,9 +67,18 @@ class PalletRegisterHistory extends Component
 
     public function exportData()
     {
-        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 30) {
+
+        if (empty($this->startDate) || empty($this->endDate)) {
             Notification::make()
-                ->title('Date range cannot exceed 30 days.')
+                ->title('Please select a date range to export data.')
+                ->danger()
+                ->send();
+            return;
+        }
+
+        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 31) {
+            Notification::make()
+                ->title('Date range cannot exceed 31 days.')
                 ->danger()
                 ->send();
             return;

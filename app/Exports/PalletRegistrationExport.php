@@ -4,10 +4,12 @@ namespace App\Exports;
 
 use App\Models\PalletRegister;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class PalletRegistrationExport implements FromCollection, WithHeadings, WithMapping
+class PalletRegistrationExport implements FromQuery, WithHeadings, WithMapping
+// class PalletRegistrationExport implements FromCollection, WithHeadings, WithMapping
 {
     protected $startDate;
     protected $endDate;
@@ -26,16 +28,19 @@ class PalletRegistrationExport implements FromCollection, WithHeadings, WithMapp
      *
      * @return \Illuminate\Support\Collection
      */
-    public function collection()
+    // public function collection()
+    // {
+    //     // Validate the date range (max 14 days)
+    //     if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 14) {
+    //         return collect([]); // Return empty collection if invalid
+    //     }
+
+    //     return PalletRegister::whereBetween('created_at', [$this->startDate, $this->endDate])->get();
+    // }
+    public function query()
     {
-        // Validate the date range (max 14 days)
-        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 14) {
-            return collect([]); // Return empty collection if invalid
-        }
-
-        return PalletRegister::whereBetween('created_at', [$this->startDate, $this->endDate])->get();
+        return PalletRegister::whereBetween('created_at', [$this->startDate, $this->endDate]);
     }
-
     /**
      * Define the column headings for the Excel file.
      */

@@ -86,10 +86,10 @@ class CarRegisterHistory extends Component
             return;
         }
 
-        // Ensure the date range is exactly 14 days or less
-        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 30) {
+        // Ensure the date range is exactly 30 days or less
+        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 31) {
             Notification::make()
-                ->title('Date range cannot exceed 30 days.')
+                ->title('Date range cannot exceed 31 days.')
                 ->danger()
                 ->send();
             return;

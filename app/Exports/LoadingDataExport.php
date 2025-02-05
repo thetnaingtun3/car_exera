@@ -6,10 +6,11 @@ use App\Models\LoadingData;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 
 // class LoadingDataExport implements FromCollection
 
-class LoadingDataExport implements FromCollection, WithHeadings, WithMapping
+class LoadingDataExport implements FromQuery, WithHeadings, WithMapping
 {
     protected $startDate;
     protected $endDate;
@@ -28,14 +29,21 @@ class LoadingDataExport implements FromCollection, WithHeadings, WithMapping
      *
      * @return \Illuminate\Support\Collection
      */
-    public function collection()
-    {
-        // Validate the date range (max 14 days)
-        if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 14) {
-            return collect([]); // Return empty collection if invalid
-        }
+    // public function collection()
+    // {
+    //     // Validate the date range (max 14 days)
+    //     if (now()->parse($this->startDate)->diffInDays(now()->parse($this->endDate)) > 31) {
+    //         return collect([]); // Return empty collection if invalid
+    //     }
 
-        return  LoadingData::whereBetween('created_at', [$this->startDate, $this->endDate])->get();
+    //     return  LoadingData::whereBetween('created_at', [$this->startDate, $this->endDate])->get();
+    // }
+    /**
+     * Query the data, ensuring only records within the selected date range (Max: 14 Days)
+     */
+    public function query()
+    {
+        return LoadingData::whereBetween('created_at', [$this->startDate, $this->endDate]);
     }
     public function headings(): array
     {
