@@ -22,20 +22,57 @@
                             <div class="flex-auto py-10 pt-0">
                                 <div class="flex flex-wrap mt-8">
                                     <!-- Start Pallet Number -->
+                                {{--                                    <div class="w-full py-2">--}}
+                                {{--                                        <x-form.input wire:model="start_pallet_number" type="number"--}}
+                                {{--                                                      label="Start Pallet Number"--}}
+                                {{--                                                      placeholder="Enter Start Pallet Number"/>--}}
+                                {{--                                        <x-form.input-error for="start_pallet_number" class="mt-2"/>--}}
+                                {{--                                    </div>--}}
+
+                                {{--                                    <!-- End Pallet Number -->--}}
+                                {{--                                    <div class="w-full py-2">--}}
+                                {{--                                        <x-form.input wire:model="end_pallet_number" type="number"--}}
+                                {{--                                                      label="End Pallet Number" placeholder="Enter End Pallet Number"/>--}}
+                                {{--                                        <x-form.input-error for="end_pallet_number" class="mt-2"/>--}}
+                                {{--                                    </div>--}}
+
+
+                                <!-- Start Pallet Number -->
                                     <div class="w-full py-2">
                                         <x-form.input wire:model="start_pallet_number" type="number"
+                                                      id="startPalletNumber"
                                                       label="Start Pallet Number"
-                                                      placeholder="Enter Start Pallet Number"/>
+                                                      placeholder="Enter Start Pallet Number"
+                                                      oninput="this.value = this.value.replace(/e|E|\+|\-/g, '')"
+                                                      min="0"/>
                                         <x-form.input-error for="start_pallet_number" class="mt-2"/>
                                     </div>
 
                                     <!-- End Pallet Number -->
                                     <div class="w-full py-2">
                                         <x-form.input wire:model="end_pallet_number" type="number"
-                                                      label="End Pallet Number" placeholder="Enter End Pallet Number"/>
+                                                      id="endPalletNumber"
+                                                      label="End Pallet Number"
+                                                      placeholder="Enter End Pallet Number"
+                                                      oninput="this.value = this.value.replace(/e|E|\+|\-/g, '')"
+                                                      min="0"/>
                                         <x-form.input-error for="end_pallet_number" class="mt-2"/>
                                     </div>
 
+                                    <script>
+                                        // Prevent invalid keys during input
+                                        document.getElementById('startPalletNumber').addEventListener('keydown', function (e) {
+                                            if (['e', 'E', '+', '-'].includes(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        });
+
+                                        document.getElementById('endPalletNumber').addEventListener('keydown', function (e) {
+                                            if (['e', 'E', '+', '-'].includes(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        });
+                                    </script>
                                     <!-- Product Type -->
                                     <div class="w-full py-2">
                                         <select wire:model.live="productType"

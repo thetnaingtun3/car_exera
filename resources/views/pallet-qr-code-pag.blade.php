@@ -21,7 +21,7 @@
 
         <div class="text-left">
             <h3>Pallet Details</h3>
-            <p><strong>Pallet Number:</strong> {{ $record->pallet_number }}</p>
+            <p><strong>Pallet Number:</strong> PLT - {{ $record->pallet_number }}</p>
             <p><strong>Product Type:</strong> {{ $record->product_type }}</p>
             <p><strong>Production Line:</strong> {{ $record->production_line }}</p>
             <p><strong>Package:</strong> {{ $record->package }}</p>

@@ -37,7 +37,7 @@ class CreateAdmin extends Component
             ->title('Admin Created Successfully')
             ->success()
             ->send();
-        return to_route('create.admin');
+        return to_route('index.admin');
     }
 
 

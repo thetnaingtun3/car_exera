@@ -14,8 +14,6 @@ class QrCodeGenController extends Controller
     {
 
 
-
-
         $findData = CarRegistration::with(['lsp', 'customer', 'truck'])->find($id);
         if ($findData->status == '0') {
 
@@ -53,6 +51,7 @@ class QrCodeGenController extends Controller
             'record' => $record,
         ]);
     }
+
     public function palletQrCode($id)
     {
         // Find the PalletRegister record by ID
@@ -70,7 +69,7 @@ class QrCodeGenController extends Controller
 
         // Format the data for the QR code
         $qrData = sprintf(
-            "Pallet Number: %s\nProduct Type: %s\nProduction Line: %s\nPackage: %s\nVolume: %s\nUnit: %s\nTotal: %s\nDate: %s",
+            "Pallet Number: PLT - %s\nProduct Type: %s\nProduction Line: %s\nPackage: %s\nVolume: %s\nUnit: %s\nTotal: %s\nDate: %s",
             $record->pallet_number,
             $record->product_type,
             $record->production_line,
@@ -91,6 +90,7 @@ class QrCodeGenController extends Controller
             'record' => $record,
         ]);
     }
+
     public function printQRCodes(Request $request)
     {
         $palletIds = explode(',', $request->query('ids'));

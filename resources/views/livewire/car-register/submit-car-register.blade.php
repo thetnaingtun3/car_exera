@@ -19,34 +19,34 @@
 
                                         <div class="w-full py-2">
                                             <select wire:model.live="lsp_id"
-                                                class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
+                                                    class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
                                                 <option value="">Select LSP</option>
                                                 @foreach ($this->lsps as $lsp)
                                                     <option value="{{ $lsp->id }}">{{ $lsp->lsp_name }}</option>
                                                 @endforeach
                                             </select>
-                                            <x-form.input-error for="lsp_id" class="mt-2" />
+                                            <x-form.input-error for="lsp_id" class="mt-2"/>
 
                                         </div>
                                         <!-- Customer Dropdown -->
 
                                         <div class="w-full py-2">
                                             <select wire:model.live="customer_id"
-                                                class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
+                                                    class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
                                                 <option value="">Select Customer</option>
                                                 @foreach ($this->customers as $customer)
                                                     <option value="{{ $customer->id }}">{{ $customer->customer_name }}
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            <x-form.input-error for="customer_id" class="mt-2" />
+                                            <x-form.input-error for="customer_id" class="mt-2"/>
 
                                         </div>
                                         <!-- Truck Dropdown -->
 
                                         <div class="w-full py-2">
                                             <select wire:model.live="car_id"
-                                                class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
+                                                    class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
                                                 <option value="">Select Truck</option>
                                                 @foreach ($this->trucks as $truck)
                                                     <option value="{{ $truck->id }}">{{ $truck->licence_plate }}
@@ -57,7 +57,7 @@
 
                                         <div class="w-full py-2">
                                             <select wire:model.live="driver_id"
-                                                class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
+                                                    class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
                                                 <option value="">Select Driver Name</option>
                                                 @foreach ($this->truckDrivers as $truck)
                                                     <option value="{{ $truck->id }}">{{ $truck->driver_name }}
@@ -69,12 +69,12 @@
                                         @if ($isOtherDriver)
                                             <div class="w-full py-2">
                                                 <x-form.input wire:model.live="driver_name" type="text"
-                                                    label="Enter Driver Name" />
+                                                              label="Enter Driver Name"/>
                                             </div>
                                         @endif
 
 
-                                        <!-- Product -->
+                                    <!-- Product -->
                                         <div class="w-full py-2">
                                             <x-form.select-box wire:model.live="product" label="Product">
                                                 <option value="">Select Product</option>
@@ -82,7 +82,7 @@
                                                     <option value="{{ $product }}">{{ $product }}</option>
                                                 @endforeach
                                             </x-form.select-box>
-                                            <x-form.input-error for="product" class="mt-2" />
+                                            <x-form.input-error for="product" class="mt-2"/>
                                         </div>
                                         <!-- Package -->
                                         <div class="w-full py-2">
@@ -92,14 +92,29 @@
                                                     <option value="{{ $key }}">{{ $package }}</option>
                                                 @endforeach
                                             </x-form.select-box>
-                                            <x-form.input-error for="package" class="mt-2" />
+                                            <x-form.input-error for="package" class="mt-2"/>
                                         </div>
 
                                         <!-- Quantity -->
-                                        <div class="w-full  py-2">
-                                            <x-form.input wire:model.live="qty" type="number" label="Quantity" />
-                                            <x-form.input-error for="qty" class="mt-2" />
+                                        {{--                                        <div class="w-full  py-2">--}}
+                                        {{--                                            <x-form.input wire:model.live="qty" type="number" label="Quantity" />--}}
+                                        {{--                                            <x-form.input-error for="qty" class="mt-2" />--}}
+                                        {{--                                        </div>--}}
+
+                                        <div class="w-full py-2">
+                                            <x-form.input wire:model.live="qty" type="number" label="Quantity"
+                                                          id="qtyInput" step="any" min="0"/>
+                                            <x-form.input-error for="qty" class="mt-2"/>
                                         </div>
+
+                                        <script>
+                                            document.getElementById('qtyInput').addEventListener('keydown', function (e) {
+                                                // Prevent 'e', 'E', and other non-numeric inputs
+                                                if (e.key === 'e' || e.key === 'E' || e.key === '+' || e.key === '-') {
+                                                    e.preventDefault();
+                                                }
+                                            });
+                                        </script>
 
                                         <!-- Unit -->
                                         <div class="w-full py-2">
@@ -109,13 +124,13 @@
                                                     <option value="{{ $item }}">{{ $item }}</option>
                                                 @endforeach
                                             </x-form.select-box>
-                                            <x-form.input-error for="unit" class="mt-2" />
+                                            <x-form.input-error for="unit" class="mt-2"/>
                                         </div>
 
                                         <!-- Add Button -->
                                         <div class="w-full py-2">
                                             <button type="button" wire:click="add"
-                                                class="px-4 py-2 text-white bg-blue-500 rounded">Add Product
+                                                    class="px-4 py-2 text-white bg-blue-500 rounded">Add Product
                                             </button>
                                         </div>
                                         <!-- Display Added Products -->
@@ -137,8 +152,8 @@
                                                     <!-- Delete button aligned to the right -->
                                                     <div class="ml-auto">
                                                         <button type="button"
-                                                            wire:click="removeProduct({{ $index }})"
-                                                            class="px-3 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600">
+                                                                wire:click="removeProduct({{ $index }})"
+                                                                class="px-3 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600">
                                                             Delete
                                                         </button>
                                                     </div>
@@ -148,18 +163,36 @@
 
 
                                         <!-- Temporary Order Number Input -->
+                                        {{--                                        <div class="w-full mt-4 py-2">--}}
+                                        {{--                                            <x-form.input wire:model="temporaryOrderNumber" type="number"--}}
+                                        {{--                                                label="Delivery Order Number"--}}
+                                        {{--                                                placeholder="Enter a 10-digit delivery order number" />--}}
+                                        {{--                                            <x-form.input-error for="temporaryOrderNumber" class="mt-2" />--}}
+                                        {{--                                        </div>--}}
+
                                         <div class="w-full mt-4 py-2">
                                             <x-form.input wire:model="temporaryOrderNumber" type="number"
-                                                label="Delivery Order Number"
-                                                placeholder="Enter a 10-digit delivery order number" />
-                                            <x-form.input-error for="temporaryOrderNumber" class="mt-2" />
+                                                          id="deliveryOrderNumber"
+                                                          label="Delivery Order Number"
+                                                          placeholder="Enter a 10-digit delivery order number"
+                                                          oninput="this.value = this.value.replace(/e|E|\+|\-/g, '').slice(0, 10)"
+                                                          min="0"/>
+                                            <x-form.input-error for="temporaryOrderNumber" class="mt-2"/>
                                         </div>
 
+                                        <script>
+                                            document.getElementById('deliveryOrderNumber').addEventListener('keydown', function (e) {
+                                                // Prevent 'e', 'E', '+', and '-' from being entered
+                                                if (['e', 'E', '+', '-'].includes(e.key)) {
+                                                    e.preventDefault();
+                                                }
+                                            });
+                                        </script>
                                         <!-- Add Order Number Button -->
                                         <div class="w-full py-2">
                                             <button type="button" wire:click="addOrderNumber"
-                                                class="px-4 py-2 text-white bg-blue-500 rounded"
-                                                @if (count($orderNumbers) >= 10) disabled @endif>
+                                                    class="px-4 py-2 text-white bg-blue-500 rounded"
+                                                    @if (count($orderNumbers) >= 10) disabled @endif>
                                                 Add Delivery Order Number
                                             </button>
                                         </div>
@@ -170,7 +203,7 @@
                                                 delivery order numbers.</p>
                                         @endif
 
-                                        <!-- Display Added Order Numbers -->
+                                    <!-- Display Added Order Numbers -->
                                         @if (!empty($orderNumbers))
                                             <div class="w-full mt-4 bg-gray-300 rounded-md">
                                                 @foreach ($orderNumbers as $index => $orderNumber)
@@ -180,24 +213,24 @@
 
                                                         <!-- Delete Button -->
                                                         <button type="button"
-                                                            wire:click="removeOrderNumber({{ $index }})"
-                                                            class="px-2 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600">
+                                                                wire:click="removeOrderNumber({{ $index }})"
+                                                                class="px-2 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600">
                                                             Remove
                                                         </button>
                                                     </div>
                                                 @endforeach
                                             </div>
-                                        @endif
+                                    @endif
 
 
-                                        <!-- Remark -->
+                                    <!-- Remark -->
                                         <div class="w-full py-2">
                                             <label for="remark"
-                                                class="block text-sm font-medium text-gray-700">Remark</label>
+                                                   class="block text-sm font-medium text-gray-700">Remark</label>
                                             <textarea id="remark" wire:model="remark" rows="4"
-                                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                                placeholder="Enter your remark here"></textarea>
-                                            <x-form.input-error for="remark" class="mt-2" />
+                                                      class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                      placeholder="Enter your remark here"></textarea>
+                                            <x-form.input-error for="remark" class="mt-2"/>
                                         </div>
 
                                     </div>
@@ -216,61 +249,61 @@
                             <div class="overflow-x-auto ">
                                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                        <tr>
-                                            <th scope="col" class=""> ID</th>
+                                    <tr>
+                                        <th scope="col" class=""> ID</th>
 
-                                            <th scope="col" class="">Car Number</th>
-                                            <th scope="col" class="">Driver Name</th>
-                                            <th scope="col" class="">Customer Name</th>
-                                            <th scope="col" class="">Type of Truck</th>
-                                            <th scope="col" class="">Register Date</th>
-                                            <th scope="col" class="">Time</th>
+                                        <th scope="col" class="">Car Number</th>
+                                        <th scope="col" class="">Driver Name</th>
+                                        <th scope="col" class="">Customer Name</th>
+                                        <th scope="col" class="">Type of Truck</th>
+                                        <th scope="col" class="">Register Date</th>
+                                        <th scope="col" class="">Time</th>
 
-                                            <th scope="col" class="px-4 py-3 text-center">
-                                                <span class="">Actions</span>
-                                            </th>
-                                        </tr>
+                                        <th scope="col" class="px-4 py-3 text-center">
+                                            <span class="">Actions</span>
+                                        </th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($registrations as $key => $user)
-                                            <tr wire:key="{{ $user->id }}" class="border-b">
+                                    @foreach ($registrations as $key => $user)
+                                        <tr wire:key="{{ $user->id }}" class="border-b">
 
-                                                <td class="">{{ ++$key }}</td>
+                                            <td class="">{{ ++$key }}</td>
 
-                                                <td class="">{{ $user->truck->licence_plate }}</td>
+                                            <td class="">{{ $user->truck->licence_plate }}</td>
 
-                                                <td class="">
+                                            <td class="">
 
-                                                    @if ($user->driver_id == null)
-                                                        {{ $user->driver_name }}
-                                                    @else
-                                                        {{ $user->truck->driver_name }}
-                                                    @endif
-                                                </td>
+                                                @if ($user->driver_id == null)
+                                                    {{ $user->driver_name }}
+                                                @else
+                                                    {{ $user->truck->driver_name }}
+                                                @endif
+                                            </td>
 
-                                                <td class="">{{ $user->customer->customer_name }}</td>
+                                            <td class="">{{ $user->customer->customer_name }}</td>
 
-                                                <td class="">{{ $user->truck->size }}</td>
-                                                <td class="">{{ $user->created_at->format('d-m-Y') }}</td>
-                                                <td class="">{{ $user->created_at->format('h:i:s A') }}</td>
-                                                <td class="flex items-center justify-center my-2">
-                                                    <a class="hover:cursor-pointer"
-                                                        href="{{ route('qrcode.show', $user->id) }}" target="_blank"
-                                                        title="Generate QR Code">
-                                                        <x-phosphor.icons::fill.qr-code
-                                                            class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}" />
-                                                    </a>
-                                                    {{-- detials --}}
-                                                    <a class="hover:cursor-pointer"
-                                                        href="{{ route('reg.car.detials', $user->id) }}"
-                                                        title="View Details">
-                                                        <x-phosphor.icons::fill.eye
-                                                            class="w-6 h-6 mx-3 text-blue-400" />
-                                                    </a>
+                                            <td class="">{{ $user->truck->size }}</td>
+                                            <td class="">{{ $user->created_at->format('d-m-Y') }}</td>
+                                            <td class="">{{ $user->created_at->format('h:i:s A') }}</td>
+                                            <td class="flex items-center justify-center my-2">
+                                                <a class="hover:cursor-pointer"
+                                                   href="{{ route('qrcode.show', $user->id) }}" target="_blank"
+                                                   title="Generate QR Code">
+                                                    <x-phosphor.icons::fill.qr-code
+                                                        class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}"/>
+                                                </a>
+                                                {{-- detials --}}
+                                                <a class="hover:cursor-pointer"
+                                                   href="{{ route('reg.car.detials', $user->id) }}"
+                                                   title="View Details">
+                                                    <x-phosphor.icons::fill.eye
+                                                        class="w-6 h-6 mx-3 text-blue-400"/>
+                                                </a>
 
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>

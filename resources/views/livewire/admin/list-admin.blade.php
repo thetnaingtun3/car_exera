@@ -44,24 +44,12 @@
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
-                            @include('livewire.includes.table-sortable-th', [
-                                'name' => 'title',
-                                'displayName' => 'Name',
-                            ])
-                            @include('livewire.includes.table-sortable-th', [
-                                'name' => 'batch_code',
-                                'displayName' => 'Email',
-                            ])
-                            {{--                            @include('livewire.includes.table-sortable-th',[ --}}
-                            {{--                                'name' => 'is_admin', --}}
-                            {{--                                'displayName' => 'Role' --}}
-                            {{--                            ]) --}}
-                            @include('livewire.includes.table-sortable-th', [
-                                'name' => 'created_at',
-                                'displayName' => 'Joined',
-                            ])
+
+                            <th scope="col" class="px-4 py-3">Name</th>
+                            <th scope="col" class="px-4 py-3">Email</th>
+                            <th scope="col" class="px-4 py-3">Created Date</th>
                             <th scope="col" class="px-4 py-3">Last update</th>
-                            <th scope="col" class="px-4 py-3">Status</th>
+{{--                            <th scope="col" class="px-4 py-3">Status</th>--}}
                             <th scope="col" class="px-4 py-3">
 
                                 <span class="">Actions</span>
@@ -77,7 +65,7 @@
                                 <td class="px-4 py-3">{{ $data->email }}</td>
                                 <td class="px-4 py-3">{{ $data->created_at }}</td>
                                 <td class="px-4 py-3">{{ $data->updated_at }}</td>
-                                <td class="px-4 py-3">{{ $data->status }}</td>
+{{--                                <td class="px-4 py-3">{{ $data->status }}</td>--}}
                                 <td class="flex px-4 py-3 ">
 
                                     {{--                                    <x-form.button color="primary" wire:navigate--}}

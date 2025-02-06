@@ -120,10 +120,22 @@ class PalletRegisterHistory extends Component
         $this->dispatch('receivePrintUrl', $url);  // Send the URL to the frontend
     }
 
+    public function setSortBy($sortByField)
+    {
+
+        if ($this->sortBy === $sortByField) {
+            $this->sortDir = ($this->sortDir == "ASC") ? 'DESC' : "ASC";
+            return;
+        }
+
+        $this->sortBy = $sortByField;
+        $this->sortDir = 'DESC';
+    }
+
     #[Title('Pallet Register History')]
     public function render()
     {
-        $query = PalletRegister::query();
+        $query = PalletRegister::query()->orderBy($this->sortBy, $this->sortDir);
 
         if (!empty($this->search)) {
             $query->where('pallet_number', 'like', "%{$this->search}%");
@@ -139,8 +151,8 @@ class PalletRegisterHistory extends Component
 
         if (!empty($this->startPalletNumber) && !empty($this->endPalletNumber)) {
             $query->whereRaw("CAST(SUBSTRING_INDEX(pallet_number, '-', -1) AS UNSIGNED) BETWEEN ? AND ?", [
-                (int) $this->startPalletNumber,
-                (int) $this->endPalletNumber
+                (int)$this->startPalletNumber,
+                (int)$this->endPalletNumber
             ]);
         }
 
