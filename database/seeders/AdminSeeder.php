@@ -21,20 +21,20 @@ class AdminSeeder extends Seeder
         ]);
         $rootAdmin->assignRole('root-admin');
 
-        $admin = Admin::create([
-            'role_id' => 2,
-            'name' => "Admin",
-            'email' => "admin@gmail.com",
-            'password' => bcrypt('password')
-        ]);
-        $admin->assignRole('admin');
+        // $admin = Admin::create([
+        //     'role_id' => 2,
+        //     'name' => "Admin",
+        //     'email' => "admin@gmail.com",
+        //     'password' => bcrypt('password')
+        // ]);
+        // $admin->assignRole('admin');
         $transoper = Admin::create([
             'role_id' => 3,
-            'name' => "Transoper",
-            'email' => "transoper@gmail.com",
+            'name' => "lsp",
+            'email' => "registration@gmail.com",
             'password' => bcrypt('password')
         ]);
-        $transoper->assignRole('transoper');
+        $transoper->assignRole('registration');
 
         $loading = Admin::create([
             'role_id' => 4,
@@ -51,6 +51,5 @@ class AdminSeeder extends Seeder
             'password' => bcrypt('password')
         ]);
         $production->assignRole('production');
-
     }
 }

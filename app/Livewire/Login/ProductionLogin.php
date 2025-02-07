@@ -8,11 +8,11 @@ use Livewire\Component;
 
 class ProductionLogin extends Component
 {
-    public $email = '';
+    public $name = ''; // Corrected to use 'name'
     public $password = '';
 
     protected $rules = [
-        'email' => 'required|email',
+        'name' => 'required',
         'password' => 'required',
     ];
 
@@ -21,7 +21,9 @@ class ProductionLogin extends Component
         if (auth()->guard('admin')->user()) {
             return redirect('/dashboard');
         }
-        $this->fill(['email' => 'production@gmail.com', 'password' => 'password']);
+
+        // Default testing values (optional, remove in production)
+        $this->fill(['name' => 'production', 'password' => 'password']);
     }
 
     #[Title('Production Login')]
@@ -32,12 +34,20 @@ class ProductionLogin extends Component
 
     public function login()
     {
+        // Validate the input
         $credentials = $this->validate();
-        $data = Auth::guard('admin')->attempt($credentials);
-        if ($data) {
+
+        // Attempt login using 'name' and 'password'
+        $authenticated = Auth::guard('admin')->attempt([
+            'name' => $this->name,
+            'password' => $this->password,
+        ]);
+
+        if ($authenticated) {
             return redirect()->route('dashboard');
         } else {
-            return to_route('login');
+            session()->flash('error', 'Invalid name or password.');
+            return to_route('production.login');
         }
     }
 }

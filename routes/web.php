@@ -46,16 +46,15 @@ Route::get('/', function () {
 
 Route::get('login', Login::class)->name('login');
 Route::get('admin/login', Login::class)->name('admin.login');
-Route::get('transoper/login', TransoperLogin::class)->name('transoper.login');
+Route::get('registration/login', TransoperLogin::class)->name('registration.login');
 Route::get('loading/login', LoadingLogin::class)->name('loading.login');
 Route::get('production/login', ProductionLogin::class)->name('production.login');
 
 Route::middleware('auth:admin')->group(callback: function () {
 
-    Route::get('loading', LoadingAction::class)->name('index.loading');
-    Route::get('transoper', TransoperAction::class)->name('index.transoper');
+    Route::get('registration', TransoperAction::class)->name('index.transoper');
     Route::get('production', ProductionAction::class)->name('index.production');
-
+    Route::get('loading', LoadingAction::class)->name('index.loading');
 
     Route::get('index/admin', ListAdmin::class)->name('index.admin');
     Route::get('create/admin', CreateAdmin::class)->name('create.admin');

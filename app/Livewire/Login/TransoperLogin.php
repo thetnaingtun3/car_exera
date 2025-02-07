@@ -8,11 +8,12 @@ use Livewire\Component;
 
 class TransoperLogin extends Component
 {
-    public $email = '';
+
+    public $name = ''; // Username field is now called 'name'
     public $password = '';
 
     protected $rules = [
-        'email' => 'required|email',
+        'name' => 'required',
         'password' => 'required',
     ];
 
@@ -21,7 +22,9 @@ class TransoperLogin extends Component
         if (auth()->guard('admin')->user()) {
             return redirect('/dashboard');
         }
-        $this->fill(['email' => 'transoper@gmail.com', 'password' => 'password']);
+
+        // Set default values for testing (optional, can be removed)
+        $this->fill(['name' => 'lsp', 'password' => 'password']);
     }
 
     #[Title('Transoper Login')]
@@ -29,17 +32,24 @@ class TransoperLogin extends Component
     {
         return view('livewire.login.transoper-login')
             ->layout('custom.app');
-
     }
 
     public function login()
     {
+        // Validate the input fields
         $credentials = $this->validate();
-        $data = Auth::guard('admin')->attempt($credentials);
-        if ($data) {
+
+        // Attempt login using 'name' as the identifier
+        $authenticated = Auth::guard('admin')->attempt([
+            'name' => $this->name,
+            'password' => $this->password
+        ]);
+
+        if ($authenticated) {
             return redirect()->route('dashboard');
         } else {
-            return to_route('login');
+            session()->flash('error', 'Invalid name or password.');
+            return to_route('registration.login');
         }
     }
 }
