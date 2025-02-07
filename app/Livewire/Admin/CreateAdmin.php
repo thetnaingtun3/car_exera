@@ -12,7 +12,6 @@ class CreateAdmin extends Component
 {
     public AdminForm $form;
 
-    #[Title('Create Admin')]
     public $visible = false;
     public $roles;
 
@@ -23,9 +22,9 @@ class CreateAdmin extends Component
         $this->visible = false;
     }
 
+    #[Title('Create Admin')]
     public function render()
     {
-
 
         return view('livewire.admin.create-admin');
     }
@@ -37,7 +36,7 @@ class CreateAdmin extends Component
             ->title('Admin Created Successfully')
             ->success()
             ->send();
-        return to_route('create.admin');
+        return to_route('index.admin');
     }
 
 

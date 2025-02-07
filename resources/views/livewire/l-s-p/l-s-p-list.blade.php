@@ -54,7 +54,7 @@
                 <tbody>
                 @foreach ($lsps as $key => $lsp)
                     <tr wire:key="{{ $lsp->id }}" class="border-b">
-                        <td class="px-4 py-3 font-medium text-gray-900">{{ ++$key }}</td>
+                        <td class="px-4 py-3 font-medium text-gray-900">{{ $lsp->id }}</td>
                         <td class="px-4 py-3 font-medium text-gray-900">{{ $lsp->lsp_name }}</td>
                         @if ($lsp->status == 'active')
                             <td class="px-4 py-3 font-medium text-green-500">{{ $lsp->status }}</td>

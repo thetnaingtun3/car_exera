@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pallet_registers', function (Blueprint $table) {
             $table->id();
-            $table->string('pallet_number')->nullable();
+            $table->integer('pallet_number')->unique();
             $table->string('product_type')->nullable();
             $table->string('production_line')->nullable();
             $table->string('package')->nullable();

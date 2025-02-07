@@ -56,7 +56,9 @@ class TruckDataExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-            $this->counter++, // Auto-incrementing ID starting from 1
+//            $this->counter++, // Auto-incrementing ID starting from 1
+            $truck->id, // Fetch the LSP name, fallback to 'N/A' if null
+            $truck->licence_plate ?? 'N/A',
             $truck->lsp->lsp_name ?? 'N/A', // Fetch the LSP name, fallback to 'N/A' if null
             $truck->licence_plate ?? 'N/A',
             $truck->size ?? 'N/A',

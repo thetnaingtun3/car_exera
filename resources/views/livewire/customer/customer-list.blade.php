@@ -74,7 +74,7 @@
                     <tbody>
                     @foreach ($customers as $key => $customer)
                         <tr class="border-b">
-                            <td class="px-4 py-3">{{ ++$key }}</td>
+                            <td class="px-4 py-3">{{ $customer->id }}</td>
                             <td class="px-4 py-3">{{ $customer->lsp->lsp_name ?? 'N/A' }}</td>
                             <td class="px-4 py-3">{{ $customer->customer_name }}</td>
                             <td class="px-4 py-3">{{ $customer->customer_code }}</td>

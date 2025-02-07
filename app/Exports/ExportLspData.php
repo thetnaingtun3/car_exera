@@ -11,6 +11,7 @@ class ExportLspData implements FromCollection, WithHeadings, WithMapping
 {
 
     protected $counter = 1; // Counter starts at 1
+
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -32,7 +33,9 @@ class ExportLspData implements FromCollection, WithHeadings, WithMapping
     {
         return [
 
-            $this->counter++, // Auto-incrementing ID starting from 1
+//            $this->counter++, // Auto-incrementing ID starting from 1
+
+            $truck->id, // Fetch the LSP name, fallback to 'N/A' if null
             $truck->lsp_name ?? 'N/A', // Fetch the LSP name, fallback to 'N/A' if null
             $truck->status == 'active' ? 'Active' : 'Inactive',
 

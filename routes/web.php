@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Admin\EditAdmin;
 use App\Livewire\Login;
 use App\Livewire\Dashboard;
 use App\Livewire\LSP\LSPEdit;
@@ -51,16 +52,23 @@ Route::get('production/login', ProductionLogin::class)->name('production.login')
 
 Route::middleware('auth:admin')->group(callback: function () {
 
-    Route::get('index/admin', ListAdmin::class)->name('index.admin');
     Route::get('loading', LoadingAction::class)->name('index.loading');
     Route::get('transoper', TransoperAction::class)->name('index.transoper');
     Route::get('production', ProductionAction::class)->name('index.production');
 
 
+    Route::get('index/admin', ListAdmin::class)->name('index.admin');
     Route::get('create/admin', CreateAdmin::class)->name('create.admin');
+    Route::get('admin/{admin}', EditAdmin::class)->name('edit.admin');
+
     Route::get('dashboard', Dashboard::class)->name('dashboard');
     Route::get("admin/role/list", AdminRoleList::class)->name('admin-role-list');
     Route::get("admin/role/create", AdminRoleCreate::class)->name('admin-role-create');
+
+    Route::get('lsp/list', LSPList::class)->name('index.lsp');
+    Route::get('create/lsp', LSPCreate::class)->name('create.lsp');
+    Route::get('lsp/{lsp}', LSPEdit::class)->name('edit.lsp');
+    Route::get('import/lsp', LSPImports::class)->name('import.lsp');
 
     Route::get('customer/list', CustomerList::class)->name('index.customer');
     Route::get('create/customer', CreateCustomer::class)->name('create.customer');
@@ -72,11 +80,6 @@ Route::middleware('auth:admin')->group(callback: function () {
     Route::get('truck/list', ListTruck::class)->name('index.truck');
     Route::get('create/truck', CreateTruck::class)->name('create.truck');
     Route::get('truck/{truck}', EditTruck::class)->name('edit.truck');
-
-    Route::get('lsp/list', LSPList::class)->name('index.lsp');
-    Route::get('create/lsp', LSPCreate::class)->name('create.lsp');
-    Route::get('lsp/{lsp}', LSPEdit::class)->name('edit.lsp');
-    Route::get('import/lsp', LSPImports::class)->name('import.lsp');
 
 
     Route::get('reg/car', SubmitCarRegister::class)->name('reg.car');

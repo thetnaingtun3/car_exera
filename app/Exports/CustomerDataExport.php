@@ -65,7 +65,9 @@ class CustomerDataExport implements FromQuery, WithHeadings, WithMapping
     public function map($customer): array
     {
         return [
-            $this->counter++, // Auto-incrementing ID starting from 1
+//            $this->counter++, // Auto-incrementing ID starting from 1
+
+            $customer->id,
             $customer->lsp->lsp_name ?? 'N/A', // Fetch the LSP name, fallback to 'N/A' if null
             $customer->customer_code ?? 'N/A',
             $customer->customer_name ?? 'N/A',

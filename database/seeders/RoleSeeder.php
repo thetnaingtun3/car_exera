@@ -23,7 +23,7 @@ class RoleSeeder extends Seeder
 
         $rootAdmin = Role::create(['name' => 'root-admin', 'guard_name' => 'admin']);
         $admin = Role::create(['name' => 'admin', 'guard_name' => 'admin']);
-        $transoper = Role::create(['name' => 'transoper', 'guard_name' => 'admin']);
+        $transoper = Role::create(['name' => 'registration', 'guard_name' => 'admin']);
         $loading = Role::create(['name' => 'loading', 'guard_name' => 'admin']);
         $production = Role::create(['name' => 'production', 'guard_name' => 'admin']);
 

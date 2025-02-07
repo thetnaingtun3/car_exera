@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Admin;
+use Filament\Notifications\Notification;
 use Livewire\Component;
 use Livewire\Features\SupportQueryString\BaseUrl;
 use Livewire\WithPagination;
@@ -36,13 +37,20 @@ class ListAdmin extends Component
             ->orderBy($this->sortBy, $this->sortDir)
             ->paginate(20);
 
-        return view('livewire.admin.list-admin',compact('admins'));
+        return view('livewire.admin.list-admin', compact('admins'));
+    }
+
+    public function delete(Admin $admin)
+    {
+        $admin->delete();
+        Notification::make()
+            ->title('Admin deleted successfully')
+            ->success()
+            ->send();
+        return to_route('index.admin');
     }
     // remove this function
     // public function deleteStudent(User $student)
-
-
-
 
 
 }
