@@ -18,16 +18,29 @@ class LSPImports extends Component
 
     public function save()
     {
-
-        Excel::import(new LspImport(), $this->file->path());
-        $this->reset('file');
-        Notification::make()
-            ->title('Customer Data Imported Successfully!')
-            ->success()
-            ->send();
-
+        if (!$this->file) {
+            $this->message = 'No File Selected!';  
+            $this->messageType = 'danger';  
+            return;
+        }
+    
+      
+        try {
+            Excel::import(new LspImport(), $this->file->path());
+            $this->reset('file');  
+    
+            $this->message = 'Customer Data Imported Successfully!';  
+            $this->messageType = 'success';  
+        } catch (\Exception $e) {
+            
+            $this->message = 'Import Error: ' . $e->getMessage();
+            $this->messageType = 'danger';  
+        }
+    
+       
         return redirect()->route('index.lsp');
     }
+    
     public function user_excel_download()
     {
         return response()->download(public_path('file/lsp_eg.xlsx'));

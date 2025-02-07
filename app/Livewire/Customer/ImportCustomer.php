@@ -20,10 +20,17 @@ class ImportCustomer extends Component
 
 
 
-    public $importErrors = [];  // Store validation errors to display to the user
+    public $importErrors = [];  
 
     public function save()
     {
+        if (!$this->file) {
+            Notification::make()
+                ->title('No File Selected!')
+                ->danger()
+                ->send();
+            return;
+        }
         $import = new CustomersImport($this->lsp_id);
         Excel::import($import, $this->file->path());
 
@@ -33,7 +40,7 @@ class ImportCustomer extends Component
 
         $this->reset('file');
 
-        // Show success notification if no errors
+    
         if (empty($this->importErrors)) {
             Notification::make()
                 ->title('Customer Data Imported Successfully!')
