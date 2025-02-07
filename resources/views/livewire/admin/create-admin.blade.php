@@ -31,12 +31,23 @@
                         {{--selecte roles with dorpdown--}}
                         <div class="flex flex-wrap mt-8">
                             <div class="w-full px-4 lg:w-6/12">
+                                {{--                                <x-form.select-box wire:model="form.role" label="Role">--}}
+                                {{--                                    <option value="">Select Role</option>--}}
+                                {{--                                    @foreach($roles as $role)--}}
+                                {{--                                        <option value="{{ $role->name }}">{{ $role->name }}</option>--}}
+                                {{--                                    @endforeach--}}
+                                {{--                                </x-form.select-box>--}}
+
                                 <x-form.select-box wire:model="form.role" label="Role">
                                     <option value="">Select Role</option>
                                     @foreach($roles as $role)
-                                        <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                        <option
+                                            value="{{ $role->name }}" {{ $form->role === $role->name ? 'selected' : '' }}>
+                                            {{ $role->name }}
+                                        </option>
                                     @endforeach
                                 </x-form.select-box>
+
                                 <x-form.input-error for="form.role" class="mt-2"/>
                             </div>
                         </div>
@@ -44,13 +55,8 @@
                             <div class="w-full px-4 lg:w-6/12">
                                 <x-form.input wire:model="form.password"
                                               type="text"
-                                              {{--                                                                      type="{{ $visible ? 'text' : 'password' }}"--}}
                                               label="Password"
-                                              placeholder="{{ $form->admin ? 'Leave blank to keep current password' : '' }}"/>
-                                {{--                                                        <button type="button" wire:click.prevent="togglePassword">--}}
-                                {{--                                                            <x-phosphor.icons::regular.eye--}}
-                                {{--                                                                class="w-6 h-6 mx-3 text-black-800"/>--}}
-                                {{--                                                        </button>--}}
+                                              placeholder="{{ $form->admin ? 'Enter Password' : '' }}"/>
                                 <x-form.input-error for="form.password" class="mt-2"/>
                             </div>
 

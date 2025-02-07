@@ -49,7 +49,7 @@
                             <th scope="col" class="px-4 py-3">Email</th>
                             <th scope="col" class="px-4 py-3">Created Date</th>
                             <th scope="col" class="px-4 py-3">Last update</th>
-{{--                            <th scope="col" class="px-4 py-3">Status</th>--}}
+                            {{--                            <th scope="col" class="px-4 py-3">Status</th>--}}
                             <th scope="col" class="px-4 py-3">
 
                                 <span class="">Actions</span>
@@ -65,13 +65,12 @@
                                 <td class="px-4 py-3">{{ $data->email }}</td>
                                 <td class="px-4 py-3">{{ $data->created_at }}</td>
                                 <td class="px-4 py-3">{{ $data->updated_at }}</td>
-{{--                                <td class="px-4 py-3">{{ $data->status }}</td>--}}
+                                {{--                                <td class="px-4 py-3">{{ $data->status }}</td>--}}
                                 <td class="flex px-4 py-3 ">
 
-                                    {{--                                    <x-form.button color="primary" wire:navigate--}}
-                                    {{--                                                   :href="route('batch.edit', $batch->id)">Edit--}}
-                                    {{--                                    </x-form.button>--}}
-
+                                    <a href="{{ route('edit.admin', $data->id) }}" title="Edit">
+                                        <x-phosphor.icons::fill.pencil-line class="w-6 h-6 mx-3 text-blue-400"/>
+                                    </a>
                                     <button
                                         onclick="confirm('Are you sure you want to delete {{ $data->name }} ?') || event.stopImmediatePropagation()"
                                         wire:click="delete({{ $data->id }})"

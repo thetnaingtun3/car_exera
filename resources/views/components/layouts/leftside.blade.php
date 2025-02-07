@@ -57,7 +57,17 @@
                         </a>
                     </li>
 
-                    @hasanyrole('admin|root-admin')
+                    @hasanyrole('root-admin')
+                    <li>
+                        <a href="{{ route('index.admin') }}" wire:navigate
+                           class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
+                            <x-phosphor.icons::regular.user-circle-gear class="w-6 h-6 mx-3 text-blue-800"/>
+                            <span class="ml-3" sidebar-toggle-item>Admin</span>
+                        </a>
+                    </li>
+                    @endhasanyrole
+
+                    @hasanyrole('registration|root-admin')
                     <button type="button"
                             class="flex @yield('car-active') items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700"
                             aria-controls="dropdown-car" data-collapse-toggle="dropdown-car">
@@ -127,7 +137,7 @@
                     <li>
                         <a href="{{ route('index.customer') }}" wire:navigate
                            class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
-                            <x-phosphor.icons::regular.user-circle class="w-6 h-6 mx-3 text-blue-800"/>
+                            <x-phosphor.icons::regular.users-four class="w-6 h-6 mx-3 text-blue-800"/>
                             <span class="ml-3" sidebar-toggle-item>Customer</span>
                         </a>
                     </li>
@@ -136,18 +146,8 @@
                     <li>
                         <a href="{{ route('index.truck') }}" wire:navigate
                            class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
-                            <x-phosphor.icons::regular.user-circle class="w-6 h-6 mx-3 text-blue-800"/>
+                            <x-phosphor.icons::regular.truck-trailer class="w-6 h-6 mx-3 text-blue-800"/>
                             <span class="ml-3" sidebar-toggle-item>Truck</span>
-                        </a>
-                    </li>
-                    @endhasanyrole
-
-                    @hasanyrole('root-admin')
-                    <li>
-                        <a href="{{ route('index.admin') }}" wire:navigate
-                           class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
-                            <x-phosphor.icons::regular.user-circle class="w-6 h-6 mx-3 text-blue-800"/>
-                            <span class="ml-3" sidebar-toggle-item>Admin</span>
                         </a>
                     </li>
                     @endhasanyrole
