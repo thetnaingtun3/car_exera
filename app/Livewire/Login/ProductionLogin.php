@@ -23,7 +23,7 @@ class ProductionLogin extends Component
         }
 
         // Default testing values (optional, remove in production)
-        $this->fill(['name' => 'production', 'password' => 'password']);
+    //    $this->fill(['name' => 'production', 'password' => 'password']);
     }
 
     #[Title('Production Login')]

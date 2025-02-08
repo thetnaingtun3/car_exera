@@ -21,7 +21,7 @@ class Login extends Component
         if (auth()->guard('admin')->user()) {
             return redirect('/dashboard');
         }
-        $this->fill(['email' => 'root@admin.com', 'password' => 'password']);
+       // $this->fill(['email' => 'root@admin.com', 'password' => 'password']);
     }
 
     public function login()

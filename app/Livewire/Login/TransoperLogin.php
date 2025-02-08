@@ -24,7 +24,7 @@ class TransoperLogin extends Component
         }
 
         // Set default values for testing (optional, can be removed)
-        $this->fill(['name' => 'lsp', 'password' => 'password']);
+      //  $this->fill(['name' => 'lsp', 'password' => 'password']);
     }
 
     #[Title('Transoper Login')]

@@ -23,7 +23,7 @@ class LoadingLogin extends Component
         }
 
         // Set default values (for testing purposes, optional)
-        $this->fill(['name' => 'loading', 'password' => 'password']);
+       // $this->fill(['name' => 'loading', 'password' => 'password']);
     }
 
     #[Title('Loading Login')]
