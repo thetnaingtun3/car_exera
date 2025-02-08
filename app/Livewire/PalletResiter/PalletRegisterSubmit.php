@@ -31,7 +31,6 @@ class PalletRegisterSubmit extends Component
         'Tapper beer' => [
             'Canning line 1' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
             'Canning line 2 ' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
-
         ],
     ];
 
@@ -67,9 +66,6 @@ class PalletRegisterSubmit extends Component
         // Validate the inputs
         $validatedData = $this->validate(
             [
-
-//                'pallet_number' must be unique in the pallet_registers table
-
                 'productType' => 'required|string|max:255',
                 'productionLine' => 'required|string|max:255',
                 'package' => 'required|string|max:255',
@@ -79,23 +75,30 @@ class PalletRegisterSubmit extends Component
             ]
         );
 
-        // Check for unique pallet numbers in the given range
-        $existingPallets = PalletRegister::whereBetween('pallet_number', [$this->start_pallet_number, $this->end_pallet_number])->pluck('pallet_number')->toArray();
+        // Check today's date
+        $today = now()->format('Y-m-d');
 
-        if (!empty($existingPallets)) {
-            session()->flash('error', 'The following pallet numbers already exist: ' . implode(', ', $existingPallets));
-            return;
-        }
+        // Get the last pallet number of the day (if any)
+        $lastPalletNumberToday = PalletRegister::whereDate('created_at', $today)
+            ->orderBy('pallet_number', 'desc')
+            ->value('pallet_number');
+
+        // Determine the starting pallet number
+        $startNumber = $lastPalletNumberToday ? $lastPalletNumberToday + 1 : 1;
+
         // Ensure that the start pallet number is less than or equal to the end pallet number
         if ($this->start_pallet_number > $this->end_pallet_number) {
             session()->flash('error', 'Start Pallet Number must be less than or equal to End Pallet Number.');
             return;
         }
+
         // Generate rows for the given pallet range
         $data = [];
-        for ($i = $this->start_pallet_number; $i <= $this->end_pallet_number; $i++) {
+        $currentPalletNumber = $startNumber;
+
+        for ($i = 0; $i <= ($this->end_pallet_number - $this->start_pallet_number); $i++) {
             $data[] = [
-                'pallet_number' => $i,
+                'pallet_number' => $currentPalletNumber,
                 'product_type' => $this->productType,
                 'production_line' => $this->productionLine,
                 'package' => $this->package,
@@ -105,6 +108,7 @@ class PalletRegisterSubmit extends Component
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
+            $currentPalletNumber++;  // Increment for the next entry
         }
 
         // Store the data in the database

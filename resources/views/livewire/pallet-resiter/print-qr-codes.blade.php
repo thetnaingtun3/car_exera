@@ -41,7 +41,7 @@
                 <p><strong>Pallet Number:</strong> {{ $pallet->pallet_number }}</p>
                 <img src="data:image/png;base64,{{ base64_encode(
                     QrCode::size(200)->generate(
-                        "Pallet Number: {$pallet->pallet_number}\nProduct Type: {$pallet->product_type}\nProduction Line: {$pallet->production_line}\nVolume: {$pallet->volume}\nUnit: {$pallet->unit}\nTotal: {$pallet->total_amount_per_pallet}\nDate: {$pallet->created_at->format(
+                        "Pallet Number: PLT  -  {$pallet->pallet_number}\nProduct Type: {$pallet->product_type}\nProduction Line: {$pallet->production_line}\nVolume: {$pallet->volume}\nUnit: {$pallet->unit}\nTotal: {$pallet->total_amount_per_pallet}\nDate: {$pallet->created_at->format(
                             'd-m-Y H:i:s',
                         )}",
                     ),
