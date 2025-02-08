@@ -5,18 +5,94 @@
     </div>
     <section class="mt-6 flex flex-wrap lg:flex-nowrap gap-6">
         <div class="w-full lg:w-1/2 bg-white shadow-md dark:bg-gray-800 rounded-lg p-4">
-        @hasanyrole('admin|transoper|loading|production|root-admin')
-        @if(auth()->user()->hasRole('transoper') || auth()->user()->hasRole('root-admin'))
-            <h3 class="text-md font-semibold text-gray-700 dark:text-gray-300 text-center mb-3">LSP Report</h3>
-            <!-- Year and Month Selection -->
-            <div class="flex items-center justify-center mb-4">
-                <label for="yearSelect" class="mr-2 text-gray-700 dark:text-gray-300">Year:</label>
-                <select id="yearSelect" class="border rounded px-2 py-1 dark:bg-gray-700 dark:text-white">
+            @hasanyrole('admin|registration|loading|production|root-admin')
+                @if (auth()->user()->hasRole('registration') || auth()->user()->hasRole('root-admin'))
+                    <h3 class="text-md font-semibold text-gray-700 dark:text-gray-300 text-center mb-3">LSP Report</h3>
+                    <!-- Year and Month Selection -->
+                    <div class="flex items-center justify-center mb-4">
+                        <label for="yearSelect" class="mr-2 text-gray-700 dark:text-gray-300">Year:</label>
+                        <select id="yearSelect" class="border rounded px-2 py-1 dark:bg-gray-700 dark:text-white">
+                            <option value="2024">2024</option>
+                            <option value="2025" selected>2025</option>
+                        </select>
+                        <label for="monthSelect" class="ml-4 mr-2 text-gray-700 dark:text-gray-300">Month:</label>
+                        <select id="monthSelect" class="border rounded px-2 py-1 dark:bg-gray-700 dark:text-white">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="overflow-hidden rounded-lg border border-gray-200">
+                        <table class="w-full text-sm text-gray-700 dark:text-gray-300">
+                            <thead class="bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
+                                <tr>
+                                    <th class="px-3 py-2 text-left">LSP Name</th>
+                                    <th class="px-3 py-2 text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboardTableBody"
+                                class="divide-y divide-gray-200 dark:divide-gray-600 bg-white dark:bg-gray-800">
+                                <tr>
+                                    <td colspan="2" class="text-center py-2 text-gray-500">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+            @endif
+            @php
+                $isProductionUser = auth()->user()->hasRole('production');
+                $isRootAdmin = auth()->user()->hasRole('root-admin');
+            @endphp <!-- Right Side: Production Report Chart -->
+            @if ($isProductionUser || $isRootAdmin)
+                <div
+                    class="{{ $isProductionUser ? 'w-full' : 'w-full lg:w-1/2' }} bg-white shadow-md dark:bg-gray-800 rounded-lg p-4 mt-6">
+                    <div class="flex flex-col items-center">
+                        <label for="productionYearSelect"
+                            class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">Production Report:</label>
+                        <select id="productionYearSelect" class="px-4 py-2 border rounded-md mb-4">
+                            <option value="2024">2024</option>
+                            <option value="2025" selected>2025</option>
+                        </select>
+                    </div>
+                    <canvas id="productionChart"></canvas>
+                </div>
+            @endif
+        </section>
+        <!-- Right Side: CarQr code Report -->
+        @if (auth()->user()->hasRole('registration') || auth()->user()->hasRole('root-admin'))
+            <div class="w-full lg:w-1/2 bg-white shadow-md dark:bg-gray-800 rounded-lg p-4">
+                <div class="flex flex-col items-center">
+                    <label for="yearSelect" class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">CarQr Code
+                        Report:</label>
+                    <select id="yearSelect" class="px-4 py-2 border rounded-md mb-4">
+                        <option value="2024">2024</option>
+                        <option value="2025" selected>2025</option>
+                    </select>
+                </div>
+                <canvas id="dashboardChart"></canvas>
+            </div>
+        @endif
+        @if (auth()->user()->hasRole('loading') || auth()->user()->hasRole('root-admin'))
+            <!-- Dropdown for selecting year and month -->
+            <div class="flex flex-col items-center">
+                <label for="loadingReportYearSelect"
+                    class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">Loading
+                    Report:</label>
+                <select id="loadingReportYearSelect" class="px-4 py-2 border rounded-md mb-4">
                     <option value="2024">2024</option>
                     <option value="2025" selected>2025</option>
                 </select>
-                <label for="monthSelect" class="ml-4 mr-2 text-gray-700 dark:text-gray-300">Month:</label>
-                <select id="monthSelect" class="border rounded px-2 py-1 dark:bg-gray-700 dark:text-white">
+                <select id="loadingReportMonthSelect" class="px-4 py-2 border rounded-md mb-4">
                     <option value="1">January</option>
                     <option value="2">February</option>
                     <option value="3">March</option>
@@ -30,143 +106,100 @@
                     <option value="11">November</option>
                     <option value="12">December</option>
                 </select>
+                <div class="w-full bg-white shadow-md dark:bg-gray-800 rounded-lg p-4 mt-6">
+                    <h3 class="text-md font-semibold text-gray-700 dark:text-gray-300 text-center mb-3">Loading Report</h3>
+                    <div class="overflow-x-auto rounded-lg border border-gray-200">
+                        <table class="w-full text-sm text-gray-700 dark:text-gray-300">
+                            <thead>
+                                <tr>
+                                    <th class="px-3 py-2 text-left">LSP Name</th>
+                                    <th class="px-3 py-2 text-right">Day 1</th>
+                                    <th class="px-3 py-2 text-right">Day 2</th>
+                                    <th class="px-3 py-2 text-right">Day 3</th>
+                                    <th class="px-3 py-2 text-right">Day 4</th>
+                                    <th class="px-3 py-2 text-right">Day 5</th>
+                                    <th class="px-3 py-2 text-right">Day 6</th>
+                                    <th class="px-3 py-2 text-right">Day 7</th>
+                                    <th class="px-3 py-2 text-right">Day 8</th>
+                                    <th class="px-3 py-2 text-right">Day 9</th>
+                                    <th class="px-3 py-2 text-right">Day 10</th>
+                                    <th class="px-3 py-2 text-right">Day 11</th>
+                                    <th class="px-3 py-2 text-right">Day 12</th>
+                                    <th class="px-3 py-2 text-right">Day 13</th>
+                                    <th class="px-3 py-2 text-right">Day 14</th>
+                                    <th class="px-3 py-2 text-right">Day 15</th>
+                                    <th class="px-3 py-2 text-right">Day 16</th>
+                                    <th class="px-3 py-2 text-right">Day 17</th>
+                                    <th class="px-3 py-2 text-right">Day 18</th>
+                                    <th class="px-3 py-2 text-right">Day 19</th>
+                                    <th class="px-3 py-2 text-right">Day 20</th>
+                                    <th class="px-3 py-2 text-right">Day 21</th>
+                                    <th class="px-3 py-2 text-right">Day 22</th>
+                                    <th class="px-3 py-2 text-right">Day 23</th>
+                                    <th class="px-3 py-2 text-right">Day 24</th>
+                                    <th class="px-3 py-2 text-right">Day 25</th>
+                                    <th class="px-3 py-2 text-right">Day 26</th>
+                                    <th class="px-3 py-2 text-right">Day 27</th>
+                                    <th class="px-3 py-2 text-right">Day 28</th>
+                                    <th class="px-3 py-2 text-right">Day 29</th>
+                                    <th class="px-3 py-2 text-right">Day 30</th>
+                                    <th class="px-3 py-2 text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="loadingReportTableBody"
+                                class="divide-y divide-gray-200 dark:divide-gray-600 bg-white dark:bg-gray-800">
+                                <tr>
+                                    <td colspan="2" class="text-center py-2 text-gray-500">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <div class="overflow-hidden rounded-lg border border-gray-200">
-                <table class="w-full text-sm text-gray-700 dark:text-gray-300">
-                    <thead class="bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
-                        <tr>
-                            <th class="px-3 py-2 text-left">LSP Name</th>
-                            <th class="px-3 py-2 text-right">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dashboardTableBody"
-                        class="divide-y divide-gray-200 dark:divide-gray-600 bg-white dark:bg-gray-800">
-                        <tr>
-                            <td colspan="2" class="text-center py-2 text-gray-500">Loading...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
         @endif
-        <!-- Right Side: Production Report Chart -->
-        @if(auth()->user()->hasRole('production') || auth()->user()->hasRole('root-admin'))
-        <div class="w-full lg:w-1/2 bg-white shadow-md dark:bg-gray-800 rounded-lg p-4 mt-6">
-            <div class="flex flex-col items-center">
-                <label for="productionYearSelect"
-                    class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">Production Report:</label>
-                <select id="productionYearSelect" class="px-4 py-2 border rounded-md mb-4">
-                    <option value="2024">2024</option>
-                    <option value="2025" selected>2025</option>
-                </select>
-            </div>
-            <canvas id="productionChart"></canvas>
-        </div>
-        @endif
-    </section>
-    <!-- Right Side: CarQr code Report -->
-    @if(auth()->user()->hasRole('transoper') || auth()->user()->hasRole('root-admin'))
-    <div class="w-full lg:w-1/2 bg-white shadow-md dark:bg-gray-800 rounded-lg p-4">
-        <div class="flex flex-col items-center">
-            <label for="yearSelect" class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">CarQr Code
-                Report:</label>
-            <select id="yearSelect" class="px-4 py-2 border rounded-md mb-4">
-                <option value="2024">2024</option>
-                <option value="2025" selected>2025</option>
-            </select>
-        </div>
-        <canvas id="dashboardChart"></canvas>
-    </div>
-    @endif
-    @if(auth()->user()->hasRole('loading') || auth()->user()->hasRole('root-admin'))
-    <!-- Dropdown for selecting year and month -->
-    <div class="flex flex-col items-center">
-        <label for="loadingReportYearSelect" class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">Loading
-            Report:</label>
-        <select id="loadingReportYearSelect" class="px-4 py-2 border rounded-md mb-4">
-            <option value="2024">2024</option>
-            <option value="2025" selected>2025</option>
-        </select>
-        <select id="loadingReportMonthSelect" class="px-4 py-2 border rounded-md mb-4">
-            <option value="1">January</option>
-            <option value="2">February</option>
-            <option value="3">March</option>
-            <option value="4">April</option>
-            <option value="5">May</option>
-            <option value="6">June</option>
-            <option value="7">July</option>
-            <option value="8">August</option>
-            <option value="9">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
-        </select>
-        <div class="w-full bg-white shadow-md dark:bg-gray-800 rounded-lg p-4 mt-6">
-            <h3 class="text-md font-semibold text-gray-700 dark:text-gray-300 text-center mb-3">Loading Report</h3>
-            <div class="overflow-x-auto rounded-lg border border-gray-200">
-                <table class="w-full text-sm text-gray-700 dark:text-gray-300">
-                    <thead>
-                        <tr>
-                            <th class="px-3 py-2 text-left">LSP Name</th>
-                            <th class="px-3 py-2 text-right">Day 1</th>
-                            <th class="px-3 py-2 text-right">Day 2</th>
-                            <th class="px-3 py-2 text-right">Day 3</th>
-                            <th class="px-3 py-2 text-right">Day 4</th>
-                            <th class="px-3 py-2 text-right">Day 5</th>
-                            <th class="px-3 py-2 text-right">Day 6</th>
-                            <th class="px-3 py-2 text-right">Day 7</th>
-                            <th class="px-3 py-2 text-right">Day 8</th>
-                            <th class="px-3 py-2 text-right">Day 9</th>
-                            <th class="px-3 py-2 text-right">Day 10</th>
-                            <th class="px-3 py-2 text-right">Day 11</th>
-                            <th class="px-3 py-2 text-right">Day 12</th>
-                            <th class="px-3 py-2 text-right">Day 13</th>
-                            <th class="px-3 py-2 text-right">Day 14</th>
-                            <th class="px-3 py-2 text-right">Day 15</th>
-                            <th class="px-3 py-2 text-right">Day 16</th>
-                            <th class="px-3 py-2 text-right">Day 17</th>
-                            <th class="px-3 py-2 text-right">Day 18</th>
-                            <th class="px-3 py-2 text-right">Day 19</th>
-                            <th class="px-3 py-2 text-right">Day 20</th>
-                            <th class="px-3 py-2 text-right">Day 21</th>
-                            <th class="px-3 py-2 text-right">Day 22</th>
-                            <th class="px-3 py-2 text-right">Day 23</th>
-                            <th class="px-3 py-2 text-right">Day 24</th>
-                            <th class="px-3 py-2 text-right">Day 25</th>
-                            <th class="px-3 py-2 text-right">Day 26</th>
-                            <th class="px-3 py-2 text-right">Day 27</th>
-                            <th class="px-3 py-2 text-right">Day 28</th>
-                            <th class="px-3 py-2 text-right">Day 29</th>
-                            <th class="px-3 py-2 text-right">Day 30</th>
-                            <th class="px-3 py-2 text-right">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="loadingReportTableBody"
-                        class="divide-y divide-gray-200 dark:divide-gray-600 bg-white dark:bg-gray-800">
-                        <tr>
-                            <td colspan="2" class="text-center py-2 text-gray-500">Loading...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    @endif
     @endhasanyrole
 </div>
 </div>
 <script src="{{ asset('js/chart.js') }}"></script>
 <script>
+    var isRoot = @json(auth()->user()->hasRole('root-admin'));
+    var isProduction = @json(auth()->user()->hasRole('production'));
+    var isLoading = @json(auth()->user()->hasRole('loading'));
+    var isRegistration = @json(auth()->user()->hasRole('registration'));
+
+
     document.addEventListener("DOMContentLoaded", function() {
-        const productionCtx = document.getElementById('productionChart').getContext('2d');
-        const dashboardCtx = document.getElementById('dashboardChart').getContext('2d');
+        const productionCtx = document.getElementById('productionChart')?.getContext('2d');
+        const dashboardCtx = document.getElementById('dashboardChart')?.getContext('2d');
         let productionChart, dashboardChart;
         const today = new Date();
         const currentYear = today.getFullYear();
         const currentMonth = today.getMonth() + 1;
-        document.getElementById("yearSelect").value = currentYear;
-        document.getElementById("monthSelect").value = currentMonth;
-        fetchLoadingReportData(currentYear, currentMonth);
+
+        if (isRoot) {
+            document.getElementById("yearSelect").value = currentYear;
+            document.getElementById("monthSelect").value = currentMonth;
+            fetchLoadingReportData(currentYear, currentMonth);
+
+
+        } else if (isRegistration) {
+            document.getElementById("yearSelect").value = currentYear;
+            document.getElementById("monthSelect").value = currentMonth;
+            fetchTableData();
+            fetchGraphData(currentYear);
+
+
+        } else if (isProduction) {
+            document.getElementById("productionYearSelect").value = currentYear;
+            fetchProductionData(currentYear);
+        } else if (isLoading) {
+            document.getElementById("loadingReportYearSelect").value = currentYear;
+            document.getElementById("loadingReportMonthSelect").value = currentMonth;
+            fetchLoadingReportData(currentYear, currentMonth);
+        }
+
+
+
 
         function fetchTableData() {
             const year = document.getElementById("yearSelect").value;
