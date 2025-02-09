@@ -20,7 +20,7 @@ class ImportCustomer extends Component
 
 
 
-    public $importErrors = [];  
+    public $importErrors = [];
 
     public function save()
     {
@@ -32,7 +32,7 @@ class ImportCustomer extends Component
             return;
         }
         $import = new CustomersImport($this->lsp_id);
-        Excel::import($import, $this->file->path());
+        Excel::import($import, $this->file);
 
         // Excel::import(new CustomersImport($this->lsp_id), $this->file->path());
         // Collect validation errors after import
@@ -40,7 +40,7 @@ class ImportCustomer extends Component
 
         $this->reset('file');
 
-    
+
         if (empty($this->importErrors)) {
             Notification::make()
                 ->title('Customer Data Imported Successfully!')

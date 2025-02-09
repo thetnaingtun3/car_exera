@@ -21,38 +21,38 @@ class ImportTruck extends Component
     public $importErrors = [];  // Store validation errors to display to the user
     public function save()
 {
-    
+
     if (!$this->file) {
-        $this->message = 'No File Selected!';  
-        $this->messageType = 'danger';  
+        $this->message = 'No File Selected!';
+        $this->messageType = 'danger';
         return;
     }
 
     try {
-     
-        $import = new TrucksImport($this->lsp_id);
-        Excel::import($import, $this->file->path());
 
-      
+        $import = new TrucksImport($this->lsp_id);
+        Excel::import($import, $this->file);
+
+
         $this->importErrors = $import->errors;
 
-        
+
         $this->reset('file');
 
-       
+
         if (empty($this->importErrors)) {
             $this->message = 'Truck Data Imported Successfully!';
-            $this->messageType = 'success';  
+            $this->messageType = 'success';
         } else {
-           
+
             $this->message = 'Truck Data Import Failed! Please review the errors.';
-            $this->messageType = 'danger'; 
+            $this->messageType = 'danger';
         }
 
     } catch (\Exception $e) {
-        
+
         $this->message = 'Error during import: ' . $e->getMessage();
-        $this->messageType = 'danger';  
+        $this->messageType = 'danger';
     }
 
 
