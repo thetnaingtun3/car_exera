@@ -47,7 +47,7 @@ class LoadingLogin extends Component
             return redirect()->route('dashboard');
         } else {
             session()->flash('error', 'Invalid name or password.');
-            return to_route('login');
+            return to_route('loading.login');
         }
     }
 }
