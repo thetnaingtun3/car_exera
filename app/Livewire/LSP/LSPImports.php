@@ -18,25 +18,25 @@ class LSPImports extends Component
 
     public function save()
     {
-        // if (!$this->file) {
-        //     $this->message = 'No File Selected!';
-        //     $this->messageType = 'danger';
-        //     return;
-        // }
+        if (!$this->file) {
+            $this->message = 'No File Selected!';
+            $this->messageType = 'danger';
+            return;
+        }
 
-        // try {
-        // Store the file temporarily and retrieve its real path
-        $filePath = $this->file->store('temp');
+        try {
+            // Store the file temporarily and retrieve its real path
+            $filePath = $this->file->store('temp');
 
-        Excel::import(new LspImport(), $this->file);
-        $this->reset('file');
+            Excel::import(new LspImport(), $this->file->getRealPath());
+            $this->reset('file');
 
-        // $this->message = 'Customer Data Imported Successfully!';
-        // $this->messageType = 'success';
-        // } catch (\Exception $e) {
-        //     $this->message = 'Import Error: ' . $e->getMessage();
-        //     $this->messageType = 'danger';
-        // }
+            $this->message = 'Customer Data Imported Successfully!';
+            $this->messageType = 'success';
+        } catch (\Exception $e) {
+            $this->message = 'Import Error: ' . $e->getMessage();
+            $this->messageType = 'danger';
+        }
 
         return redirect()->route('index.lsp');
     }

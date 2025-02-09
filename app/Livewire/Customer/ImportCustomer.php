@@ -32,7 +32,7 @@ class ImportCustomer extends Component
             return;
         }
         $import = new CustomersImport($this->lsp_id);
-        Excel::import($import, $this->file);
+        Excel::import($import, $this->file->getRealPath());
 
         // Excel::import(new CustomersImport($this->lsp_id), $this->file->path());
         // Collect validation errors after import

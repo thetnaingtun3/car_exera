@@ -20,44 +20,43 @@ class ImportTruck extends Component
 
     public $importErrors = [];  // Store validation errors to display to the user
     public function save()
-{
+    {
 
-    if (!$this->file) {
-        $this->message = 'No File Selected!';
-        $this->messageType = 'danger';
-        return;
-    }
+        if (!$this->file) {
+            $this->message = 'No File Selected!';
+            $this->messageType = 'danger';
+            return;
+        }
 
-    try {
+        try {
 
-        $import = new TrucksImport($this->lsp_id);
-        Excel::import($import, $this->file);
-
-
-        $this->importErrors = $import->errors;
+            $import = new TrucksImport($this->lsp_id);
+            Excel::import($import, $this->file->getRealPath());
 
 
-        $this->reset('file');
+            $this->importErrors = $import->errors;
 
 
-        if (empty($this->importErrors)) {
-            $this->message = 'Truck Data Imported Successfully!';
-            $this->messageType = 'success';
-        } else {
+            $this->reset('file');
 
-            $this->message = 'Truck Data Import Failed! Please review the errors.';
+
+            if (empty($this->importErrors)) {
+                $this->message = 'Truck Data Imported Successfully!';
+                $this->messageType = 'success';
+            } else {
+
+                $this->message = 'Truck Data Import Failed! Please review the errors.';
+                $this->messageType = 'danger';
+            }
+        } catch (\Exception $e) {
+
+            $this->message = 'Error during import: ' . $e->getMessage();
             $this->messageType = 'danger';
         }
 
-    } catch (\Exception $e) {
 
-        $this->message = 'Error during import: ' . $e->getMessage();
-        $this->messageType = 'danger';
+        return redirect()->route('index.truck');
     }
-
-
-    return redirect()->route('index.truck');
-}
 
 
     public function user_excel_download()
