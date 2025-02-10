@@ -126,31 +126,8 @@ class PalletRegisterSubmit extends Component
 
     //     return to_route('pallet.register');
     // }
-
     public function store()
     {
-        // Validate the inputs
-        $validatedData = $this->validate(
-            [
-                'productType' => 'required|string|max:255',
-                'productionLine' => 'required|string|max:255',
-                'package' => 'required|string|max:255',
-                'volume' => 'required|min:1',
-                'totalAmountPerPallet' => 'required|min:1',
-            ]
-        );
-
-        // Check today's date
-        $today = now()->format('Y-m-d');
-
-        // Get the last pallet number of the day (if any)
-        $lastPalletNumberToday = PalletRegister::whereDate('created_at', $today)
-            ->orderBy('pallet_number', 'desc')
-            ->value('pallet_number');
-
-        // Determine the starting pallet number
-        $startNumber = $lastPalletNumberToday ? $lastPalletNumberToday + 1 : 1;
-
         // Ensure that the start pallet number is less than or equal to the end pallet number
         if ($this->start_pallet_number > $this->end_pallet_number) {
             session()->flash('error', 'Start Pallet Number must be less than or equal to End Pallet Number.');
@@ -159,27 +136,25 @@ class PalletRegisterSubmit extends Component
 
         // Generate rows for the given pallet range
         $data = [];
-        $currentPalletNumber = $startNumber;
-
-        for ($i = 0; $i <= ($this->end_pallet_number - $this->start_pallet_number); $i++) {
+        for ($i = $this->start_pallet_number; $i <= $this->end_pallet_number; $i++) {
             $data[] = [
-                'pallet_number' => $currentPalletNumber,
+                'pallet_number' =>  $i,
                 'product_type' => $this->productType,
                 'production_line' => $this->productionLine,
                 'package' => $this->package,
                 'volume' => $this->volume,
+                'unit' => $this->unit,
                 'total_amount_per_pallet' => $this->totalAmountPerPallet,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
-            $currentPalletNumber++;  // Increment for the next entry
         }
 
         // Store the data in the database
         PalletRegister::insert($data);
 
         // Reset the input fields
-        $this->reset(['start_pallet_number', 'end_pallet_number', 'productType', 'productionLine', 'package', 'volume', 'totalAmountPerPallet']);
+        $this->reset(['start_pallet_number', 'end_pallet_number', 'productType', 'productionLine', 'package', 'volume', 'unit', 'totalAmountPerPallet']);
 
         Notification::make()
             ->title('Pallets registered successfully!')
@@ -188,6 +163,67 @@ class PalletRegisterSubmit extends Component
 
         return to_route('pallet.register');
     }
+    // public function store()
+    // {
+    //     // Validate the inputs
+    //     $validatedData = $this->validate(
+    //         [
+    //             'productType' => 'required|string|max:255',
+    //             'productionLine' => 'required|string|max:255',
+    //             'package' => 'required|string|max:255',
+    //             'volume' => 'required|min:1',
+    //             'totalAmountPerPallet' => 'required|min:1',
+    //         ]
+    //     );
+
+    //     // Check today's date
+    //     $today = now()->format('Y-m-d');
+
+    //     // Get the last pallet number of the day (if any)
+    //     $lastPalletNumberToday = PalletRegister::whereDate('created_at', $today)
+    //         ->orderBy('pallet_number', 'desc')
+    //         ->value('pallet_number');
+
+    //     // Determine the starting pallet number
+    //     $startNumber = $lastPalletNumberToday ? $lastPalletNumberToday + 1 : 1;
+
+    //     // Ensure that the start pallet number is less than or equal to the end pallet number
+    //     if ($this->start_pallet_number > $this->end_pallet_number) {
+    //         session()->flash('error', 'Start Pallet Number must be less than or equal to End Pallet Number.');
+    //         return;
+    //     }
+
+    //     // Generate rows for the given pallet range
+    //     $data = [];
+    //     $currentPalletNumber = $startNumber;
+
+    //     for ($i = 0; $i <= ($this->end_pallet_number - $this->start_pallet_number); $i++) {
+    //         $data[] = [
+    //             'pallet_number' => $currentPalletNumber,
+    //             'product_type' => $this->productType,
+    //             'production_line' => $this->productionLine,
+    //             'package' => $this->package,
+    //             'volume' => $this->volume,
+    //             'total_amount_per_pallet' => $this->totalAmountPerPallet,
+    //             'created_at' => now(),
+    //             'updated_at' => now(),
+    //         ];
+    //         $currentPalletNumber++;  // Increment for the next entry
+    //     }
+
+    //     // Store the data in the database
+    //     PalletRegister::insert($data);
+
+    //     // Reset the input fields
+    //     $this->reset(['start_pallet_number', 'end_pallet_number', 'productType', 'productionLine', 'package', 'volume', 'totalAmountPerPallet']);
+
+    //     Notification::make()
+    //         ->title('Pallets registered successfully!')
+    //         ->success()
+    //         ->send();
+
+    //     return to_route('pallet.register');
+    // }
     public function render()
     {
         $pallets = PalletRegister::orderBy('id', 'desc')->paginate(50);
