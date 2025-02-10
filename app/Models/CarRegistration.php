@@ -28,6 +28,10 @@ class CarRegistration extends Model
         'qr_code',
         'click_date',
         'status',
+        'licence_plate',
+        'size',
+
+
     ];
     public function products(): HasMany
     {
