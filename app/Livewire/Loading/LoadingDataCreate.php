@@ -16,15 +16,30 @@ class LoadingDataCreate extends Component
     public function save()
     {
 
-        Excel::import(new LoadingDataImport(), $this->file->path());
-        $this->reset('file');
-        Notification::make()
-            ->title('Loading Data Imported Successfully!')
-            ->success()
-            ->send();
+        if (!$this->file) {
+            $this->message = 'No File Selected!';
+            $this->messageType = 'danger';
+            return;
+        }
 
-        return redirect()->route('loading.data');
+        try {
+            Excel::import(new LoadingDataImport(), $this->file->getRealPath());
+            $this->reset('file');
+            Notification::make()
+                ->title('Loading Data Imported Successfully!')
+                ->success()
+                ->send();
+
+            return redirect()->route('loading.data');
+        } catch (\Exception $e) {
+
+            $this->message = 'Error during import: ' . $e->getMessage();
+            $this->messageType = 'danger';
+        }
     }
+
+
+
     public function user_excel_download()
     {
         return response()->download(public_path('file/loading.xlsx'));
