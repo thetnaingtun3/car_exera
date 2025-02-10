@@ -29,7 +29,7 @@
                             <div wire:loading wire:target="file">Uploading...</div>
                             <x-form.input type="file" wire:model="file" label="Excel File" />
 
-                            {{-- <x-form.input-error for="file" class="mt-2" /> --}}
+                            <x-form.input-error for="file" class="mt-2" />
 
                         </div>
                     </div>

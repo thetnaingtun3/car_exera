@@ -30,7 +30,9 @@ class TransoperLogin extends Component
     #[Title('Transoper Login')]
     public function render()
     {
-        return view('livewire.login.transoper-login')
+        return
+        "hid"
+;        view('livewire.login.transoper-login')
             ->layout('custom.app');
     }
 
