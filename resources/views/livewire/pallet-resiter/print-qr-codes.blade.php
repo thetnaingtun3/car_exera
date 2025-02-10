@@ -78,7 +78,9 @@
             <div class="qr-box">
                 <!-- QR Code on the Left -->
                 <div class="qr-code">
-                    <img src="data:image/png;base64,{{ $item['qrCode'] }}" alt="QR Code">
+
+                    {!! $item['qrCode'] !!}
+                    {{-- <img src="data:image/png;base64,{{ $item['qrCode'] }}" alt="QR Code"> --}}
                 </div>
 
                 <!-- Pallet Details on the Right -->

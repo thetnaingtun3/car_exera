@@ -21,8 +21,10 @@ class PalletRegisterSubmit extends Component
     // Data with Product Type, Production Line, and related details
     public $data = [
         'Chang beer' => [
-            'Canning line 1' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
+            'Canning line 1 ' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
+            'Canning line 1 (550 ML) ' => ['package' => 'Can', 'volume' => '550 mL', 'unit' => 'carton', 'total' => '70 cartons'],
             'Canning line 2' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
+            'Canning line 2 (330 ML)' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
             'Bottling line Carton' => ['package' => 'Bottle', 'volume' => '620 mL', 'unit' => 'carton', 'total' => '75 cartons'],
             'Bottling line Crate' => ['package' => 'Bottle', 'volume' => '620 mL', 'unit' => 'crate', 'total' => '70 crates'],
             'Keg line 1' => ['package' => 'Keg', 'volume' => '30 L', 'unit' => 'keg', 'total' => '8 kegs'],

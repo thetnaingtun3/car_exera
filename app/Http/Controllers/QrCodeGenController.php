@@ -113,8 +113,11 @@ class QrCodeGenController extends Controller
 
             // Generate the QR code and encode it as base64 for inline image display
             // $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($qrData));
-            $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($qrData));
+            // $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($qrData));
+            // $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($qrData));
 
+
+            $qrCode = QrCode::size(200)->generate($qrData);
             return [
                 'pallet' => $pallet,
                 'qrCode' => $qrCode,
