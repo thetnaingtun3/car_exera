@@ -115,7 +115,7 @@
         <!-- Text Section -->
         <div class="text-container text-left">
             <h1 class="mb-4 text-2xl font-bold">Pallet Number Code</h1>
-            <h3 class="text-lg font-semibold">Pallet Details</h3>
+            {{-- <h3 class="text-lg font-semibold">Pallet Details</h3> --}}
             <p><strong>Pallet Number:</strong> PLT - {{ $record->pallet_number }}</p>
             <p><strong>Product Type:</strong> {{ $record->product_type }}</p>
             <p><strong>Production Line:</strong> {{ $record->production_line }}</p>

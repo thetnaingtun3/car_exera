@@ -91,11 +91,39 @@ class QrCodeGenController extends Controller
         ]);
     }
 
+
     public function printQRCodes(Request $request)
     {
         $palletIds = explode(',', $request->query('ids'));
         $selectedPallets = PalletRegister::whereIn('id', $palletIds)->get();
 
-        return view('livewire.pallet-resiter.print-qr-codes', compact('selectedPallets'));
+        $palletsWithQrCodes = $selectedPallets->map(function ($pallet) {
+            // Format the QR data
+            $qrData = sprintf(
+                "Pallet Number: PLT - %s\nProduct Type: %s\nProduction Line: %s\nPackage: %s\nVolume: %s\nUnit: %s\nTotal: %s\nDate: %s",
+                $pallet->pallet_number,
+                $pallet->product_type,
+                $pallet->production_line,
+                $pallet->package,
+                $pallet->volume,
+                $pallet->unit,
+                $pallet->total_amount_per_pallet,
+                Carbon::parse($pallet->created_at)->format('d-m-Y H:i:s')
+            );
+
+            // Generate the QR code and encode it as base64 for inline image display
+            // $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($qrData));
+            // $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($qrData));
+            // $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($qrData));
+
+
+            $qrCode = QrCode::size(200)->generate($qrData);
+            return [
+                'pallet' => $pallet,
+                'qrCode' => $qrCode,
+            ];
+        });
+
+        return view('livewire.pallet-resiter.print-qr-codes', compact('palletsWithQrCodes'));
     }
 }

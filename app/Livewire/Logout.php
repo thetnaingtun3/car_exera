@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class Logout extends Component
 {
@@ -13,8 +14,28 @@ class Logout extends Component
 
     public function logout()
     {
-        auth()->logout();
+        $user = Auth::user();
+        
+        if ($user) {
+            $roleName = strtolower($user->name); 
 
-        return redirect('/login');
+            Auth::logout(); 
+
+            switch ($roleName) {
+                case 'root-admin':
+                case 'admin':
+                    return redirect()->to('/login');
+                case 'transoper':
+                    return redirect()->to('/registration/login');
+                case 'loading':
+                    return redirect()->to('/loading/login');
+                case 'production':
+                    return redirect()->to('/production/login');
+                default:
+                    return redirect()->to('/login'); 
+            }
+        }
+
+        return redirect()->to('/login'); 
     }
 }

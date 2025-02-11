@@ -32,6 +32,8 @@ class SubmitCarRegister extends Component
 
     public $products = []; // To hold dynamically added products
     public $isOtherDriver = false; // Tracks if "Other" option is selected
+    public $other_truck_licence_plate = '';
+    public $other_truck_size = '';
 
     #[Computed]
     public function lsps()
@@ -110,6 +112,13 @@ class SubmitCarRegister extends Component
 
         $this->reset(['product', 'package', 'qty', 'unit']);
     }
+    public function updatedCarId()
+    {
+        if ($this->car_id === 'other') {
+            $this->other_truck_licence_plate = '';
+            $this->other_truck_size = '';
+        }
+    }
 
     public function updatedDriverId()
     {
@@ -178,11 +187,14 @@ class SubmitCarRegister extends Component
             $carRegistration = CarRegistration::create([
                 'lsp_id' => $this->lsp_id,
                 'customer_id' => $this->customer_id,
-                'car_id' => $this->car_id,
+                // 'car_id' => $this->car_id,
+                'car_id' => $this->car_id === 'other' ? null : $this->car_id,
                 'driver_id' => $driverIdToStore,
                 'driver_name' => $driverNameToStore,
                 'order_number' => $concatenatedOrderNumbers,  // Store concatenated order numbers
                 'remark' => $this->remark,
+                'licence_plate' => $this->car_id === 'other' ? $this->other_truck_licence_plate : null,
+                'size' => $this->car_id === 'other' ? $this->other_truck_size : null,
             ]);
 
             foreach ($this->products as $product) {
