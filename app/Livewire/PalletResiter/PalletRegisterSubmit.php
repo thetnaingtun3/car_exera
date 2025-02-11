@@ -224,6 +224,7 @@ class PalletRegisterSubmit extends Component
 
     //     return to_route('pallet.register');
     // }
+
     public function render()
     {
         $pallets = PalletRegister::orderBy('id', 'desc')->paginate(50);

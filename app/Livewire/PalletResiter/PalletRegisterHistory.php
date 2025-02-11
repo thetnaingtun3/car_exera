@@ -177,4 +177,11 @@ class PalletRegisterHistory extends Component
         $palletIds = implode(',', $this->selectedPallets);
         return redirect()->route('pallet.print.qr', ['ids' => $palletIds]);
     }
+    // delete one by one function
+    public function deletePallet($id)
+    {
+        $pallet = PalletRegister::find($id);
+        $pallet->delete();
+        $this->render();
+    }
 }
