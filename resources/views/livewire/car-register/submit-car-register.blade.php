@@ -315,7 +315,6 @@
 
 
 
-
                                                     @if ($user->car_id == null)
                                                         {{ $user->size }} Wheel
                                                     @else
