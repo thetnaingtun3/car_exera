@@ -18,21 +18,21 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Start Date (MM/DD/YYYY)</label>
                         <input wire:model="startDate" type="date"
-                               class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                            class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <!-- End Date -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700">End Date (MM/DD/YYYY) </label>
                         <input wire:model="endDate" type="date"
-                               class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                            class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <!-- LSP Filter -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700">LSP</label>
                         <select wire:model.live="selectedLsp"
-                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                            class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                             <option value="">All LSPs</option>
                             @foreach ($lsps as $lsp)
                                 <option value="{{ $lsp->id }}">{{ $lsp->lsp_name }}</option>
@@ -44,8 +44,8 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Customer</label>
                         <select wire:model.live="selectedCustomer"
-                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                                @if (empty($customers)) disabled @endif>
+                            class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                            @if (empty($customers)) disabled @endif>
                             <option value="">All Customers</option>
                             @foreach ($customers as $customer)
                                 <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
@@ -60,20 +60,20 @@
 
                     <!-- Reset Filters -->
                     <button wire:click="resetFilters"
-                            class="px-4 py-2 text-white bg-gray-600 rounded-lg hover:bg-gray-700 focus:ring-4 focus:ring-gray-300">
+                        class="px-4 py-2 text-white bg-gray-600 rounded-lg hover:bg-gray-700 focus:ring-4 focus:ring-gray-300">
                         Reset Filters
                     </button>
 
                     <!-- Apply Filters -->
                     <button wire:click="applyDateFilter"
-                            class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
+                        class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
                         Apply Filters
                     </button>
 
                     <!-- Export Data -->
 
                     <button wire:click="exportData"
-                            class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">
+                        class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">
                         Export Data
                     </button>
 
@@ -81,8 +81,8 @@
 
                     <div class="relative w-[23rem]">
                         <input wire:model.live.debounce.300ms="search" type="text"
-                               class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                               placeholder="Search">
+                            class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Search">
                     </div>
 
                 </div>
@@ -93,67 +93,95 @@
             <div class="overflow-x-auto mt-6">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                    <tr>
-                        <th class="px-4 py-3">ID</th>
-                        <th class="px-4 py-3">LSP Name</th>
-                        <th class="px-4 py-3">Truck Number</th>
-                        <th class="px-4 py-3">Driver Name</th>
-                        <th class="px-4 py-3">Customer Name</th>
-                        <th class="px-4 py-3">Order Number</th>
-                        <th class="px-4 py-3">Truck Type</th>
-                        <th class="px-4 py-3">Register Date</th>
-                        <th class="px-4 py-3">Time</th>
-                        <th class="px-4 py-3 text-center">Actions</th>
-                    </tr>
+                        <tr>
+                            <th class="px-4 py-3">ID</th>
+                            <th class="px-4 py-3">LSP Name</th>
+                            <th class="px-4 py-3">Truck Number</th>
+                            <th class="px-4 py-3">Driver Name</th>
+                            <th class="px-4 py-3">Customer Name</th>
+                            <th class="px-4 py-3">Order Number</th>
+                            <th class="px-4 py-3">Truck Type</th>
+                            <th class="px-4 py-3">Register Date</th>
+                            <th class="px-4 py-3">Time</th>
+                            <th class="px-4 py-3 text-center">Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    @foreach ($registrations as $key => $user)
-                        <tr class="border-b">
-                            <td class="px-4 py-3">{{ ++$key }}</td>
-                            <td class="px-4 py-3">{{ $user->lsp->lsp_name }}</td>
-                            <td class="px-4 py-3">{{ $user->truck->licence_plate }}</td>
-                            <td class="px-4 py-3">
-                                @if ($user->driver_id == null)
-                                    {{ $user->driver_name }}
-                                @else
-                                    {{ $user->truck->driver_name }}
-                                @endif
-                            </td>
-                            <td class="px-4 py-3">{{ $user->customer->customer_name }}</td>
-                            <td class="px-4 py-3">
-                                @php
-                                    $numbers = explode(',', $user->order_number);
-                                @endphp
-                                @foreach ($numbers as $number)
-                                    {{ $number }}<br>
-                                @endforeach
-                            </td>
-                            <td class="px-4 py-3">{{ $user->truck->size }}</td>
-                            <td class="px-4 py-3">{{ $user->created_at->format('d-m-Y') }}</td>
-                            <td class="px-4 py-3">{{ $user->created_at->format('h:i:s A') }}</td>
-                            <td class="flex items-center justify-center">
-                                {{-- <a href="{{ route('qrcode.show', $user->id) }}" target="_blank"
+                        @foreach ($registrations as $key => $user)
+                            <tr class="border-b">
+                                <td class="px-4 py-3">{{ ++$key }}</td>
+                                <td class="px-4 py-3">{{ $user->lsp->lsp_name }}</td>
+                                <td class="px-4 py-3">
+
+
+
+                                    @if ($user->car_id == null)
+                                        {{ $user->licence_plate }}
+                                    @else
+                                        {{ $user->truck->licence_plate }}
+                                    @endif
+
+
+
+
+                                </td>
+                                <td class="px-4 py-3">
+                                    @if ($user->driver_id == null)
+                                        {{ $user->driver_name }}
+                                    @else
+                                        {{ $user->truck->driver_name }}
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3">{{ $user->customer->customer_name }}</td>
+                                <td class="px-4 py-3">
+                                    @php
+                                        $numbers = explode(',', $user->order_number);
+                                    @endphp
+                                    @foreach ($numbers as $number)
+                                        {{ $number }}<br>
+                                    @endforeach
+                                </td>
+
+
+                                <td class="px-4 py-3">
+
+
+
+
+                                    @if ($user->car_id == null)
+                                        {{ $user->size }} Wheel
+                                    @else
+                                        {{ $user->truck->size }}
+                                    @endif
+
+                                </td>
+
+
+                                <td class="px-4 py-3">{{ $user->created_at->format('d-m-Y') }}</td>
+                                <td class="px-4 py-3">{{ $user->created_at->format('h:i:s A') }}</td>
+                                <td class="flex items-center justify-center">
+                                    {{-- <a href="{{ route('qrcode.show', $user->id) }}" target="_blank"
                                 title="Generate QR Code">
                                 <x-phosphor.icons::fill.qr-code class="w-6 h-6 mx-3 text-blue-400" />
                             </a>
                             <a href="{{ route('reg.car.detials', $user->id) }}" title="View Details">
                                 <x-phosphor.icons::fill.eye class="w-6 h-6 mx-3 text-blue-400" />
                             </a> --}}
-                                <a class="hover:cursor-pointer" href="{{ route('qrcode.show', $user->id) }}"
-                                   target="_blank" title="Generate QR Code">
-                                    <x-phosphor.icons::fill.qr-code
-                                        class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}"/>
-                                </a>
-                                {{-- detials --}}
-                                <a class="hover:cursor-pointer" href="{{ route('reg.car.detials', $user->id) }}"
-                                   title="View Details">
-                                    <x-phosphor.icons::fill.eye class="w-6 h-6 mx-3 text-blue-400"/>
-                                </a>
+                                    <a class="hover:cursor-pointer" href="{{ route('qrcode.show', $user->id) }}"
+                                        target="_blank" title="Generate QR Code">
+                                        <x-phosphor.icons::fill.qr-code
+                                            class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}" />
+                                    </a>
+                                    {{-- detials --}}
+                                    <a class="hover:cursor-pointer" href="{{ route('reg.car.detials', $user->id) }}"
+                                        title="View Details">
+                                        <x-phosphor.icons::fill.eye class="w-6 h-6 mx-3 text-blue-400" />
+                                    </a>
 
 
-                            </td>
-                        </tr>
-                    @endforeach
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

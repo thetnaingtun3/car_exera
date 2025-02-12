@@ -202,6 +202,11 @@
                                         <x-phosphor.icons::fill.qr-code
                                             class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}" />
                                     </a>
+                                    <x-form.button class="bg-red-700 hover:bg-red-800"
+                                        wire:confirm="Are you sure you want to delete {{ $user->id }}?"
+                                        wire:click="deletePallet({{ $user->id }})">
+                                        <x-phosphor.icons::regular.trash class="w-6 h-6 mx-1 text-white" />
+                                    </x-form.button>
                                 </td>
                             </tr>
                         @endforeach

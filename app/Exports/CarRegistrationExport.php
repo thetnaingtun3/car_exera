@@ -53,17 +53,31 @@ class CarRegistrationExport implements FromQuery, WithHeadings, WithMapping
     /**
      * Map the data for the exported Excel file
      */
+    // public function map($carRegisterProduct): array
+    // {
+    //     return [
+
+    //         $this->counter++, // Auto-incrementing ID starting from 1
+    //         $carRegisterProduct->lsp->lsp_name ?? 'N/A', // Fetch LSP name, fallback to 'N/A' if null
+    //         $carRegisterProduct->truck->licence_plate ?? $carRegisterProduct->car_number, // Truck number or car_number
+    //         $carRegisterProduct->driver_name ?? 'N/A', // Driver Name
+    //         $carRegisterProduct->customer->customer_name ?? 'N/A', // Fetch Customer name
+    //         $carRegisterProduct->order_number ?? 'N/A', // Order Number
+    //         $carRegisterProduct->truck->size ?? 'N/A', // Type Size
+    //         $carRegisterProduct->created_at->format('d-m-Y'), // Created At
+    //         $carRegisterProduct->created_at->format('h:i:s'), // Created At
+    //     ];
+    // }
     public function map($carRegisterProduct): array
     {
         return [
-
             $this->counter++, // Auto-incrementing ID starting from 1
             $carRegisterProduct->lsp->lsp_name ?? 'N/A', // Fetch LSP name, fallback to 'N/A' if null
-            $carRegisterProduct->truck->licence_plate ?? $carRegisterProduct->car_number, // Truck number or car_number
-            $carRegisterProduct->driver_name ?? 'N/A', // Driver Name
+            $carRegisterProduct->car_id == null ? $carRegisterProduct->car_number : $carRegisterProduct->truck->licence_plate ?? 'N/A', // Licence Plate
+            $carRegisterProduct->dirver_id == null ? $carRegisterProduct->driver_name : $carRegisterProduct->truck->driver_name ?? 'N/A', // Licence Plate
             $carRegisterProduct->customer->customer_name ?? 'N/A', // Fetch Customer name
             $carRegisterProduct->order_number ?? 'N/A', // Order Number
-            $carRegisterProduct->truck->size ?? 'N/A', // Type Size
+            $carRegisterProduct->car_id == null ? $carRegisterProduct->size . ' Wheel' : $carRegisterProduct->truck->size ?? 'N/A', // Type Size
             $carRegisterProduct->created_at->format('d-m-Y'), // Created At
             $carRegisterProduct->created_at->format('h:i:s'), // Created At
         ];
