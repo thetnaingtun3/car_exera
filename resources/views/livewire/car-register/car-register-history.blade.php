@@ -135,9 +135,15 @@
 
             </div>
 
-            <!-- TABLE DATA -->
+          
             <div class="overflow-x-auto mt-6">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                  
+                    <button id="exportExcelButton" class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">
+                        Export to Excel
+                    </button>
+
+
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th class="px-4 py-3"></th>
@@ -242,7 +248,37 @@
         </div>
     </section>
 </div>
+<script src="{{ asset('js/xlsx.full.min.js') }}"></script>
+
+
 <script>
+     
+    function exportToExcel() {
+     
+        var table = document.querySelector('table');
+         var ws = XLSX.utils.table_to_sheet(table);
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+       XLSX.writeFile(wb, "table_data.xlsx");
+    }
+
+   
+
+
+
+    // Add event listeners to export buttons
+    document.addEventListener('DOMContentLoaded', function () {
+        const excelButton = document.getElementById('exportExcelButton');
+        const pdfButton = document.getElementById('exportPdfButton');
+
+        if (excelButton) {
+            excelButton.addEventListener('click', exportToExcel);
+        }
+
+        if (pdfButton) {
+            pdfButton.addEventListener('click', exportToPDF);
+        }
+    });
     document.addEventListener('livewire:load', function () {
         document.getElementById('printQRCodesButton').addEventListener('click', function () {
             // Emit the Livewire event to get the print URL
