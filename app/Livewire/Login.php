@@ -8,11 +8,11 @@ use Livewire\Component;
 
 class Login extends Component
 {
-    public $email = '';
+    public $name = '';
     public $password = '';
 
     protected $rules = [
-        'email' => 'required|email',
+        'name' => 'required',
         'password' => 'required',
     ];
 
@@ -21,14 +21,14 @@ class Login extends Component
         if (auth()->guard('admin')->user()) {
             return redirect('/dashboard');
         }
-       // $this->fill(['email' => 'root@admin.com', 'password' => 'password']);
     }
 
     public function login()
     {
         $credentials = $this->validate();
-        $data = Auth::guard('admin')->attempt($credentials);
-        if ($data) {
+
+        // Use 'name' instead of 'email' for authentication
+        if (Auth::guard('admin')->attempt(['name' => $this->name, 'password' => $this->password])) {
             return redirect()->route('dashboard');
         } else {
             return to_route('login');

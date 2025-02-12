@@ -23,23 +23,15 @@ class ImportCustomer extends Component
     public $importErrors = [];
 
     public function save()
-    {
-        if (!$this->file) {
-            Notification::make()
-                ->title('No File Selected!')
-                ->danger()
-                ->send();
-            return;
-        }
+{
+    // Proceed only if a file is present
+    if ($this->file) {
         $import = new CustomersImport($this->lsp_id);
         Excel::import($import, $this->file->getRealPath());
 
-        // Excel::import(new CustomersImport($this->lsp_id), $this->file->path());
         // Collect validation errors after import
         $this->importErrors = $import->errors;
-
         $this->reset('file');
-
 
         if (empty($this->importErrors)) {
             Notification::make()
@@ -50,6 +42,8 @@ class ImportCustomer extends Component
             return redirect()->route('index.customer');
         }
     }
+}
+
 
 
     // public function save()
