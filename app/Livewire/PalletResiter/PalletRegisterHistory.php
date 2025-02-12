@@ -3,11 +3,8 @@
 namespace App\Livewire\PalletResiter;
 
 use Livewire\Component;
-use Illuminate\Http\Request;
-use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use App\Models\PalletRegister;
-use Livewire\Attributes\Title;
 use Maatwebsite\Excel\Facades\Excel;
 use Filament\Notifications\Notification;
 use App\Exports\PalletRegistrationExport;
@@ -20,17 +17,22 @@ class PalletRegisterHistory extends Component
     public $selectedPallets = [];
     public $selectAll = false;
 
-    #[Url(history: true)] public $search = '';
-    #[Url(history: true)] public $startDate = '';
-    #[Url(history: true)] public $endDate = '';
-    #[Url(history: true)] public $startPalletNumber = '';
-    #[Url(history: true)] public $endPalletNumber = '';
-    #[Url(history: true)] public $selectedProductType = '';
-    #[Url(history: true)] public $selectedProductionLine = '';
-    #[Url(history: true)] public $selectedVolume = '';
-    #[Url(history: true)] public $sortBy = 'created_at';
-    #[Url(history: true)] public $sortDir = 'DESC';
-    #[Url()] public $perPage = 100;
+    public $rangeStart;
+    public $rangeEnd;
+    public $dynamic = 1;
+
+    public $search = '';
+    public $startDate = '';
+    public $endDate = '';
+    public $startPalletNumber = '';
+    public $endPalletNumber = '';
+    public $selectedProductType = '';
+    public $selectedProductionLine = '';
+    public $selectedVolume = '';
+    public $sortBy = 'id';
+
+    public $sortDir = 'DESC';
+    public $perPage = 100;
 
     protected $queryString = [
         'search',
@@ -45,11 +47,29 @@ class PalletRegisterHistory extends Component
         'sortDir',
         'perPage'
     ];
-
-    // public function mount()
+    // public function applyFilters()
     // {
-    //     $this->count = PalletRegister::count();
+    //     $this->render();
     // }
+
+    public function selectRangeByDynamic()
+    {
+        // Reset the selected pallets
+        $this->selectedPallets = [];
+
+        // Get the current page of pallets in the correct order (sorted view)
+        $pallets = $this->getPalletsQuery()->paginate($this->perPage);
+
+        // Iterate over the displayed rows and select based on the visual order
+        foreach ($pallets as $index => $user) {
+            // Check if the row index falls within the selected range
+            if (($index + 1) >= $this->rangeStart && ($index + 1) <= $this->rangeEnd) {
+                $this->selectedPallets[] = $user->id;
+            }
+        }
+    }
+
+
 
     public function resetFilters()
     {
@@ -67,7 +87,6 @@ class PalletRegisterHistory extends Component
 
     public function exportData()
     {
-
         if (empty($this->startDate) || empty($this->endDate)) {
             Notification::make()
                 ->title('Please select a date range to export data.')
@@ -99,27 +118,19 @@ class PalletRegisterHistory extends Component
         $this->selectAll = false;
     }
 
-    public function applyFilters()
-    {
-        $this->render();
-    }
-
     public function setSortBy($sortByField)
     {
-
         if ($this->sortBy === $sortByField) {
-            $this->sortDir = ($this->sortDir == "ASC") ? 'DESC' : "ASC";
+            $this->sortDir = $this->sortDir === 'ASC' ? 'DESC' : 'ASC';
             return;
         }
 
         $this->sortBy = $sortByField;
         $this->sortDir = 'DESC';
     }
-
-    #[Title('Pallet Register History')]
-    public function render()
+    public function getPalletsQuery()
     {
-        $query = PalletRegister::query()->orderBy($this->sortBy, $this->sortDir);
+        $query = PalletRegister::query();
 
         if (!empty($this->search)) {
             $query->where('pallet_number', 'like', "%{$this->search}%");
@@ -152,9 +163,13 @@ class PalletRegisterHistory extends Component
             $query->where('volume', $this->selectedVolume);
         }
 
-        $query->orderByRaw("CAST(SUBSTRING_INDEX(pallet_number, '-', -1) AS UNSIGNED) ASC");
+        return $query->orderBy($this->sortBy, $this->sortDir);
+    }
 
-        $pallets = $query->paginate($this->perPage);
+
+    public function render()
+    {
+        $pallets = $this->getPalletsQuery()->paginate($this->perPage);
 
         $productTypes = PalletRegister::distinct()->pluck('product_type');
         $productionLines = PalletRegister::distinct()->pluck('production_line');
@@ -164,6 +179,7 @@ class PalletRegisterHistory extends Component
 
         return view('livewire.pallet-resiter.pallet-register-history', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
     }
+
     public function getPrintUrl()
     {
         if (empty($this->selectedPallets)) {
@@ -177,7 +193,7 @@ class PalletRegisterHistory extends Component
         $palletIds = implode(',', $this->selectedPallets);
         return redirect()->route('pallet.print.qr', ['ids' => $palletIds]);
     }
-    // delete one by one function
+
     public function deletePallet($id)
     {
         $pallet = PalletRegister::find($id);

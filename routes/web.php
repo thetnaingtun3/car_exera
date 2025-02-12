@@ -92,17 +92,14 @@ Route::middleware('auth:admin')->group(callback: function () {
     // pallet register
     Route::get('pallet/register', PalletRegisterSubmit::class)->name('pallet.register');
 
-    Route::get('/pallet/qrcode/{id}', [QrCodeGenController::class, "palletQrCode"])->name('palletqrcode.show');
-
-    Route::get('/pallet-register/print-qr', [PalletRegisterHistory::class, 'printSelectedQRCodes'])->name('pallet.print.qr');
-
+    // Route::get('/pallet-register/print-qr', [PalletRegisterHistory::class, 'printSelectedQRCodes'])->name('pallet.print.qr');
     Route::get('/pallet/history', PalletRegisterHistory::class)->name('pallet.history');
+    Route::get('/pallet/qr/code/history', PalletRegisterQrCodeHistory::class)->name('pallet.qrcode.history');
 
+    Route::get('/pallet/qrcode/{id}', [QrCodeGenController::class, "palletQrCode"])->name('palletqrcode.show');
     Route::get('/pallet/print-qr', [QrCodeGenController::class, 'printQRCodes'])->name('pallet.print.qr');
-
+    Route::get('/car/print-qr', [QrCodeGenController::class, 'printCarQRCodes'])->name('car.print.qr');
 
     Route::get('/loading/data', LoadingDataList::class)->name('loading.data');
     Route::get('/loading/create', LoadingDataCreate::class)->name('loading.create');
-
-    Route::get('/pallet/qr/code/history', PalletRegisterQrCodeHistory::class)->name('pallet.qrcode.history');
 });

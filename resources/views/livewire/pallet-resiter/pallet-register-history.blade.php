@@ -96,10 +96,6 @@
                 <!-- Actions: Filter, Reset, Export -->
                 <div class="flex flex-wrap justify-between items-center mt-6 space-x-2">
                     <div class="flex space-x-2">
-                        <button wire:click="applyFilters"
-                            class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
-                            Apply Filters
-                        </button>
 
                         <button wire:click="resetFilters"
                             class="px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 focus:ring-4 focus:ring-gray-300">
@@ -144,6 +140,26 @@
                             </svg>
                         </div>
                     </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                        <div>
+                            <label for="start_range" class="block text-sm font-medium text-gray-700">Start Range</label>
+                            <input wire:model="rangeStart" type="number" min="1" id="start_range"
+                                class="block w-full p-2 border rounded-lg" placeholder="Start Range">
+                        </div>
+
+                        <div>
+                            <label for="end_range" class="block text-sm font-medium text-gray-700">End Range</label>
+                            <input wire:model="rangeEnd" type="number" min="1" id="end_range"
+                                class="block w-full p-2 border rounded-lg" placeholder="End Range">
+                        </div>
+
+                        <div class="flex items-end">
+                            <button wire:click="selectRangeByDynamic"
+                                class="px-4 py-2 text-white bg-green-600 rounded-lg">
+                                Select Rows in Range
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -182,7 +198,7 @@
                                     <input type="checkbox" wire:model="selectedPallets" value="{{ $user->id }}"
                                         class="form-checkbox">
                                 </td>
-                                <td class="px-2 ">{{ ++$key }}</td>
+                                <td class="px-2 ">{{ $dynamic++ }}</td>
 
                                 <td class="">PLT - {{ $user->pallet_number }}</td>
                                 <th class=""> {{ $user->product_type }}</th>
@@ -220,19 +236,6 @@
         </div>
     </section>
 </div>
-{{-- <script>
-    document.addEventListener('livewire:load', function() {
-        Livewire.on('openPrintPage', (selectedPallets) => {
-            if (selectedPallets.length === 0) {
-                alert('No pallets selected.');
-                return;
-            }
-            let url = "{{ route('pallet.print.qr') }}?ids=" + selectedPallets.join(',');
-            window.open(url, '_blank'); // Open print page in a new tab
-        });
-    });
-</script> --}}
-
 <script>
     document.addEventListener('livewire:load', function() {
         document.getElementById('printQRCodesButton').addEventListener('click', function() {

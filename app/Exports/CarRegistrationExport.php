@@ -73,7 +73,7 @@ class CarRegistrationExport implements FromQuery, WithHeadings, WithMapping
         return [
             $this->counter++, // Auto-incrementing ID starting from 1
             $carRegisterProduct->lsp->lsp_name ?? 'N/A', // Fetch LSP name, fallback to 'N/A' if null
-            $carRegisterProduct->car_id == null ? $carRegisterProduct->car_number : $carRegisterProduct->truck->licence_plate ?? 'N/A', // Licence Plate
+            $carRegisterProduct->car_id == null ? $carRegisterProduct->licence_plate : $carRegisterProduct->truck->licence_plate ?? 'N/A', // Licence Plate
             $carRegisterProduct->dirver_id == null ? $carRegisterProduct->driver_name : $carRegisterProduct->truck->driver_name ?? 'N/A', // Licence Plate
             $carRegisterProduct->customer->customer_name ?? 'N/A', // Fetch Customer name
             $carRegisterProduct->order_number ?? 'N/A', // Order Number

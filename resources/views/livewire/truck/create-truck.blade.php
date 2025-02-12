@@ -32,24 +32,30 @@
                             </div>
 
                             <div class="w-full px-4 lg:w-6/12">
-                                <x-form.input wire:model="form.licence_plate" type="text" label=" Plate Number " />
+                                <x-form.input wire:model="form.licence_plate" type="text" maxlength="7"
+                                    label=" Plate Number " />
                                 <x-form.input-error for="form.licence_plate" class="mt-2" />
                             </div>
 
 
-{{--                            <div class="w-full px-4 pt-5 lg:w-6/12">--}}
-{{--                                <x-form.input wire:model="form.vehicle_type" type="text" label="Vehicle type" />--}}
-{{--                                <x-form.input-error for="form.vehicle_type" class="mt-2" />--}}
-{{--                            </div>--}}
                             <div class="w-full px-4 pt-5 lg:w-6/12">
                                 <x-form.input wire:model="form.driver_name" type="text" label="Driver Name " />
                                 <x-form.input-error for="form.driver_name" class="mt-2" />
                             </div>
 
 
-                            <div class="w-full px-4 pt-5 lg:w-6/12">
-                                <x-form.input wire:model="form.size" type="text" label="Size " />
+                            <div class="w-full px-4 pt-5 lg:w-3/12">
+                                <x-form.input wire:model="form.size" type="number" label="Size " />
                                 <x-form.input-error for="form.size" class="mt-2" />
+                            </div>
+                            <div class="w-full px-4 pt-5 lg:w-3/12">
+                                <x-form.select-box wire:model="form.unit" label="Select LSP">
+                                    <option value="" disabled>Select Type</option>
+                                    <option value="Wheel" {{ $form->unit === 'Wheel' ? 'selected' : '' }}>Wheel
+                                    </option>
+                                    <option value="Feet" {{ $form->unit === 'Feet' ? 'selected' : '' }}>Feet
+                                    </option>
+                                </x-form.select-box>
                             </div>
                             <div class="w-full px-4 mt-4 lg:w-3/12">
                                 <label for="status"

@@ -9,7 +9,7 @@ class TruckForm extends Form
 {
     public ?Truck $truck = null;
 
-    public $lsp_id, $licence_plate, $vehicle_type, $size, $driver_name;
+    public $lsp_id, $licence_plate, $unit, $vehicle_type, $size, $driver_name;
     public $status = 'active';
 
     public function setTruck(Truck $truck)
@@ -18,7 +18,10 @@ class TruckForm extends Form
         $this->lsp_id = $truck->lsp_id;
         $this->licence_plate = $truck->licence_plate;
         $this->driver_name = $truck->driver_name;
-        $this->size = $truck->size;
+        $this->size = (int) preg_replace('/[^0-9]/', '', $truck->size);
+        preg_match('/[a-zA-Z]+$/', $truck->size, $matches);
+        $this->unit = $matches[0] ?? '';
+
         $this->status = $truck->status;
     }
 
@@ -33,7 +36,8 @@ class TruckForm extends Form
             'lsp_id' => $this->lsp_id,
             'licence_plate' => $this->licence_plate,
             'driver_name' => $this->driver_name,
-            'size' => $this->size,
+
+            'size' => $this->size . ' ' . $this->unit,
             'status' => $this->status,
         ]);
     }
@@ -49,7 +53,8 @@ class TruckForm extends Form
             'lsp_id' => $this->lsp_id,
             'licence_plate' => $this->licence_plate,
             'driver_name' => $this->driver_name,
-            'size' => $this->size,
+
+            'size' => $this->size . ' ' . $this->unit,
             'status' => $this->status,
         ]);
     }

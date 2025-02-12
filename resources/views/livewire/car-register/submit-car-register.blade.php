@@ -67,27 +67,48 @@
                                         </div>
 
                                         @if ($car_id === 'other')
+                                            <!-- Truck Number -->
+
                                             <div class="w-full py-2">
                                                 <x-form.input wire:model.live="other_truck_licence_plate" type="text"
                                                     label="Truck Number" />
-
-
-                                                {{-- <label for="licence_plate">Licence Plate</label>
-                                                <input type="text" id="licence_plate"
-                                                    wire:model.live="other_truck_licence_plate"
-                                                    class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset"> --}}
                                             </div>
 
 
                                             <div class="w-full py-2">
-                                                {{-- <label for="size">Truck Size</label> --}}
-                                                <x-form.input wire:model.live="other_truck_size" type="text"
-                                                    label="Truck Size" />
-
-                                                {{-- <input type="text" id="size" wire:model.live="other_truck_size" --}}
-                                                {{-- class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset"> --}}
+                                                <div class="flex flex-wrap gap-2">
+                                                    <!-- Truck Size -->
+                                                    <div class="w-full lg:w-5/12">
+                                                        <x-form.input wire:model.live="other_truck_size" type="number"
+                                                            label="Truck Size" />
+                                                    </div>
+                                                    <div class="w-full lg:w-5/12">
+                                                        <x-form.select-box wire:model="tunit" label="Select LSP">
+                                                            <option value="" disabled>Select Type</option>
+                                                            <option value="Wheel">Wheel
+                                                            </option>
+                                                            <option value="Feet">Feet
+                                                            </option>
+                                                        </x-form.select-box>
+                                                    </div>
+                                                </div>
                                             </div>
                                         @endif
+
+                                        {{-- @if ($car_id === 'other')
+                                            <div class="w-full py-2 ">
+                                                <div class="w-full  pt-2 lg:w-3/12">
+                                                    <x-form.input wire:model.live="other_truck_licence_plate"
+                                                        type="text" label="Truck Number" />
+
+                                                </div>
+
+                                                <div class="w-full  pt-2 lg:w-3/12">
+                                                    <x-form.input wire:model.live="other_truck_size" type="text"
+                                                        label="Truck Size" />
+                                                </div>
+                                            </div>
+                                        @endif --}}
 
                                         <div class="w-full py-2">
                                             <select wire:model.live="driver_id"
@@ -264,6 +285,56 @@
 
                         </div>
                         <div class="col-span-2">
+                            <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800 p-4">
+                                <!-- Button Group for Select/Remove All & Print -->
+                                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                                    <!-- Select / Remove All Buttons -->
+                                    <div class="flex flex-wrap gap-2">
+                                        <button wire:click="allCheck"
+                                                class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300">
+                                            Select All
+                                        </button>
+
+                                        <button wire:click="removeCheck"
+                                                class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 focus:ring-4 focus:ring-red-300">
+                                            Remove All
+                                        </button>
+
+                                        <button wire:click="getPrintUrl"
+                                                class="px-4 py-2 text-white bg-purple-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
+                                            Selected Print QR Codes
+                                        </button>
+                                    </div>
+
+                                    <!-- Select Range Inputs -->
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-auto">
+                                        <div>
+                                            <label for="start_range" class="block text-sm font-medium text-gray-700">Start
+                                                Range</label>
+                                            <input wire:model="rangeStart" type="number" min="1" id="start_range"
+                                                   class="block w-full p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                                                   placeholder="Start Range">
+                                        </div>
+
+                                        <div>
+                                            <label for="end_range" class="block text-sm font-medium text-gray-700">End
+                                                Range</label>
+                                            <input wire:model="rangeEnd" type="number" min="1" id="end_range"
+                                                   class="block w-full p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                                                   placeholder="End Range">
+                                        </div>
+
+                                        <div class="flex items-end">
+                                            <button wire:click="selectRangeByDynamic"
+                                                    class="px-4 py-2 w-full text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300">
+                                                Select Rows in Range
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div class="overflow-x-auto ">
                                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -286,7 +357,7 @@
                                         @foreach ($registrations as $key => $user)
                                             <tr wire:key="{{ $user->id }}" class="border-b">
 
-                                                <td class="">{{ ++$key }}</td>
+
 
                                                 <td class="">
 
