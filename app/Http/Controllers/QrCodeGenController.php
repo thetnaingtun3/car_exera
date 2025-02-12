@@ -35,6 +35,7 @@ class QrCodeGenController extends Controller
             $record->truck?->licence_plate ?? 'No Truck Assigned',
             $record->driver_name,
             $record->order_number,
+
             $record->truck?->size ?? 'Unknown Size',
             $record->customer?->customer_name ?? 'No Customer Assigned',
 
@@ -92,10 +93,43 @@ class QrCodeGenController extends Controller
     }
 
 
+    public function printCarQRCodes(Request $request)
+    {
+        $carIds = explode(',', $request->query('ids'));
+        $selectedCars = CarRegistration::whereIn('id', $carIds)->get();
+
+        $carsWithQrCodes = $selectedCars->map(function ($car) {
+            // Format the QR data
+            $qrData = sprintf(
+                "LSPName:  %s\nCar Number:  %s\nDriver Name:  %s\nDelivery Order Number: %s\nType of Truck:  %s\nCustomer Name:  %s\nDate and Time:  %s",
+                $car->lsp?->lsp_name ?? 'No LSP Assigned',
+                $car->truck?->licence_plate ?? 'No Truck Assigned',
+                $car->driver_name,
+                $car->order_number,
+                $car->truck?->size ?? 'Unknown Size',
+                $car->customer?->customer_name ?? 'No Customer Assigned',
+                Carbon::parse($car->click_date)->format('d-m-Y H:i:s'),
+            );
+
+            // Generate the QR code
+            $qrCode = QrCode::size(200)->generate($qrData);
+
+            return [
+                'qrCode' => $qrCode,
+                'record' => $car,
+            ];
+
+        });
+
+        return view('livewire.carprint-qr-codes', compact('carsWithQrCodes'));
+    }
+
     public function printQRCodes(Request $request)
     {
         $palletIds = explode(',', $request->query('ids'));
         $selectedPallets = PalletRegister::whereIn('id', $palletIds)->get();
+        // selectedPallets of status data update
+
 
         $palletsWithQrCodes = $selectedPallets->map(function ($pallet) {
             // Format the QR data
@@ -111,18 +145,18 @@ class QrCodeGenController extends Controller
                 Carbon::parse($pallet->created_at)->format('d-m-Y H:i:s')
             );
 
-            // Generate the QR code and encode it as base64 for inline image display
-            // $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($qrData));
-            // $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($qrData));
-            // $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($qrData));
-
-
             $qrCode = QrCode::size(200)->generate($qrData);
+
             return [
                 'pallet' => $pallet,
                 'qrCode' => $qrCode,
             ];
         });
+        foreach ($selectedPallets as $pallet) {
+            if ($pallet->status == '0') {
+                $pallet->update(['status' => '1', 'click_date' => now()]);
+            }
+        }
 
         return view('livewire.pallet-resiter.print-qr-codes', compact('palletsWithQrCodes'));
     }

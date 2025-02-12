@@ -29,6 +29,7 @@ class SubmitCarRegister extends Component
     public $package = '';
     public $qty = '';
     public $unit = '';
+    public $tunit;
 
     public $products = []; // To hold dynamically added products
     public $isOtherDriver = false; // Tracks if "Other" option is selected
@@ -169,13 +170,24 @@ class SubmitCarRegister extends Component
         $this->orderNumbers = array_values($this->orderNumbers);  // Re-index the array
     }
 
-
     public function save()
     {
+        // Check if $this->products is empty
+        if (empty($this->products)) {
+            Notification::make()
+                ->title('No products added!')
+                ->danger()  // Change to 'danger' for a red alert
+                ->send();
+
+            return;  // Stop execution if no products are added
+        }
+
         if (empty($this->orderNumbers)) {
             $this->addError('orderNumbers', 'Please add at least one valid order number.');
             return;
         }
+
+
 
         // Concatenate order numbers into a single string
         $concatenatedOrderNumbers = implode(',', $this->orderNumbers);
@@ -194,7 +206,7 @@ class SubmitCarRegister extends Component
                 'order_number' => $concatenatedOrderNumbers,  // Store concatenated order numbers
                 'remark' => $this->remark,
                 'licence_plate' => $this->car_id === 'other' ? $this->other_truck_licence_plate : null,
-                'size' => $this->car_id === 'other' ? $this->other_truck_size : null,
+                'size' => $this->car_id === 'other' ? $this->other_truck_size  . ' ' . $this->tunit : null,
             ]);
 
             foreach ($this->products as $product) {
