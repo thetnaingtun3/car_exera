@@ -33,7 +33,8 @@
 </head>
 
 <body onload="window.print(); setTimeout(() => window.close(), 500);">
-    <h2>QR Codes for Selected Pallets</h2>
+
+    {{-- <h1>QR Codes for Selected Pallets</h1> --}}
 
     <div class="qr-container">
         @foreach ($selectedPallets as $pallet)

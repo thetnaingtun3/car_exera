@@ -180,4 +180,24 @@ class PalletRegisterHistory extends Component
 
         return view('livewire.pallet-resiter.pallet-register-history', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
     }
+    public function getPrintUrl()
+    {
+        if (empty($this->selectedPallets)) {
+            Notification::make()
+                ->title('No pallets selected for printing.')
+                ->danger()
+                ->send();
+            return;
+        }
+
+        $palletIds = implode(',', $this->selectedPallets);
+        return redirect()->route('pallet.print.qr', ['ids' => $palletIds]);
+    }
+    // delete one by one function
+    public function deletePallet($id)
+    {
+        $pallet = PalletRegister::find($id);
+        $pallet->delete();
+        $this->render();
+    }
 }
