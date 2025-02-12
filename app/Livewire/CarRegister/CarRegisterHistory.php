@@ -131,12 +131,9 @@ class CarRegisterHistory extends Component
     {
         $query = CarRegistration::search($this->search)->with(['lsp', 'customer', 'truck']);
 
-        if (!empty($this->startDate)) {
-            $query->whereDate('created_at', '>=', $this->startDate);
-        }
-
-        if (!empty($this->endDate)) {
-            $query->whereDate('created_at', '<=', $this->endDate);
+        // Apply date filters
+        if (!empty($this->startDate) || !empty($this->endDate)) {
+            $query->filterByDate($this->startDate, $this->endDate);
         }
 
         if (!empty($this->selectedLsp)) {
@@ -172,4 +169,55 @@ class CarRegisterHistory extends Component
         return redirect()->route('car.print.qr', ['ids' => $carIds]);
 
     }
+
+
+    public function getChangeDateUrl()
+    {
+        if (empty($this->selectedCars)) {
+            Notification::make()
+                ->title('No  selected for printing.')
+                ->danger()
+                ->send();
+            return;
+        }
+        $carIds = implode(',', $this->selectedCars);
+
+        return redirect()->route('car.qrcode.date.change', ['ids' => $carIds]);
+    }
+
+//deleteCarReg
+    public function deleteCarReg()
+    {
+        if (empty($this->selectedCars)) {
+            Notification::make()
+                ->title('No  selected for printing.')
+                ->danger()
+                ->send();
+            return;
+        }
+        $carIds = implode(',', $this->selectedCars);
+
+        return redirect()->route('car.delete', ['ids' => $carIds]);
+    }
+
+    public function deleteCarRegById($id)
+    {
+        $car = CarRegistration::find($id);
+        $car->delete();
+        $this->selectedCars = [];
+        $this->selectAll = false;
+        Notification::make()
+            ->title('Car Registration Deleted Successfully.')
+            ->success()
+            ->send();
+    }
+
+    public function deleteAllCarReg($id)
+    {
+        $cc = CarRegistration::findOrFail($id);
+        $cc->delete();
+        $this->render();
+
+    }
 }
+

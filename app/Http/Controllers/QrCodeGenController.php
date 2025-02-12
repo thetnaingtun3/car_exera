@@ -120,6 +120,11 @@ class QrCodeGenController extends Controller
             ];
 
         });
+        foreach ($selectedCars as $car) {
+            if ($car->status == '0') {
+                $car->update(['status' => '1', 'click_date' => now()]);
+            }
+        }
 
         return view('livewire.carprint-qr-codes', compact('carsWithQrCodes'));
     }
@@ -160,4 +165,55 @@ class QrCodeGenController extends Controller
 
         return view('livewire.pallet-resiter.print-qr-codes', compact('palletsWithQrCodes'));
     }
+
+    public function qrcodeDateChange(Request $request)
+    {
+        $carIds = explode(',', $request->query('ids'));
+        $selectedCars = CarRegistration::whereIn('id', $carIds)->get();
+        return view('car_qr_date_change', compact('selectedCars', 'carIds'));
+    }
+
+    public function qrcodeDateChangePost(Request $request)
+    {
+        $carIds = explode(',', $request->query('ids'));
+        $selectedCars = CarRegistration::whereIn('id', $carIds)->get();
+        foreach ($selectedCars as $car) {
+            $car->update(['click_date' => $request->click_date]);
+
+        }
+
+        return redirect()->route('order.history');
+    }
+
+
+    // please write for pallet
+    public function palletQrCodeDateChange(Request $request)
+    {
+        $palletIds = explode(',', $request->query('ids'));
+        $selectedPallets = PalletRegister::whereIn('id', $palletIds)->get();
+        return view('pallet_qr_date_change', compact('selectedPallets', 'palletIds'));
+    }
+
+    public function palletQrCodeDateChangePost(Request $request)
+    {
+        // Validate input to ensure date is provided
+        $request->validate([
+            'click_date' => 'required|date',
+        ]);
+
+        // Get Pallet IDs from the request query
+        $palletIds = explode(',', $request->query('ids'));
+
+        // Check if any pallets exist before updating
+        if (empty($palletIds)) {
+            return back()->with('error', 'No pallets selected.');
+        }
+
+        // Update click_date for selected pallets
+        PalletRegister::whereIn('id', $palletIds)->update(['click_date' => $request->click_date]);
+
+        // Redirect with success message
+        return redirect()->route('pallet.history')->with('success', 'Click Date updated successfully.');
+    }
+
 }

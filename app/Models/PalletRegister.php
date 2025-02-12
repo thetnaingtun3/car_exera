@@ -18,6 +18,7 @@ class PalletRegister extends Model
         'click_date',
         'status',
     ];
+
     public function scopeFilterByDate($query, $startDate, $endDate)
 
     {
@@ -31,9 +32,13 @@ class PalletRegister extends Model
 
         return $query;
     }
+
     public function scopeSearch($query, $value)
     {
-        $query->where('pallet_number', 'like', "%{$value}%")
+        // Remove "PLT - " prefix if present
+        $cleanValue = preg_replace('/^PLT\s*-\s*/', '', $value);
+
+        return $query->where('pallet_number', 'like', "%{$cleanValue}%")
             ->orWhere('product_type', 'like', "%{$value}%")
             ->orWhere('production_line', 'like', "%{$value}%")
             ->orWhere('volume', 'like', "%{$value}%")

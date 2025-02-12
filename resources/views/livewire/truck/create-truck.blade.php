@@ -49,7 +49,7 @@
                                 <x-form.input-error for="form.size" class="mt-2" />
                             </div>
                             <div class="w-full px-4 pt-5 lg:w-3/12">
-                                <x-form.select-box wire:model="form.unit" label="Select LSP">
+                                <x-form.select-box wire:model="form.unit" label="Select Unit">
                                     <option value="" disabled>Select Type</option>
                                     <option value="Wheel" {{ $form->unit === 'Wheel' ? 'selected' : '' }}>Wheel
                                     </option>

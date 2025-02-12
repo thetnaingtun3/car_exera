@@ -54,9 +54,16 @@ class PalletRegisterSubmit extends Component
             'Keg line 1' => ['package' => 'Keg', 'volume' => '30 L', 'unit' => 'keg', 'total' => '8 kegs'],
             'Keg line 2' => ['package' => 'Keg', 'volume' => '30 L', 'unit' => 'keg', 'total' => '8 kegs'],
         ],
+
         'Tapper beer' => [
-            'Canning line 1' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
-            'Canning line 2' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
+            'Canning line 1' => [
+                '330 mL' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
+                '500 mL' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
+            ],
+            'Canning line 2' => [
+                '330 mL' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
+                '500 mL' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
+            ],
         ],
     ];
 
@@ -95,15 +102,39 @@ class PalletRegisterSubmit extends Component
         }
     }
 
+//    public function updatedProductionLine($value)
+//    {
+//        if (isset($this->data[$this->productType][$value])) {
+//            // Only Chang beer's Canning lines require volume selection
+//            if ($this->productType === 'Chang beer' && ($value === 'Canning line 1' || $value === 'Canning line 2')) {
+//                $this->availableVolumes = array_keys($this->data[$this->productType][$value]);
+//                $this->reset(['volumeSelection', 'package', 'volume', 'unit', 'totalAmountPerPallet']);
+//            } else {
+//                // Auto-fill for Tapper beer, Bottling lines, and Keg lines
+//                $this->availableVolumes = [];
+//                $details = $this->data[$this->productType][$value];
+//                $this->package = $details['package'];
+//                $this->volume = $details['volume'];
+//                $this->unit = $details['unit'];
+//                $this->totalAmountPerPallet = $details['total'];
+//            }
+//        } else {
+//            $this->reset(['availableVolumes', 'volumeSelection', 'package', 'volume', 'unit', 'totalAmountPerPallet']);
+//        }
+//    }
+
     public function updatedProductionLine($value)
     {
         if (isset($this->data[$this->productType][$value])) {
-            // Only Chang beer's Canning lines require volume selection
-            if ($this->productType === 'Chang beer' && ($value === 'Canning line 1' || $value === 'Canning line 2')) {
+            // Both Chang beer & Tapper beer should allow volume selection for Canning lines
+            if (
+                ($this->productType === 'Chang beer' || $this->productType === 'Tapper beer') &&
+                ($value === 'Canning line 1' || $value === 'Canning line 2')
+            ) {
                 $this->availableVolumes = array_keys($this->data[$this->productType][$value]);
                 $this->reset(['volumeSelection', 'package', 'volume', 'unit', 'totalAmountPerPallet']);
             } else {
-                // Auto-fill for Tapper beer, Bottling lines, and Keg lines
+                // Auto-fill details for Bottling lines, Keg lines, etc.
                 $this->availableVolumes = [];
                 $details = $this->data[$this->productType][$value];
                 $this->package = $details['package'];
@@ -167,6 +198,7 @@ class PalletRegisterSubmit extends Component
             $exists = PalletRegister::where('pallet_number', $i)
                 ->whereDate('created_at', $currentDate)
                 ->where('production_line', $this->productionLine)
+                ->where('product_type', $this->productType)
                 ->where('volume', $this->volume)
                 ->exists();
 
@@ -235,5 +267,11 @@ class PalletRegisterSubmit extends Component
         return redirect()->route('pallet.print.qr', ['ids' => $palletIds]);
     }
 
+    public function deletePallet($id)
+    {
+        $pallet = PalletRegister::find($id);
+        $pallet->delete();
+        $this->render();
+    }
 
 }

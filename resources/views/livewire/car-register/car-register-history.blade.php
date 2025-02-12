@@ -17,14 +17,14 @@
                     <!-- Start Date -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Start Date (MM/DD/YYYY)</label>
-                        <input wire:model="startDate" type="date"
+                        <input wire:model.live="startDate" type="date"
                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <!-- End Date -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700">End Date (MM/DD/YYYY) </label>
-                        <input wire:model="endDate" type="date"
+                        <input wire:model.live="endDate" type="date"
                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
@@ -56,7 +56,7 @@
                 </div>
 
                 <!-- ACTION BUTTONS -->
-                <div class="flex flex-wrap justify-between items-center mt-6">
+                <div class="flex flex-wrap justify-start gap-12 items-center mt-6">
 
                     <!-- Reset Filters -->
                     <button wire:click="resetFilters"
@@ -65,12 +65,12 @@
                     </button>
 
                     <!-- Apply Filters -->
-                    <button wire:click="applyDateFilter"
-                            class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
-                        Apply Filters
-                    </button>
+                {{--                    <button wire:click="applyDateFilter"--}}
+                {{--                            class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">--}}
+                {{--                        Apply Filters--}}
+                {{--                    </button>--}}
 
-                    <!-- Export Data -->
+                <!-- Export Data -->
 
                     <button wire:click="exportData"
                             class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">
@@ -87,7 +87,7 @@
 
                 </div>
 
-                <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800 p-4">
+                <div class="relative overflow-hidden  mt-8">
                     <!-- Buttons for Select/Remove All & Export -->
                     <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                         <div class="flex flex-wrap gap-2">
@@ -103,6 +103,11 @@
                             <button wire:click="getPrintUrl"
                                     class="px-4 py-2 text-white bg-purple-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
                                 Selected Print QR Codes
+                            </button>
+                            <button wire:click="getChangeDateUrl"
+                                    id="ChangeCodesButton"
+                                    class="px-4 py-2 text-white bg-orange-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
+                                Back Date Change Date
                             </button>
 
                         </div>
@@ -135,11 +140,12 @@
 
             </div>
 
-          
+
             <div class="overflow-x-auto mt-6">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                  
-                    <button id="exportExcelButton" class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">
+
+                    <button id="exportExcelButton"
+                            class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">
                         Export to Excel
                     </button>
 
@@ -154,6 +160,7 @@
                         <th class="px-4 py-3">Customer Name</th>
                         <th class="px-4 py-3">Order Number</th>
                         <th class="px-4 py-3">Truck Type</th>
+                        <th class="px-4 py-3">QR Code Date</th>
                         <th class="px-4 py-3">Register Date</th>
                         <th class="px-4 py-3">Time</th>
                         <th class="px-4 py-3 text-center">Actions</th>
@@ -203,12 +210,17 @@
 
 
                                 @if ($user->car_id == null)
-                                    {{ $user->size }} Wheel
+                                    {{ $user->size }}
                                 @else
                                     {{ $user->truck->size }}
                                 @endif
 
                             </td>
+
+
+                            <td class="px-4 py-3">
+
+                            {{ $user->click_date }}
 
 
                             <td class="px-4 py-3">{{ $user->created_at->format('d-m-Y') }}</td>
@@ -222,7 +234,7 @@
                             <x-phosphor.icons::fill.eye class="w-6 h-6 mx-3 text-blue-400" />
                         </a> --}}
                                 <a class="hover:cursor-pointer" href="{{ route('qrcode.show', $user->id) }}"
-                                   target="_blank" title="Generate QR Code">
+                                   title="Generate QR Code">
                                     <x-phosphor.icons::fill.qr-code
                                         class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}"/>
                                 </a>
@@ -231,6 +243,12 @@
                                    title="View Details">
                                     <x-phosphor.icons::fill.eye class="w-6 h-6 mx-3 text-blue-400"/>
                                 </a>
+                                <x-form.button
+                                    class="bg-red-700 hover:bg-red-800"
+                                    wire:confirm="Are you sure you want to delete ?"
+                                    wire:click="deleteAllCarReg({{ $user->id }})">
+                                    <x-phosphor.icons::regular.trash class="w-6 h-6 mx-1 text-white"/>
+                                </x-form.button>
 
 
                             </td>
@@ -252,18 +270,15 @@
 
 
 <script>
-     
+
     function exportToExcel() {
-     
+
         var table = document.querySelector('table');
-         var ws = XLSX.utils.table_to_sheet(table);
+        var ws = XLSX.utils.table_to_sheet(table);
         var wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-       XLSX.writeFile(wb, "table_data.xlsx");
+        XLSX.writeFile(wb, "table_data.xlsx");
     }
-
-   
-
 
 
     // Add event listeners to export buttons
@@ -294,4 +309,22 @@
             });
         });
     });
+
+    document.addEventListener('livewire:load', function () {
+        document.getElementById('ChangeCodesButton').addEventListener('click', function () {
+            // Emit the Livewire event to get the print URL
+            Livewire.emit('getChangeDateUrl');
+
+            // Listen for the response and open the new tab
+            Livewire.on('receivePrintUrl', (url) => {
+                if (!url) {
+                    alert('No pallets selected.');
+                    return;
+                }
+                window.open(url, '_blank');
+            });
+        });
+    });
+
+
 </script>

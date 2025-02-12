@@ -86,8 +86,9 @@
                                             <x-form.input-error for="productionLine" class="mt-2"/>
                                         </div>
                                     @endif
-                                <!-- Volume Selection (Only for Chang Beer Canning Lines) -->
-                                    @if ($productType === 'Chang beer' && !empty($availableVolumes))
+
+                                <!-- Volume Selection (For Chang Beer & Tapper Beer Canning Lines) -->
+                                    @if (($productType === 'Chang beer' || $productType === 'Tapper beer') && !empty($availableVolumes))
                                         <div class="w-full py-2">
                                             <label for="volumeSelection"
                                                    class="block text-sm font-medium text-gray-700">Select Volume</label>
@@ -101,6 +102,21 @@
                                             <x-form.input-error for="volumeSelection" class="mt-2"/>
                                         </div>
                                 @endif
+{{--                                <!-- Volume Selection (Only for Chang Beer Canning Lines) -->--}}
+{{--                                    @if ($productType === 'Chang beer' && !empty($availableVolumes))--}}
+{{--                                        <div class="w-full py-2">--}}
+{{--                                            <label for="volumeSelection"--}}
+{{--                                                   class="block text-sm font-medium text-gray-700">Select Volume</label>--}}
+{{--                                            <select wire:model.live="volumeSelection"--}}
+{{--                                                    class="w-full px-3 py-3 text-sm bg-white border-0 rounded shadow">--}}
+{{--                                                <option value="">Select Volume</option>--}}
+{{--                                                @foreach ($availableVolumes as $volume)--}}
+{{--                                                    <option value="{{ $volume }}">{{ $volume }}</option>--}}
+{{--                                                @endforeach--}}
+{{--                                            </select>--}}
+{{--                                            <x-form.input-error for="volumeSelection" class="mt-2"/>--}}
+{{--                                        </div>--}}
+{{--                                @endif--}}
                                 <!-- Package -->
                                     <div class="w-full py-2">
                                         <x-form.input wire:model="package" type="text" label="Package" readonly/>
@@ -235,10 +251,15 @@
                                         <td class="flex items-center justify-center my-2">
                                             <a class="hover:cursor-pointer"
                                                href="{{ route('palletqrcode.show', $user->id) }}"
-                                               target="_blank" title="Generate QR Code">
+                                              title="Generate QR Code">
                                                 <x-phosphor.icons::fill.qr-code
                                                     class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}"/>
                                             </a>
+                                            <x-form.button class="bg-red-700 hover:bg-red-800"
+                                                           wire:confirm="Are you sure you want to delete PLT - {{ $user->pallet_number }}?"
+                                                           wire:click="deletePallet({{ $user->id }})">
+                                                <x-phosphor.icons::regular.trash class="w-6 h-6 mx-1 text-white" />
+                                            </x-form.button>
                                             {{-- <a class=" hover:cursor-pointer" <a
                                                 href="{{ route('qrcode.show', $user->id) }}" target="_blank"
                                                 title="Generate QRcode">
