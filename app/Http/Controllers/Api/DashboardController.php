@@ -20,7 +20,8 @@ class DashboardController extends Controller
     {
         $year = $request->input('year', date('Y'));
         $month = $request->input('month', date('m'));
-
+    
+        // Fetch the report and order by total registrations in descending order, limit to top 10
         $report = LSP::leftJoin('car_registrations', function ($join) use ($year, $month) {
             $join->on('l_s_p_s.id', '=', 'car_registrations.lsp_id')
                 ->whereYear('car_registrations.created_at', $year)
@@ -28,6 +29,8 @@ class DashboardController extends Controller
         })
             ->select('l_s_p_s.id', 'l_s_p_s.lsp_name', DB::raw('COALESCE(COUNT(car_registrations.id), 0) as total_registrations'))
             ->groupBy('l_s_p_s.id', 'l_s_p_s.lsp_name')
+            ->orderByDesc('total_registrations') // Order by total registrations in descending order
+            ->limit(10) // Limit to top 10 results
             ->get()
             ->map(function ($item) {
                 return [
@@ -35,7 +38,7 @@ class DashboardController extends Controller
                     'total_registrations' => $item->total_registrations
                 ];
             });
-
+    
         return response()->json([
             'message' => 'Dashboard report fetched successfully',
             'year' => $year,
@@ -43,7 +46,7 @@ class DashboardController extends Controller
             'data' => $report
         ]);
     }
-
+    
 
 
 
@@ -118,6 +121,45 @@ class DashboardController extends Controller
             'data' => $reportData
         ]);
     }
+   
+
+    public function productionmonthlyreport(Request $request)
+{
+    // Default to current year if not provided in the request
+    $year = $request->input('year', date('Y'));
+    
+    // Default to current month if not provided in the request
+    $month = $request->input('month', date('m'));
+    
+    $productionLines = [
+        'Canning line 1',
+        'Canning line 2',
+        'Bottling line Carton',
+        'Bottling line Crate',
+        'Keg line 1',
+        'Keg line 2'
+    ];
+
+    $reportData = [];
+
+    // Fetch monthly report for the given year and month
+    foreach ($productionLines as $line) {
+        $count = PalletRegister::where('production_line', $line)
+            ->whereYear('created_at', $year)
+            ->whereMonth('created_at', $month)
+            ->count();
+
+        $reportData[] = [
+            'line' => $line,
+            'count' => $count
+        ];
+    }
+
+    return response()->json([
+        'message' => 'Production report fetched successfully',
+        'data' => $reportData
+    ]);
+}
 
 
 

@@ -71,7 +71,7 @@
 
 <body onload="window.print(); setTimeout(() => window.close(), 500);">
 
-    <h1>QR Codes for Selected Pallets</h1>
+    {{-- <h1>QR Codes for Selected Pallets</h1> --}}
 
     <div class="qr-container">
         @foreach ($palletsWithQrCodes as $item)

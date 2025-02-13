@@ -1,6 +1,14 @@
 <?php
 
 use App\Livewire\Admin\EditAdmin;
+use App\Livewire\Line\ChangBottlingLineCarton;
+use App\Livewire\Line\ChangBottlingLineCrate;
+use App\Livewire\Line\ChangCanningLineOne;
+use App\Livewire\Line\ChangCanningLineTwo;
+use App\Livewire\Line\ChangKegLineOne;
+use App\Livewire\Line\ChangKegLineTwo;
+use App\Livewire\Line\TapperCanningLineOne;
+use App\Livewire\Line\TapperCanningLineTwo;
 use App\Livewire\Login;
 use App\Livewire\Dashboard;
 use App\Livewire\LSP\LSPEdit;
@@ -88,21 +96,40 @@ Route::middleware('auth:admin')->group(callback: function () {
 
     Route::get('/qrcode/{id}', [QrCodeGenController::class, "qrcodegen"])->name('qrcode.show');
 
-
     // pallet register
     Route::get('pallet/register', PalletRegisterSubmit::class)->name('pallet.register');
 
-    Route::get('/pallet/qrcode/{id}', [QrCodeGenController::class, "palletQrCode"])->name('palletqrcode.show');
-
-    Route::get('/pallet-register/print-qr', [PalletRegisterHistory::class, 'printSelectedQRCodes'])->name('pallet.print.qr');
-
+    // Route::get('/pallet-register/print-qr', [PalletRegisterHistory::class, 'printSelectedQRCodes'])->name('pallet.print.qr');
     Route::get('/pallet/history', PalletRegisterHistory::class)->name('pallet.history');
+    Route::get('/pallet/qr/code/history', PalletRegisterQrCodeHistory::class)->name('pallet.qrcode.history');
 
+    Route::get('/pallet/qrcode/{id}', [QrCodeGenController::class, "palletQrCode"])->name('palletqrcode.show');
     Route::get('/pallet/print-qr', [QrCodeGenController::class, 'printQRCodes'])->name('pallet.print.qr');
+    Route::get('/car/print-qr', [QrCodeGenController::class, 'printCarQRCodes'])->name('car.print.qr');
+
+    Route::get('car/qrcode/chnage/date', [QrCodeGenController::class, 'qrcodeDateChange'])->name('car.qrcode.date.change');
+    Route::post('car/qrcode/chnage/date', [QrCodeGenController::class, 'qrcodeDateChangePost'])->name('car-qr-date-change');
+
+    Route::get('pallet/qrcode/chnage/date', [QrCodeGenController::class, 'palletQrCodeDateChange'])->name('pallet.qrcode.date.change');
+    Route::post('pallet/qrcode/chnage/date', [QrCodeGenController::class, 'palletQrCodeDateChangePost'])->name('pallet-qr-date-change');
 
 
     Route::get('/loading/data', LoadingDataList::class)->name('loading.data');
     Route::get('/loading/create', LoadingDataCreate::class)->name('loading.create');
 
-    Route::get('/pallet/qr/code/history', PalletRegisterQrCodeHistory::class)->name('pallet.qrcode.history');
+
+//    Route::get('/pallet/history', PalletRegisterHistory::class)->name('pallet.history');
+
+
+
+    Route::get('/chang/canningline/one', ChangCanningLineOne::class)->name('chang.canning.line.one');
+    Route::get('/chang/canningline/two', ChangCanningLineTwo::class)->name('chang.canning.line.two');
+    Route::get('/chang/bottling/carton', ChangBottlingLineCarton::class)->name('chang.bottling.line.carton');
+    Route::get('/chang/bottling/crate', ChangBottlingLineCrate::class)->name('chang.bottling.line.create');
+    Route::get('/chang/keg/one', ChangKegLineOne::class)->name('chang.keg.line.one');
+    Route::get('/chang/keg/two', ChangKegLineTwo::class)->name('chang.keg.line.two');
+    Route::get('/tapper/line/one', TapperCanningLineOne::class)->name('tapper.canning.line.one');
+    Route::get('/tapper/line/two', TapperCanningLineTwo::class)->name('tapper.canning.line.two');
+
+
 });
