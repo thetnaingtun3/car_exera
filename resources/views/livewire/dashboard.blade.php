@@ -66,8 +66,46 @@
                     </div>
                     <canvas id="productionChart"></canvas>
                 </div>
+               
+
             @endif
         </section>
+
+        @if ($isProductionUser || $isRootAdmin)
+      <section>
+        <div class="w-full lg:w-1/2 bg-white shadow-md dark:bg-gray-800 rounded-lg p-4">
+            <div class="flex flex-col items-center">
+            <label for="yearSelect" class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            Production Monthly Report:</label>
+                <label for="monthlyYearSelect"
+                    class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">Select Year:</label>
+                <select id="monthlyYearSelect" class="px-4 py-2 border rounded-md mb-2">
+                    <option value="2024">2024</option>
+                    <option value="2025" selected>2025</option>
+                </select>
+                
+                <label for="monthlyMonthSelect"
+                    class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">Select Month:</label>
+                <select id="monthlyMonthSelect" class="px-4 py-2 border rounded-md mb-4">
+                    <option value="1">January</option>
+                    <option value="2" selected>February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+            </div>
+            <canvas id="monthlyProductionChart"></canvas>
+        </div>
+</section>
+        @endif
+
         <!-- Right Side: CarQr code Report -->
         @if (auth()->user()->hasRole('registration') || auth()->user()->hasRole('root-admin'))
             <div class="w-full lg:w-1/2 bg-white shadow-md dark:bg-gray-800 rounded-lg p-4">
@@ -82,6 +120,8 @@
                 <canvas id="dashboardChart"></canvas>
             </div>
         @endif
+       
+
         @if (auth()->user()->hasRole('loading') || auth()->user()->hasRole('root-admin'))
             <!-- Dropdown for selecting year and month -->
             <div class="flex flex-col items-center">
@@ -143,6 +183,7 @@
                                     <th class="px-3 py-2 text-right">Day 28</th>
                                     <th class="px-3 py-2 text-right">Day 29</th>
                                     <th class="px-3 py-2 text-right">Day 30</th>
+                                    <th class="px-3 py-2 text-right">Day 31</th>
                                     <th class="px-3 py-2 text-right">Total</th>
                                 </tr>
                             </thead>
@@ -347,6 +388,63 @@
             });
         }
 
+        const monthlyProductionCtx = document.getElementById('monthlyProductionChart')?.getContext('2d');
+let monthlyProductionChart;
+
+document.getElementById("monthlyYearSelect").addEventListener("change", fetchMonthlyProductionData);
+document.getElementById("monthlyMonthSelect").addEventListener("change", fetchMonthlyProductionData);
+
+function fetchMonthlyProductionData() {
+    const year = document.getElementById("monthlyYearSelect").value;
+    const month = document.getElementById("monthlyMonthSelect").value;
+    
+    fetch(`{{ route('api.productionmonthlyreport') }}?year=${year}&month=${month}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.data) {
+                const productionData = {};
+                data.data.forEach(item => {
+                    productionData[item.line] = item.count;
+                });
+
+                if (monthlyProductionChart) {
+                    monthlyProductionChart.destroy();
+                }
+                
+                monthlyProductionChart = new Chart(monthlyProductionCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(productionData),
+                        datasets: [{
+                            label: `Production Counts for ${month}/${year}`,
+                            data: Object.values(productionData),
+                            backgroundColor: "rgba(75, 192, 192, 0.5)",
+                            borderColor: "rgba(75, 192, 192, 1)",
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            } else {
+                console.error("Invalid data format from API:", data);
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching monthly production data:", error);
+        });
+}
+
+
+fetchMonthlyProductionData();
+
+
         function fetchLoadingReportData(year, month) {
             fetch(`{{ route('api.loadingreport') }}?year=${year}&month=${month}`).then(response => response
                 .json()).then(data => {
@@ -415,3 +513,4 @@
     });
     undefined
 </script>
+

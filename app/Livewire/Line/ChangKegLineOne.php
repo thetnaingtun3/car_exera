@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Livewire\PalletResiter;
+
+namespace App\Livewire\Line;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -9,7 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Filament\Notifications\Notification;
 use App\Exports\PalletRegistrationExport;
 
-class PalletRegisterHistory extends Component
+class ChangKegLineOne extends Component
 {
     use WithPagination;
 
@@ -102,7 +103,8 @@ class PalletRegisterHistory extends Component
             return;
         }
 
-        return Excel::download(new PalletRegistrationExport($this->startDate, $this->endDate), 'filtered_data.xlsx');
+        return Excel::download(new PalletRegistrationExport($this->startDate, $this->endDate, 'Chang beer', 'Keg line 1'), 'Kegline1.xlsx');
+//        return Excel::download(new PalletRegistrationExport($this->startDate, $this->endDate), 'filtered_data.xlsx');
     }
 
     public function allCheck()
@@ -128,9 +130,11 @@ class PalletRegisterHistory extends Component
         $this->sortDir = 'DESC';
     }
 
+
     public function getPalletsQuery()
     {
-        $query = PalletRegister::query();
+
+        $query = PalletRegister::query()->where('production_line', 'Keg line 1');
 
         // Apply search filter using the model's search scope
         if (!empty($this->search)) {
@@ -169,17 +173,18 @@ class PalletRegisterHistory extends Component
     }
 
 
+
     public function render()
     {
         $pallets = $this->getPalletsQuery()->paginate($this->perPage);
 
         $productTypes = PalletRegister::distinct()->pluck('product_type');
         $productionLines = PalletRegister::distinct()->pluck('production_line');
-        $volumes = PalletRegister::distinct()->pluck('volume');
 
+        $volumes = PalletRegister::distinct()->where('product_type','Chang beer')->where('production_line','Keg line 1')->pluck('volume');
         $this->count = $pallets->total();
 
-        return view('livewire.pallet-resiter.pallet-register-history', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
+        return view('livewire.line.chang-keg-line-one', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
     }
 
     public function getPrintUrl()
@@ -195,6 +200,7 @@ class PalletRegisterHistory extends Component
         $palletIds = implode(',', $this->selectedPallets);
         return redirect()->route('pallet.print.qr', ['ids' => $palletIds]);
     }
+
     public function getChangeDateUrl()
     {
         if (empty($this->selectedPallets)) {

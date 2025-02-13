@@ -23,13 +23,20 @@ class CarRegistrationExport implements FromQuery, WithHeadings, WithMapping
         $this->endDate = $endDate;
     }
 
-    /**
-     * Query the data, ensuring only records within the selected date range (Max: 14 Days)
-     */
     public function query()
     {
+        if ($this->startDate === $this->endDate) {
+            // Fetch records for that single date (entire day)
+            return CarRegistration::with(['lsp', 'customer', 'truck'])
+                ->whereDate('created_at', $this->startDate);
+        }
+
+        // Ensure end date includes the full day by appending "23:59:59"
+        $startDateTime = $this->startDate . ' 00:00:00';
+        $endDateTime = $this->endDate . ' 23:59:59';
+
         return CarRegistration::with(['lsp', 'customer', 'truck'])
-            ->whereBetween('created_at', [$this->startDate, $this->endDate]);
+            ->whereBetween('created_at', [$startDateTime, $endDateTime]);
     }
 
     /**
@@ -50,36 +57,20 @@ class CarRegistrationExport implements FromQuery, WithHeadings, WithMapping
         ];
     }
 
-    /**
-     * Map the data for the exported Excel file
-     */
-    // public function map($carRegisterProduct): array
-    // {
-    //     return [
-
-    //         $this->counter++, // Auto-incrementing ID starting from 1
-    //         $carRegisterProduct->lsp->lsp_name ?? 'N/A', // Fetch LSP name, fallback to 'N/A' if null
-    //         $carRegisterProduct->truck->licence_plate ?? $carRegisterProduct->car_number, // Truck number or car_number
-    //         $carRegisterProduct->driver_name ?? 'N/A', // Driver Name
-    //         $carRegisterProduct->customer->customer_name ?? 'N/A', // Fetch Customer name
-    //         $carRegisterProduct->order_number ?? 'N/A', // Order Number
-    //         $carRegisterProduct->truck->size ?? 'N/A', // Type Size
-    //         $carRegisterProduct->created_at->format('d-m-Y'), // Created At
-    //         $carRegisterProduct->created_at->format('h:i:s'), // Created At
-    //     ];
-    // }
     public function map($carRegisterProduct): array
     {
+
+
         return [
-            $this->counter++, // Auto-incrementing ID starting from 1
-            $carRegisterProduct->lsp->lsp_name ?? 'N/A', // Fetch LSP name, fallback to 'N/A' if null
-            $carRegisterProduct->car_id == null ? $carRegisterProduct->car_number : $carRegisterProduct->truck->licence_plate ?? 'N/A', // Licence Plate
-            $carRegisterProduct->dirver_id == null ? $carRegisterProduct->driver_name : $carRegisterProduct->truck->driver_name ?? 'N/A', // Licence Plate
-            $carRegisterProduct->customer->customer_name ?? 'N/A', // Fetch Customer name
-            $carRegisterProduct->order_number ?? 'N/A', // Order Number
-            $carRegisterProduct->car_id == null ? $carRegisterProduct->size . ' Wheel' : $carRegisterProduct->truck->size ?? 'N/A', // Type Size
-            $carRegisterProduct->created_at->format('d-m-Y'), // Created At
-            $carRegisterProduct->created_at->format('h:i:s'), // Created At
+            $this->counter++,
+            $carRegisterProduct->lsp->lsp_name ?? 'N/A',
+            "'" . ($carRegisterProduct->car_id == null ? $carRegisterProduct->licence_plate : $carRegisterProduct->truck->licence_plate), // Force string format
+            $carRegisterProduct->dirver_id == null ? $carRegisterProduct->driver_name : $carRegisterProduct->truck->driver_name ?? 'N/A',
+            $carRegisterProduct->customer->customer_name ?? 'N/A',
+            $carRegisterProduct->order_number ?? 'N/A',
+            $carRegisterProduct->car_id == null ? $carRegisterProduct->size : $carRegisterProduct->truck->size ?? 'N/A',
+            $carRegisterProduct->created_at->format('d-m-Y'),
+            $carRegisterProduct->created_at->format('h:i:s'),
         ];
     }
 }

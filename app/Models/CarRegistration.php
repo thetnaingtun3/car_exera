@@ -49,7 +49,8 @@ class CarRegistration extends Model
     }
     public function truck(): BelongsTo
     {
-        return $this->belongsTo(Truck::class, 'car_id');
+//        return $this->belongsTo(Truck::class, 'car_id');
+        return $this->belongsTo(Truck::class, 'car_id', 'id');
     }
     public function scopeFilterByDate($query, $startDate, $endDate)
 

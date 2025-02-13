@@ -15,27 +15,32 @@ class Logout extends Component
     public function logout()
     {
         $user = Auth::user();
-        
+
         if ($user) {
-            $roleName = strtolower($user->name); 
-
-            Auth::logout(); 
-
-            switch ($roleName) {
-                case 'root-admin':
-                case 'admin':
-                    return redirect()->to('/login');
-                case 'transoper':
-                    return redirect()->to('/registration/login');
-                case 'loading':
-                    return redirect()->to('/loading/login');
-                case 'production':
-                    return redirect()->to('/production/login');
-                default:
-                    return redirect()->to('/login'); 
+            if ($user->hasRole('root-admin') || $user->hasRole('admin')) {
+                Auth::logout();
+                return redirect()->to('/login');
             }
+
+            if ($user->hasRole('registration')) {
+                Auth::logout();
+                return redirect()->to('/registration/login');
+            }
+
+            if ($user->hasRole('loading')) {
+                Auth::logout();
+                return redirect()->to('/loading/login');
+            }
+
+            if ($user->hasRole('production')) {
+                Auth::logout();
+                return redirect()->to('/production/login');
+            }
+
+            Auth::logout();
+            return redirect()->to('/login');
         }
 
-        return redirect()->to('/login'); 
+        return redirect()->to('/login');
     }
 }

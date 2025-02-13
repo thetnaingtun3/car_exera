@@ -44,7 +44,11 @@ class LoadingDataExport implements FromQuery, WithHeadings, WithMapping
      */
     public function query()
     {
-        return LoadingData::whereBetween('created_at', [$this->startDate, $this->endDate]);
+        // Ensure the end date includes the full day
+        $startDateTime = $this->startDate . ' 00:00:00';
+        $endDateTime = $this->endDate . ' 23:59:59';
+
+        return LoadingData::whereBetween('created_at', [$startDateTime, $endDateTime]);
     }
     public function headings(): array
     {
