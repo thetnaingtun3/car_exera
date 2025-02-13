@@ -83,7 +83,7 @@
                                                             label="Truck Size" />
                                                     </div>
                                                     <div class="w-full lg:w-5/12">
-                                                        <x-form.select-box wire:model="tunit" label="Select LSP">
+                                                        <x-form.select-box wire:model="tunit" label="Select Unit">
                                                             <option value="" disabled>Select Type</option>
                                                             <option value="Wheel">Wheel
                                                             </option>
@@ -94,7 +94,6 @@
                                                 </div>
                                             </div>
                                         @endif
-
                                         {{-- @if ($car_id === 'other')
                                             <div class="w-full py-2 ">
                                                 <div class="w-full  pt-2 lg:w-3/12">
