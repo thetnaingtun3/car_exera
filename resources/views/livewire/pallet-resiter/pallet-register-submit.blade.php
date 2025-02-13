@@ -103,7 +103,7 @@
 
                                     <!-- Volume -->
                                     <div class="w-full py-2">
-                                        <x-form.input wire:model="volume" type="text" label="Volume" readonly />
+                                        <x-form.input wire:model="volume" type="text" label="Volume"  />
                                     </div>
 
                                     <!-- Unit -->
@@ -114,7 +114,7 @@
                                     <!-- Total Amount per Pallet -->
                                     <div class="w-full py-2">
                                         <x-form.input wire:model="totalAmountPerPallet" type="text"
-                                            label="Total Amount per Pallet" readonly />
+                                            label="Total Amount per Pallet"  />
                                     </div>
 
 
