@@ -46,7 +46,7 @@ class ProductionLogin extends Component
         if ($authenticated) {
             return redirect()->route('dashboard');
         } else {
-            session()->flash('error', 'Invalid name or password.');
+            session()->flash('error', 'User and Password are wrong, please try again.');
             return to_route('production.login');
         }
     }

@@ -18,5 +18,9 @@ Route::get('/productionreport', [DashboardController::class, 'productionreport']
 
 Route::get('/productionmonthlyreport', [DashboardController::class, 'productionmonthlyreport'])->name('api.productionmonthlyreport');
 
+
+Route::get('/productiondayreport', [DashboardController::class, 'productiondayreport'])->name('api.productiondayreport');
+
+
 Route::get('/loadingreport', [DashboardController::class, 'loadingreport'])->name('api.loadingreport');
 

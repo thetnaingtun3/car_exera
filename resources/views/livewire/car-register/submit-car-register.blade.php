@@ -68,10 +68,18 @@
 
                                         @if ($car_id === 'other')
                                         <!-- Truck Number -->
-
+<!-- 
                                             <div class="w-full py-2">
                                                 <x-form.input wire:model.live="other_truck_licence_plate" type="text"
                                                               label="Truck Number"/>
+                                            </div> -->
+
+
+                                       <div class="w-full py-2">
+                                                <x-form.input wire:model.live="other_truck_licence_plate" type="text"
+                                                            label="Truck Number" 
+                                                            oninput="formatLicencePlate(this)"
+                                                            placeholder="XX-YYYY"/>
                                             </div>
 
 
@@ -456,4 +464,21 @@
             });
         });
     });
+
+    function formatLicencePlate(input) {
+
+        let value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+       
+        if (value.length > 2) {
+            value = value.substring(0, 2) + '-' + value.substring(2);
+        }
+
+   
+        value = value.substring(0, 7);
+
+        input.value = value;
+    }
+
+
 </script>
