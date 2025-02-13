@@ -16,6 +16,7 @@ class Logout extends Component
     {
         $user = Auth::user();
         
+        
         if ($user) {
             $roleName = strtolower($user->name); 
 
@@ -25,7 +26,7 @@ class Logout extends Component
                 case 'root-admin':
                 case 'admin':
                     return redirect()->to('/login');
-                case 'transoper':
+                case 'transporter':
                     return redirect()->to('/registration/login');
                 case 'loading':
                     return redirect()->to('/loading/login');
@@ -36,6 +37,6 @@ class Logout extends Component
             }
         }
 
-        return redirect()->to('/login'); 
+        // return redirect()->to('/login'); 
     }
 }

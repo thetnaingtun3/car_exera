@@ -121,6 +121,42 @@ class DashboardController extends Controller
 
 
 
+    public function productionMonthReport(Request $request)
+{
+    $year = $request->input('year', date('Y'));
+    $month = $request->input('month', date('m'));
+
+    $productionLines = [
+        'Canning line 1',
+        'Canning line 2',
+        'Bottling line Carton',
+        'Bottling line Crate',
+        'Keg line 1',
+        'Keg line 2'
+    ];
+    
+    $monthlyReport = [];
+
+    foreach ($productionLines as $line) {
+        $count = PalletRegister::where('production_line', $line)
+            ->whereYear('created_at', $year)
+            ->whereMonth('created_at', $month)
+            ->count();
+
+        $monthlyReport[$line] = $count;
+    }
+
+    return response()->json([
+        'message' => 'Monthly production report fetched successfully',
+        'year' => $year,
+        'month' => $month,
+        'data' => $monthlyReport
+    ]);
+}
+
+
+
+
     public function loadingreport(Request $request)
     {
 

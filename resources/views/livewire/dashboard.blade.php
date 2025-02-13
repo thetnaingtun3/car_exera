@@ -66,6 +66,7 @@
                     </div>
                     <canvas id="productionChart"></canvas>
                 </div>
+                
             @endif
         </section>
         <!-- Right Side: CarQr code Report -->
