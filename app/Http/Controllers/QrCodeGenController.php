@@ -32,11 +32,10 @@ class QrCodeGenController extends Controller
         $qrData = sprintf(
             "LSPName:  %s\nCar Number:  %s\nDriver Name:  %s\nDelivery Order Number: %s\nType of Truck:  %s\nCustomer Name:  %s\nDate and Time:  %s",
             $record->lsp?->lsp_name ?? 'No LSP Assigned',
-            $record->truck?->licence_plate ?? 'No Truck Assigned',
+            $record->car_id == null ? $record->licence_plate :  $record->truck->licence_plate,
             $record->driver_name,
             $record->order_number,
-
-            $record->truck?->size ?? 'Unknown Size',
+            $record->car_id == null ? $record->size :  $record->truck->size,
             $record->customer?->customer_name ?? 'No Customer Assigned',
 
             // $record->click_date,
@@ -103,10 +102,10 @@ class QrCodeGenController extends Controller
             $qrData = sprintf(
                 "LSPName:  %s\nCar Number:  %s\nDriver Name:  %s\nDelivery Order Number: %s\nType of Truck:  %s\nCustomer Name:  %s\nDate and Time:  %s",
                 $car->lsp?->lsp_name ?? 'No LSP Assigned',
-                $car->truck?->licence_plate ?? 'No Truck Assigned',
+                $car->car_id == null ? $car->licence_plate :  $car->truck->licence_plate,
                 $car->driver_name,
                 $car->order_number,
-                $car->truck?->size ?? 'Unknown Size',
+                $car->car_id == null ? $car->size :  $car->truck->size,
                 $car->customer?->customer_name ?? 'No Customer Assigned',
                 Carbon::parse($car->click_date)->format('d-m-Y H:i:s'),
             );
@@ -118,7 +117,6 @@ class QrCodeGenController extends Controller
                 'qrCode' => $qrCode,
                 'record' => $car,
             ];
-
         });
         foreach ($selectedCars as $car) {
             if ($car->status == '0') {
@@ -179,7 +177,6 @@ class QrCodeGenController extends Controller
         $selectedCars = CarRegistration::whereIn('id', $carIds)->get();
         foreach ($selectedCars as $car) {
             $car->update(['click_date' => $request->click_date]);
-
         }
 
         return redirect()->route('order.history');
@@ -215,5 +212,4 @@ class QrCodeGenController extends Controller
         // Redirect with success message
         return redirect()->route('pallet.history')->with('success', 'Click Date updated successfully.');
     }
-
 }

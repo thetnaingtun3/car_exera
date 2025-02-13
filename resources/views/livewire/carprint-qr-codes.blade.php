@@ -76,10 +76,10 @@
             <div class="details">
                 <h2 class="text-lg font-bold mb-2">LSP Registration Code</h2>
                 <p><strong>LSP Name:</strong> {{ $item['record']->lsp?->lsp_name ?? 'No Truck Assigned' }}</p>
-                <p><strong>Car Number:</strong> {{ $item['record']->truck?->licence_plate ?? 'No Truck Assigned' }}</p>
+                <p><strong>Car Number:</strong> {{ $item['record']->car_id == null ? $item['record']->licence_plate :  $item['record']->truck->licence_plate }}</p>
                 <p><strong>Driver Name:</strong> {{ $item['record']->driver_name }}</p>
                 <p><strong>Delivery Order Number:</strong> {{ $item['record']->order_number }}</p>
-                <p><strong>Type of Truck:</strong> {{ $item['record']->truck?->size ?? 'Unknown Size' }}</p>
+                <p><strong>Type of Truck:</strong> {{ $item['record']->car_id == null ? $item['record']->size :  $item['record']->truck->size }}</p>
                 <p><strong>Customer
                         Name:</strong> {{ $item['record']->customer?->customer_name ?? 'No Customer Assigned' }}</p>
                 <p><strong>Date and
