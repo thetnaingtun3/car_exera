@@ -12,7 +12,9 @@ class LoadingDataCreate extends Component
 {
 
     use WithFileUploads;
+
     public $file;
+
     public function save()
     {
 
@@ -21,9 +23,10 @@ class LoadingDataCreate extends Component
             $this->messageType = 'danger';
             return;
         }
-
         try {
-            Excel::import(new LoadingDataImport(), $this->file->getRealPath());
+            Excel::import(new LoadingDataImport(), $this->file->path());
+
+
             $this->reset('file');
             Notification::make()
                 ->title('Loading Data Imported Successfully!')
@@ -37,7 +40,6 @@ class LoadingDataCreate extends Component
             $this->messageType = 'danger';
         }
     }
-
 
 
     public function user_excel_download()

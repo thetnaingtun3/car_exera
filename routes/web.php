@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoadingDataController;
 use App\Livewire\Admin\EditAdmin;
 use App\Livewire\Line\ChangBottlingLineCarton;
 use App\Livewire\Line\ChangBottlingLineCrate;
@@ -116,10 +117,11 @@ Route::middleware('auth:admin')->group(callback: function () {
 
     Route::get('/loading/data', LoadingDataList::class)->name('loading.data');
     Route::get('/loading/create', LoadingDataCreate::class)->name('loading.create');
+//    Route::get('/loading/create', [LoadingDataController::class, 'create'])->name('loading.create');
+//    Route::post('/loading/create', [LoadingDataController::class, 'store'])->name('loading.data.store');
 
 
 //    Route::get('/pallet/history', PalletRegisterHistory::class)->name('pallet.history');
-
 
 
     Route::get('/chang/canningline/one', ChangCanningLineOne::class)->name('chang.canning.line.one');

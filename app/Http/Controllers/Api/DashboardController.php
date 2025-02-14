@@ -124,29 +124,79 @@ class DashboardController extends Controller
    
 
     public function productionmonthlyreport(Request $request)
+    {
+        // Get year and month from the request or default to current date
+        $year = $request->input('year', date('Y'));
+        $month = $request->input('month', date('m'));
+    
+        $productionLines = [
+            'Canning line 1',
+            'Canning line 2',
+            'Bottling line Carton',
+            'Bottling line Crate',
+            'Keg line 1',
+            'Keg line 2',
+        ];
+    
+        $reportData = [];
+    
+        // Loop through each day of the month
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            $dayReport = [
+                'date' => sprintf('%04d-%02d-%02d', $year, $month, $day),
+                'lines' => []
+            ];
+    
+            foreach ($productionLines as $line) {
+                $count = PalletRegister::where('production_line', $line)
+                    ->whereYear('created_at', $year)
+                    ->whereMonth('created_at', $month)
+                    ->whereDay('created_at', $day)
+                    ->count();
+    
+                $dayReport['lines'][] = [
+                    'line' => $line,
+                    'count' => $count
+                ];
+            }
+    
+            $reportData[] = $dayReport;
+        }
+    
+        return response()->json([
+            'message' => 'Monthly production report fetched successfully',
+            'data' => $reportData
+        ]);
+    }
+    
+
+
+
+public function productiondayreport(Request $request)
 {
-    // Default to current year if not provided in the request
+    // Get year, month, and day from the request or default to current date
     $year = $request->input('year', date('Y'));
-    
-    // Default to current month if not provided in the request
     $month = $request->input('month', date('m'));
-    
+    $day = $request->input('day', date('d'));
+
     $productionLines = [
         'Canning line 1',
         'Canning line 2',
         'Bottling line Carton',
         'Bottling line Crate',
         'Keg line 1',
-        'Keg line 2'
+        'Keg line 2',
     ];
 
     $reportData = [];
 
-    // Fetch monthly report for the given year and month
+    // Fetch daily report for the given year, month, and day
     foreach ($productionLines as $line) {
         $count = PalletRegister::where('production_line', $line)
             ->whereYear('created_at', $year)
             ->whereMonth('created_at', $month)
+            ->whereDay('created_at', $day)
             ->count();
 
         $reportData[] = [
@@ -156,7 +206,7 @@ class DashboardController extends Controller
     }
 
     return response()->json([
-        'message' => 'Production report fetched successfully',
+        'message' => 'Daily production report fetched successfully',
         'data' => $reportData
     ]);
 }

@@ -48,7 +48,7 @@ class TransoperLogin extends Component
         if ($authenticated) {
             return redirect()->route('dashboard');
         } else {
-            session()->flash('error', 'Invalid name or password.');
+            session()->flash('error', 'Invalid name or password, please try again.');
             return to_route('registration.login');
         }
     }

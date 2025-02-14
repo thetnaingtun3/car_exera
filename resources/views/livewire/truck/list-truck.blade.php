@@ -85,8 +85,8 @@
                     <tbody>
                     @foreach ($query as $key => $truck)
                         <tr class="border-b">
-{{--                            <td class="px-4 py-3">{{ $truck->id }}</td>--}}
-                            <td class="px-4 py-3">{{ ++$key  }}</td>
+                            <td class="px-4 py-3">{{ $truck->id }}</td>
+{{--                            <td class="px-4 py-3">{{ ++$key  }}</td>--}}
                             <td class="px-4 py-3">{{ $truck->lsp->lsp_name ?? 'N/A' }}</td>
                             <td class="px-4 py-3">{{ $truck->licence_plate }}</td>
                             <td class="px-4 py-3">{{ $truck->driver_name }}</td>

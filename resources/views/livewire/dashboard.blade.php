@@ -103,7 +103,13 @@
             </div>
             <canvas id="monthlyProductionChart"></canvas>
         </div>
+
+
+        
 </section>
+
+
+
         @endif
 
         <!-- Right Side: CarQr code Report -->
@@ -402,26 +408,52 @@ function fetchMonthlyProductionData() {
         .then(response => response.json())
         .then(data => {
             if (data.data) {
-                const productionData = {};
+                const labels = []; // Store dates
+                const datasets = []; // Store datasets for each line
+                
+                // Define color for each production line
+                const lineColors = {
+                    "Canning line 1": "rgba(75, 192, 192, 0.5)",
+                    "Canning line 2": "rgba(153, 102, 255, 0.5)",
+                    "Bottling line Carton": "rgba(255, 159, 64, 0.5)",
+                    "Bottling line Crate": "rgba(255, 99, 132, 0.5)",
+                    "Keg line 1": "rgba(54, 162, 235, 0.5)",
+                    "Keg line 2": "rgba(255, 205, 86, 0.5)"
+                };
+
+                // Process the data
                 data.data.forEach(item => {
-                    productionData[item.line] = item.count;
+                    labels.push(item.date); // Add the date to the labels
+                    item.lines.forEach(line => {
+                        // Check if the dataset for this line already exists
+                        const existingDataset = datasets.find(dataset => dataset.label === line.line);
+                        if (existingDataset) {
+                            // Push the count for the specific day
+                            existingDataset.data.push(line.count);
+                        } else {
+                            // Create a new dataset for this line
+                            datasets.push({
+                                label: line.line,
+                                data: [line.count],
+                                backgroundColor: lineColors[line.line] || "rgba(0, 0, 0, 0.1)", // Default color if not found
+                                borderColor: lineColors[line.line] || "rgba(0, 0, 0, 0.5)",
+                                borderWidth: 1
+                            });
+                        }
+                    });
                 });
 
+                // Destroy the previous chart if it exists
                 if (monthlyProductionChart) {
                     monthlyProductionChart.destroy();
                 }
-                
+
+                // Create a new chart with the updated data
                 monthlyProductionChart = new Chart(monthlyProductionCtx, {
                     type: 'bar',
                     data: {
-                        labels: Object.keys(productionData),
-                        datasets: [{
-                            label: `Production Counts for ${month}/${year}`,
-                            data: Object.values(productionData),
-                            backgroundColor: "rgba(75, 192, 192, 0.5)",
-                            borderColor: "rgba(75, 192, 192, 1)",
-                            borderWidth: 1
-                        }]
+                        labels: labels, // Set the dates as labels
+                        datasets: datasets // Set datasets for each production line
                     },
                     options: {
                         responsive: true,
@@ -440,6 +472,7 @@ function fetchMonthlyProductionData() {
             console.error("Error fetching monthly production data:", error);
         });
 }
+
 
 
 fetchMonthlyProductionData();

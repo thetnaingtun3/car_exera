@@ -24,16 +24,20 @@ class Login extends Component
     }
 
     public function login()
-    {
-        $credentials = $this->validate();
+{
+    $credentials = $this->validate();
 
-        // Use 'name' instead of 'email' for authentication
-        if (Auth::guard('admin')->attempt(['name' => $this->name, 'password' => $this->password])) {
-            return redirect()->route('dashboard');
-        } else {
-            return to_route('login');
-        }
+    // Attempt authentication
+    if (Auth::guard('admin')->attempt(['name' => $this->name, 'password' => $this->password])) {
+        return redirect()->route('dashboard');
+    } else {
+        // Set custom error message
+        session()->flash('error', 'User and Password are wrong, please try again.');
+        return to_route('login');
     }
+}
+
+    
 
     #[Title('Admin Login')]
     public function render()
