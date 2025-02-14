@@ -23,9 +23,32 @@
                             <div class="flex-auto py-10 pt-0">
                                 <div class="flex flex-wrap mt-8">
                                     <!-- Start Pallet Number -->
+<<<<<<< HEAD
                                     <div class="w-full py-2">
                                         <x-form.input wire:model="start_pallet_number" type="number"
                                                       id="startPalletNumber" label="Start Pallet Number"
+=======
+                                {{--                                    <div class="w-full py-2">--}}
+                                {{--                                        <x-form.input wire:model="start_pallet_number" type="number"--}}
+                                {{--                                                      label="Start Pallet Number"--}}
+                                {{--                                                      placeholder="Enter Start Pallet Number"/>--}}
+                                {{--                                        <x-form.input-error for="start_pallet_number" class="mt-2"/>--}}
+                                {{--                                    </div>--}}
+
+                                {{--                                    <!-- End Pallet Number -->--}}
+                                {{--                                    <div class="w-full py-2">--}}
+                                {{--                                        <x-form.input wire:model="end_pallet_number" type="number"--}}
+                                {{--                                                      label="End Pallet Number" placeholder="Enter End Pallet Number"/>--}}
+                                {{--                                        <x-form.input-error for="end_pallet_number" class="mt-2"/>--}}
+                                {{--                                    </div>--}}
+
+
+                                <!-- Start Pallet Number -->
+                                    <div class="w-full py-2">
+                                        <x-form.input wire:model="start_pallet_number" type="number"
+                                                      id="startPalletNumber"
+                                                      label="Start Pallet Number"
+>>>>>>> a82a91c (Your commit message)
                                                       placeholder="Enter Start Pallet Number"
                                                       oninput="this.value = this.value.replace(/e|E|\+|\-/g, '')"
                                                       min="0"/>
@@ -34,8 +57,15 @@
 
                                     <!-- End Pallet Number -->
                                     <div class="w-full py-2">
+<<<<<<< HEAD
                                         <x-form.input wire:model="end_pallet_number" type="number" id="endPalletNumber"
                                                       label="End Pallet Number" placeholder="Enter End Pallet Number"
+=======
+                                        <x-form.input wire:model="end_pallet_number" type="number"
+                                                      id="endPalletNumber"
+                                                      label="End Pallet Number"
+                                                      placeholder="Enter End Pallet Number"
+>>>>>>> a82a91c (Your commit message)
                                                       oninput="this.value = this.value.replace(/e|E|\+|\-/g, '')"
                                                       min="0"/>
                                         <x-form.input-error for="end_pallet_number" class="mt-2"/>
@@ -85,6 +115,7 @@
                                             </select>
                                             <x-form.input-error for="productionLine" class="mt-2"/>
                                         </div>
+<<<<<<< HEAD
                                     @endif
                                 <!-- Volume Selection (Only for Chang Beer Canning Lines) -->
                                     @if ($productType === 'Chang beer' && !empty($availableVolumes))
@@ -101,6 +132,10 @@
                                             <x-form.input-error for="volumeSelection" class="mt-2"/>
                                         </div>
                                 @endif
+=======
+                                @endif
+
+>>>>>>> a82a91c (Your commit message)
                                 <!-- Package -->
                                     <div class="w-full py-2">
                                         <x-form.input wire:model="package" type="text" label="Package" readonly/>
@@ -118,7 +153,11 @@
                                     <!-- Total Amount per Pallet -->
                                     <div class="w-full py-2">
                                         <x-form.input wire:model="totalAmountPerPallet" type="text"
+<<<<<<< HEAD
                                                       label="Total Amount per Pallet"/>
+=======
+                                                      label="Total Amount per Pallet" readonly/>
+>>>>>>> a82a91c (Your commit message)
                                     </div>
 
 
@@ -135,6 +174,7 @@
                             {{-- </form> --}}
                         </div>
                         <div class="col-span-2">
+<<<<<<< HEAD
 
                             <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800 p-4">
                                 <!-- Button Group for Select/Remove All & Print -->
@@ -145,12 +185,34 @@
                                                 class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300">
                                             Select All
                                         </button>
+=======
+                            <div class="overflow-x-auto ">
+                                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class=""> ID</th>
+                                        {{-- @include('livewire.includes.table-sortable-th', [
+                                                'name' => 'lsp_name',
+                                                'displayName' => 'Car Number',
+                                            ]) --}}
+
+                                        <th scope="col" class="">Pallet Number</th>
+                                        <th scope="col" class="">Product Type</th>
+                                        <th scope="col" class="">Production Line</th>
+                                        <th scope="col" class="">Package</th>
+                                        <th scope="col" class="">Volume</th>
+                                        <th scope="col" class="">Unit</th>
+                                        <th scope="col" class="">Total</th>
+                                        <th scope="col" class="">Date</th>
+                                        <th scope="col" class="">Time</th>
+>>>>>>> a82a91c (Your commit message)
 
                                         <button wire:click="removeCheck"
                                                 class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 focus:ring-4 focus:ring-red-300">
                                             Remove All
                                         </button>
 
+<<<<<<< HEAD
                                         <button wire:click="getPrintUrl"
                                                 class="px-4 py-2 text-white bg-purple-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
                                             Selected Print QR Codes
@@ -183,6 +245,56 @@
                                         </div>
                                     </div>
                                 </div>
+=======
+                                        <th scope="col" class="px-4 py-3 text-center">
+                                            <span class="">Actions</span>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($pallets as $key => $user)
+                                        <tr wire:key="{{ $user->id }}" class="border-b">
+
+                                            <td class="">{{ ++$key }}</td>
+
+                                            <td class="">{{ $user->pallet_number }}</td>
+                                            <th class=""> {{ $user->product_type }}</th>
+
+                                            <td class="">{{ $user->production_line }}</td>
+                                            <td class="">{{ $user->package }}</td>
+                                            <td class="">{{ $user->volume }}</td>
+                                            <td class="">{{ $user->unit }}</td>
+                                            <td class="">{{ $user->total_amount_per_pallet }}</td>
+
+
+                                            <td class="">{{ $user->created_at->format('d-m-Y') }}</td>
+                                            <td class="">{{ $user->created_at->format('h:i:s A') }}</td>
+                                            <td class="flex items-center justify-center my-2">
+                                                <a class="hover:cursor-pointer"
+                                                   href="{{ route('palletqrcode.show', $user->id) }}" target="_blank"
+                                                   title="Generate QR Code">
+                                                    <x-phosphor.icons::fill.qr-code
+                                                        class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}"/>
+                                                </a>
+                                                {{-- <a class=" hover:cursor-pointer" <a
+                                                        href="{{ route('qrcode.show', $user->id) }}" target="_blank"
+                                                        title="Generate QRcode">
+
+                                                        <x-phosphor.icons::fill.qr-code
+                                                            class="w-6 h-6 mx-3 text-blue-400" />
+                                                    </a> --}}
+                                                {{-- <button wire:click="generateQrCode({{ $user->id }})"
+                                                        class="px-4 py-2 text-white bg-blue-500 rounded">
+                                                        <x-phosphor.icons::fill.qr-code
+                                                            class="w-6 h-6 mx-3 text-blue-400" />
+
+                                                    </button> --}}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+>>>>>>> a82a91c (Your commit message)
                             </div>
 
 

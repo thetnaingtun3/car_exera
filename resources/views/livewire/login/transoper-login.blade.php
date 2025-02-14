@@ -2,7 +2,7 @@
 
     <x-phosphor.icons::regular.clipboard class="w-10 h-10 mx-3 text-blue-800" />
     <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-        Transoper Login Page asdfds
+        Transoper Login Page xsdfdsafsdfsdf
     </h2>
 
     <form wire:submit="login" action="#" method="POST" class="mt-8 space-y-6">

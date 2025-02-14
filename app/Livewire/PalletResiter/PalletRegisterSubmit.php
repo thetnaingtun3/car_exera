@@ -41,6 +41,7 @@ class PalletRegisterSubmit extends Component
     public $dynamic = 1;
     public $data = [
         'Chang beer' => [
+<<<<<<< HEAD
             'Canning line 1' => [
                 '330 mL' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
                 '500 mL' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
@@ -49,6 +50,10 @@ class PalletRegisterSubmit extends Component
                 '330 mL' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
                 '500 mL' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
             ],
+=======
+            'Canning line 1' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
+            'Canning line 2' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
+>>>>>>> a82a91c (Your commit message)
             'Bottling line Carton' => ['package' => 'Bottle', 'volume' => '620 mL', 'unit' => 'carton', 'total' => '75 cartons'],
             'Bottling line Crate' => ['package' => 'Bottle', 'volume' => '620 mL', 'unit' => 'crate', 'total' => '70 crates'],
             'Keg line 1' => ['package' => 'Keg', 'volume' => '30 L', 'unit' => 'keg', 'total' => '8 kegs'],
@@ -56,7 +61,12 @@ class PalletRegisterSubmit extends Component
         ],
         'Tapper beer' => [
             'Canning line 1' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
+<<<<<<< HEAD
             'Canning line 2' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
+=======
+            'Canning line 2 ' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
+
+>>>>>>> a82a91c (Your commit message)
         ],
     ];
 
@@ -153,6 +163,7 @@ class PalletRegisterSubmit extends Component
 
     public function store()
     {
+<<<<<<< HEAD
         $this->validate([
             'start_pallet_number' => 'required|integer|min:1',
             'end_pallet_number' => 'required|integer|min:' . $this->start_pallet_number,
@@ -176,6 +187,36 @@ class PalletRegisterSubmit extends Component
             }
         }
 
+=======
+        // Validate the inputs
+        $validatedData = $this->validate(
+            [
+
+//                'pallet_number' must be unique in the pallet_registers table
+
+                'productType' => 'required|string|max:255',
+                'productionLine' => 'required|string|max:255',
+                'package' => 'required|string|max:255',
+                'volume' => 'required|min:1',
+                'unit' => 'required|string|max:255',
+                'totalAmountPerPallet' => 'required|min:1',
+            ]
+        );
+
+        // Check for unique pallet numbers in the given range
+        $existingPallets = PalletRegister::whereBetween('pallet_number', [$this->start_pallet_number, $this->end_pallet_number])->pluck('pallet_number')->toArray();
+
+        if (!empty($existingPallets)) {
+            session()->flash('error', 'The following pallet numbers already exist: ' . implode(', ', $existingPallets));
+            return;
+        }
+        // Ensure that the start pallet number is less than or equal to the end pallet number
+        if ($this->start_pallet_number > $this->end_pallet_number) {
+            session()->flash('error', 'Start Pallet Number must be less than or equal to End Pallet Number.');
+            return;
+        }
+        // Generate rows for the given pallet range
+>>>>>>> a82a91c (Your commit message)
         $data = [];
         for ($i = $this->start_pallet_number; $i <= $this->end_pallet_number; $i++) {
             $data[] = [

@@ -118,6 +118,30 @@ class PalletRegisterHistory extends Component
         $this->selectAll = false;
     }
 
+<<<<<<< HEAD
+=======
+    public function applyFilters()
+    {
+        $this->render();
+    }
+
+    // Generate and emit the print URL to the frontend
+    public function getPrintUrl()
+    {
+        if (empty($this->selectedPallets)) {
+            Notification::make()
+                ->title('No pallets selected for printing.')
+                ->danger()
+                ->send();
+            return;
+        }
+
+        // Return the full URL for the QR code print page
+        $url = route('pallet.print.qr') . '?ids=' . implode(',', $this->selectedPallets);
+        $this->dispatch('receivePrintUrl', $url);  // Send the URL to the frontend
+    }
+
+>>>>>>> a82a91c (Your commit message)
     public function setSortBy($sortByField)
     {
         if ($this->sortBy === $sortByField) {
@@ -179,6 +203,7 @@ class PalletRegisterHistory extends Component
 
         return view('livewire.pallet-resiter.pallet-register-history', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
     }
+<<<<<<< HEAD
 
     public function getPrintUrl()
     {
@@ -200,4 +225,6 @@ class PalletRegisterHistory extends Component
         $pallet->delete();
         $this->render();
     }
+=======
+>>>>>>> a82a91c (Your commit message)
 }

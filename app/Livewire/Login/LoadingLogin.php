@@ -23,7 +23,7 @@ class LoadingLogin extends Component
         }
 
         // Set default values (for testing purposes, optional)
-       // $this->fill(['name' => 'loading', 'password' => 'password']);
+        // $this->fill(['name' => 'loading', 'password' => 'password']);
     }
 
     #[Title('Loading Login')]
@@ -47,7 +47,7 @@ class LoadingLogin extends Component
             return redirect()->route('dashboard');
         } else {
             session()->flash('error', 'Invalid name or password.');
-            return to_route('loading.login');
+            return to_route('login');
         }
     }
 }

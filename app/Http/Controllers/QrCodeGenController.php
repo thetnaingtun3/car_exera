@@ -92,6 +92,7 @@ class QrCodeGenController extends Controller
         ]);
     }
 
+<<<<<<< HEAD
 
     public function printCarQRCodes(Request $request)
     {
@@ -124,6 +125,8 @@ class QrCodeGenController extends Controller
         return view('livewire.carprint-qr-codes', compact('carsWithQrCodes'));
     }
 
+=======
+>>>>>>> a82a91c (Your commit message)
     public function printQRCodes(Request $request)
     {
         $palletIds = explode(',', $request->query('ids'));
@@ -131,6 +134,7 @@ class QrCodeGenController extends Controller
         // selectedPallets of status data update
 
 
+<<<<<<< HEAD
         $palletsWithQrCodes = $selectedPallets->map(function ($pallet) {
             // Format the QR data
             $qrData = sprintf(
@@ -159,5 +163,8 @@ class QrCodeGenController extends Controller
         }
 
         return view('livewire.pallet-resiter.print-qr-codes', compact('palletsWithQrCodes'));
+=======
+        return view('livewire.pallet-resiter.print-qr-codes', compact('selectedPallets'));
+>>>>>>> a82a91c (Your commit message)
     }
 }
