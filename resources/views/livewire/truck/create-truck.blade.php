@@ -33,7 +33,7 @@
 
                             <div class="w-full px-4 lg:w-6/12">
                                 <x-form.input wire:model="form.licence_plate" type="text" maxlength="7"
-                                    label=" Plate Number " />
+                                    label="Plate Number " />
                                 <x-form.input-error for="form.licence_plate" class="mt-2" />
                             </div>
 
