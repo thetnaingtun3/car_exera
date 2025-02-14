@@ -70,7 +70,9 @@
                                         <!-- Truck Number -->
 
                                             <div class="w-full py-2">
-                                                <x-form.input wire:model.live="other_truck_licence_plate" type="text"
+                                                <x-form.input wire:model.live="other_truck_licence_plate" 
+                                                    type="text"
+                                                    maxlength="7"
                                                               label="Truck Number"/>
                                                     <x-form.input-error for="other_truck_licence_plate" class="mt-2" />
 
