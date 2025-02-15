@@ -16,6 +16,8 @@ use App\Livewire\LSP\LSPList;
 use App\Livewire\LSP\LSPCreate;
 use App\Livewire\LSP\LSPImports;
 use App\Livewire\Admin\ListAdmin;
+use App\Livewire\Pallet\BottlinglineCarton;
+use App\Livewire\Pallet\BottlinglineCrate;
 use App\Livewire\Truck\EditTruck;
 use App\Livewire\Truck\ListTruck;
 use App\Livewire\Admin\CreateAdmin;
@@ -99,6 +101,14 @@ Route::middleware('auth:admin')->group(callback: function () {
     // pallet register
     Route::get('pallet/register', PalletRegisterSubmit::class)->name('pallet.register');
 
+
+// pallet register line splt start
+
+    Route::get('pallet/bottlingline/carton', BottlinglineCarton::class)->name('pallet.bottlingline.carton');
+    Route::get('pallet/bottlingline/crate', BottlinglineCrate::class)->name('pallet.bottlingline.crate');
+// pallet register line splt end
+
+
     // Route::get('/pallet-register/print-qr', [PalletRegisterHistory::class, 'printSelectedQRCodes'])->name('pallet.print.qr');
     Route::get('/pallet/history', PalletRegisterHistory::class)->name('pallet.history');
     Route::get('/pallet/qr/code/history', PalletRegisterQrCodeHistory::class)->name('pallet.qrcode.history');
@@ -119,7 +129,6 @@ Route::middleware('auth:admin')->group(callback: function () {
 
 
 //    Route::get('/pallet/history', PalletRegisterHistory::class)->name('pallet.history');
-
 
 
     Route::get('/chang/canningline/one', ChangCanningLineOne::class)->name('chang.canning.line.one');

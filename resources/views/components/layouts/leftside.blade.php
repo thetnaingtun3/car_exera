@@ -56,6 +56,25 @@
                             <span class="ml-3" sidebar-toggle-item>Dashboard</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('pallet.bottlingline.carton') }}" wire:navigate
+                           class="flex active items-center
+                        @yield('dashboard-active')
+                               p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 ">
+                            <x-phosphor.icons::regular.gauge class="w-6 h-6 mx-3 text-blue-800"/>
+                            <span class="ml-3" sidebar-toggle-item>BottlingLineCarton</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('pallet.bottlingline.crate') }}" wire:navigate
+                           class="flex active items-center
+                        @yield('dashboard-active')
+                               p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 ">
+                            <x-phosphor.icons::regular.gauge class="w-6 h-6 mx-3 text-blue-800"/>
+                            <span class="ml-3" sidebar-toggle-item>BottlingLineCrate</span>
+                        </a>
+                    </li>
+
 
                     @hasanyrole('root-admin')
                     <li>
