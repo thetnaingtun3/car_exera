@@ -190,6 +190,22 @@ class SubmitCarRegister extends Component
         $driverNameToStore = $this->isOtherDriver ? $this->driver_name : Truck::where('id', $this->driver_id)->where('status', 'active')->value('driver_name');
 
         DB::transaction(function () use ($concatenatedOrderNumbers, $driverIdToStore, $driverNameToStore) {
+
+
+            if ($this->car_id === 'other') {
+                $this->validate([
+                    'lsp_id' => 'required|integer',
+                    'other_truck_licence_plate' => 'required|regex:/^\d[A-Z]-\d{4}$/|unique:trucks,licence_plate',
+                ]);
+
+                $truck = Truck::create([
+                    'lsp_id' => $this->lsp_id,
+                    'licence_plate' => $this->other_truck_licence_plate,
+                    'size' => $this->other_truck_size . ' ' . $this->tunit,
+                    'driver_name' => $this->driver_name,
+                    'status' => 'active',
+                ]);
+            }
             $carRegistration = CarRegistration::create([
                 'lsp_id' => $this->lsp_id,
                 'customer_id' => $this->customer_id,
@@ -257,7 +273,7 @@ class SubmitCarRegister extends Component
 
     public function render()
     {
-//        $registrations = CarRegistration::with('products')->orderBy('id', 'desc')->get();
+        //        $registrations = CarRegistration::with('products')->orderBy('id', 'desc')->get();
 
         $registrations = $this->getCarsQuery()->paginate($this->perPage);
         return view('livewire.car-register.submit-car-register', compact('registrations'));
@@ -275,7 +291,6 @@ class SubmitCarRegister extends Component
         $carIds = implode(',', $this->selectedCars);
 
         return redirect()->route('car.print.qr', ['ids' => $carIds]);
-
     }
 
     public function deleteAllCarReg($id)
@@ -283,6 +298,5 @@ class SubmitCarRegister extends Component
         $cc = CarRegistration::findOrFail($id);
         $cc->delete();
         $this->render();
-
     }
 }

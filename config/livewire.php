@@ -64,7 +64,7 @@ return [
     */
 
     'temporary_file_upload' => [
-        
+
        'disk' => 'local',       // Example: 'local', 's3'              | Default: 'default'
         'directory' => null,   // Example: 'tmp'                      | Default: 'livewire-tmp'
         'middleware' => null,  // Example: 'throttle:5,1'             | Default: 'throttle:60,1'
@@ -89,14 +89,10 @@ return [
             'txt',
             'vtt'
         ],
-        //rules add for excel
 
+//        'rules'=> ' file|mimes:png,jpg,pdf,xlsx,csv,xls,mp4,mov,avi,vtt,txt|max:402400',
+        'rules' => 'file|mimes:xls,xlsx,xlsm,xlsb,xltx,xltm,xlt,xml,xlam,xla,xlw,xlr|max:402400',
 
-//        'file' => 'required|file|mimes:xlsx,xls,csv|max:5120', // 5MB limit
-    // add vtt for video subtitle
-
-        'rules'=> ' file|mimes:png,jpg,pdf,xlsx,csv,xls,mp4,mov,avi,vtt,txt|max:402400',
-//        'rules' => 'file|mimes:png,jpg,pdf,xlsx,csv,xls,mp4,mov,avi|max:402400',
         'max_upload_time' => 5, // Max duration (in minutes) before an upload is invalidated...
         'cleanup' => true, // Should cleanup temporary uploads older than 24 hrs...
     ],

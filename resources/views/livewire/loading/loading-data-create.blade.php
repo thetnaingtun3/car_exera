@@ -8,7 +8,7 @@
             <div class="px-6 py-6 mb-0 text-white rounded-t bg-gradient-to-r from-blue-800 to-gray-800">
                 <div class="flex justify-between text-center">
                     <h6 class="text-xl font-bold">
-                        LSP Data Import
+                        Loading Data Import
                     </h6>
                 </div>
             </div>
@@ -26,7 +26,7 @@
 
 
                         <div class="w-full px-4 mt-5">
-                            <div wire:loading wire:target="file">Uploading...</div>
+{{--                            <div wire:loading wire:target="file">Uploading...</div>--}}
                             <x-form.input type="file" wire:model="file" label="Excel File" />
 
                             {{-- <x-form.input-error for="file" class="mt-2" /> --}}

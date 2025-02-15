@@ -67,11 +67,19 @@
                                         </div>
 
                                         @if ($car_id === 'other')
-                                            <!-- Truck Number -->
-
+                                        <!-- Truck Number -->
+<!-- 
                                             <div class="w-full py-2">
                                                 <x-form.input wire:model.live="other_truck_licence_plate" type="text"
-                                                    maxlength="7" label="Truck Number" />
+                                                              label="Truck Number"/>
+                                            </div> -->
+
+
+                                       <div class="w-full py-2">
+                                                <x-form.input wire:model.live="other_truck_licence_plate" type="text"
+                                                            label="Truck Number" 
+                                                            oninput="formatLicencePlate(this)"
+                                                            placeholder="XX-YYYY"/>
                                             </div>
 
 
@@ -83,7 +91,7 @@
                                                             label="Truck Size" />
                                                     </div>
                                                     <div class="w-full lg:w-5/12">
-                                                        <x-form.select-box wire:model="tunit" label="Select LSP">
+                                                        <x-form.select-box wire:model="tunit" label="Select Unit">
                                                             <option value="" disabled>Select Type</option>
                                                             <option value="Wheel">Wheel
                                                             </option>
@@ -94,7 +102,6 @@
                                                 </div>
                                             </div>
                                         @endif
-
                                         {{-- @if ($car_id === 'other')
                                             <div class="w-full py-2 ">
                                                 <div class="w-full  pt-2 lg:w-3/12">
@@ -459,4 +466,21 @@
             });
         });
     });
+
+    function formatLicencePlate(input) {
+
+        let value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+       
+        if (value.length > 2) {
+            value = value.substring(0, 2) + '-' + value.substring(2);
+        }
+
+   
+        value = value.substring(0, 7);
+
+        input.value = value;
+    }
+
+
 </script>
