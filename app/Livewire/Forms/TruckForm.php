@@ -35,7 +35,7 @@ class TruckForm extends Form
             'unique:trucks,licence_plate'
         ],
     ], [
-        'licence_plate.regex' => 'You should write the Plate Number in this format: 7b-1234',
+        'licence_plate.regex' => 'You should write the Plate Number in this format: 7B-1234',
     ]);
 
     $this->truck = Truck::create([
@@ -58,7 +58,7 @@ public function update()
             'unique:trucks,licence_plate,' . $this->truck->id
         ],
     ], [
-        'licence_plate.regex' => 'You should write the Plate Number in this format: 7b-1234',
+        'licence_plate.regex' => 'You should write the Plate Number in this format: 7B-1234',
     ]);
 
     $this->truck->update([
