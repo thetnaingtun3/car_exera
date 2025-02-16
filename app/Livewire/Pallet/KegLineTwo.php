@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Livewire\Pallet;
 
 use App\Models\PalletRegister;
@@ -8,7 +9,7 @@ use Filament\Notifications\Notification;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class BottlinglineCarton extends Component
+class KegLineTwo extends Component
 {
     use WithPagination;
 
@@ -31,16 +32,17 @@ class BottlinglineCarton extends Component
     public $perPage = 100;
     public $dynamic = 1;
 
-    public $productionLine = 'Bottling line Carton';
-    public $package = 'Bottle';
-    public $volume = '620 mL';
-    public $unit = 'carton';
-    public $totalAmountPerPallet = '75 cartons'; // Default to 75 for 'carton'
+    public $productionLine = 'Keg line 2';
+    public $package = 'Keg';
+    public $volume = '30 mL';
+    public $unit = 'keg';
+    public $totalAmountPerPallet = '8 kegs';
 
     public $data = [
-        'carton' => ['package' => 'Bottle', 'volume' => '620 mL', 'total' => '75 cartons', 'productionLine' => 'Bottling line Carton'],
-        'crate' => ['package' => 'Bottle', 'volume' => '620 mL', 'total' => '70 crates', 'productionLine' => 'Bottling line Crate'],
+
+        'Keg line 2' => ['package' => 'Keg', 'volume' => '30 L', 'unit' => 'keg', 'total' => '8 kegs'],
     ];
+
 
     protected $queryString = [
         'search',
@@ -54,22 +56,6 @@ class BottlinglineCarton extends Component
         'perPage'
     ];
 
-    private function updateUnitData()
-    {
-        if (isset($this->data[$this->unit])) {
-            $this->package = $this->data[$this->unit]['package'];
-            $this->volume = $this->data[$this->unit]['volume'];
-            $this->productionLine = $this->data[$this->unit]['productionLine'];
-            $this->totalAmountPerPallet = $this->data[$this->unit]['total']; // ✅ Corrected
-        }
-    }
-
-    public function updatedUnit()
-    {
-        $this->updateUnitData();
-    }
-
-
     public function selectAll()
     {
         $this->selectedPallets = PalletRegister::pluck('id')->toArray();
@@ -82,25 +68,31 @@ class BottlinglineCarton extends Component
         $this->selectAll = false;
     }
 
+
     public function selectRangeByDynamic()
     {
+        // Reset the selected pallets
         $this->selectedPallets = [];
 
+        // Get the current page of pallets in the correct order (sorted view)
         $pallets = $this->getPalletsQuery()->paginate($this->perPage);
 
-        foreach ($pallets as $index => $pallet) {
+        // Iterate over the displayed rows and select based on the visual order
+        foreach ($pallets as $index => $user) {
+            // Check if the row index falls within the selected range
             if (($index + 1) >= $this->rangeStart && ($index + 1) <= $this->rangeEnd) {
-                $this->selectedPallets[] = $pallet->id;
+                $this->selectedPallets[] = $user->id;
             }
         }
     }
 
-
     public function getPalletsQuery()
     {
-        return PalletRegister::whereIn('production_line', ['Bottling line Carton', 'Bottling line Crate'])
-            ->orderBy($this->sortBy, $this->sortDir);
+
+        $query = PalletRegister::query()->where('production_line', 'Keg line 2');
+        return $query->orderBy($this->sortBy, $this->sortDir);
     }
+
 
     public function store()
     {
@@ -142,12 +134,14 @@ class BottlinglineCarton extends Component
 
         PalletRegister::insert($data);
 
-        $this->reset(['start_pallet_number', 'end_pallet_number']);
+        $this->reset(['start_pallet_number', 'end_pallet_number', 'productType', 'productionLine', 'volumeSelection', 'package', 'volume', 'unit', 'totalAmountPerPallet']);
 
         Notification::make()
             ->title('Pallets registered successfully!')
             ->success()
             ->send();
+
+        return to_route('pallet.kegline.two');
     }
 
     public function allCheck()
@@ -160,6 +154,15 @@ class BottlinglineCarton extends Component
     {
         $this->selectedPallets = [];
         $this->selectAll = false;
+    }
+
+
+    public function render()
+    {
+        $pallets = $this->getPalletsQuery()->paginate($this->perPage);
+
+        return view('livewire.pallet.keg-line-two', compact('pallets'));
+//        return view('livewire.pallet.bottlingline-carton', compact('pallets'));
     }
 
     public function getPrintUrl()
@@ -183,9 +186,4 @@ class BottlinglineCarton extends Component
         $this->render();
     }
 
-    public function render()
-    {
-        $pallets = $this->getPalletsQuery()->paginate($this->perPage);
-        return view('livewire.pallet.bottlingline-carton', compact('pallets'));
-    }
 }

@@ -2,68 +2,63 @@
 
 namespace App\Livewire\Pallet;
 
-use App\Models\PalletRegister;
+use Carbon\Carbon;
 use Livewire\Component;
-
+use App\Models\PalletRegister;
 use Filament\Notifications\Notification;
 use Livewire\WithPagination;
-use Carbon\Carbon;
 
-class BottlinglineCrate extends Component
+class CanningLineTwo extends Component
 {
-
-
     use WithPagination;
 
     public $start_pallet_number;
     public $end_pallet_number;
-
-    public $productType = 'Chang beer';
+    public $productType = '';
+    public $productionLine = 'Canning line 2';
     public $volumeSelection = '';
+    public $package = '';
+    public $volume = '';
+    public $unit = '';
+    public $totalAmountPerPallet = '';
+
     public $availableProductionLines = [];
     public $availableVolumes = [];
-    public $selectedPallets = [];  // Selected pallet IDs
-    public $selectAll = false;     // Toggle for selecting all
-    public $rangeStart;            // Start range for selection
-    public $rangeEnd;              // End range for selection
+
+    public $selectedPallets = [];
+    public $selectAll = false;
+    public $rangeStart;
+    public $rangeEnd;
+
     public $search = '';
     public $startDate = '';
     public $endDate = '';
+    public $selectedProductType = '';
+    public $selectedProductionLine = '';
+    public $selectedVolume = '';
     public $sortBy = 'id';
     public $sortDir = 'DESC';
     public $perPage = 100;
     public $dynamic = 1;
 
-    public $productionLine = 'Bottling line Crate';
-    public $package = 'Bottle';
-    public $volume = '620 mL';
-    public $unit = 'carton';
-    public $totalAmountPerPallet = '75 cartons';
-
     public $data = [
-        'Bottling line Carton' => ['package' => 'Bottle', 'volume' => '620 mL', 'unit' => 'carton', 'total' => '75 cartons'],
-    ];
-//'Bottling line Crate' => ['package' => 'Bottle', 'volume' => '620 mL', 'unit' => 'crate', 'total' => '70 crates'],
-
-    protected $queryString = [
-        'search',
-        'startDate',
-        'endDate',
-        'selectedProductType',
-        'selectedProductionLine',
-        'selectedVolume',
-        'sortBy',
-        'sortDir',
-        'perPage'
+        'Chang beer' => [
+            '330 mL' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
+            '500 mL' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
+        ],
+        'Tapper beer' => [
+            '330 mL' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
+            '500 mL' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
+        ],
     ];
 
-    public function selectAll()
+    public function allCheck()
     {
         $this->selectedPallets = PalletRegister::pluck('id')->toArray();
         $this->selectAll = true;
     }
 
-    public function unselectAll()
+    public function removeCheck()
     {
         $this->selectedPallets = [];
         $this->selectAll = false;
@@ -87,32 +82,57 @@ class BottlinglineCrate extends Component
         }
     }
 
-    public function getPalletsQuery()
-    {
+    protected $queryString = [
+        'search', 'startDate', 'endDate', 'selectedProductType', 'selectedProductionLine', 'selectedVolume', 'sortBy', 'sortDir', 'perPage'
+    ];
 
-        $query = PalletRegister::query()->where('production_line', 'Bottling line Crate');
-        return $query->orderBy($this->sortBy, $this->sortDir);
+    public function updatedProductType($value)
+    {
+        if (isset($this->data[$value])) {
+            $this->availableVolumes = array_keys($this->data[$value]);
+            $this->reset(['volumeSelection', 'package', 'volume', 'unit', 'totalAmountPerPallet']);
+        } else {
+            $this->reset(['availableVolumes', 'volumeSelection', 'package', 'volume', 'unit', 'totalAmountPerPallet']);
+        }
     }
 
+    public function updatedVolumeSelection($value)
+    {
+        if (isset($this->data[$this->productType][$value])) {
+            $details = $this->data[$this->productType][$value];
+            $this->package = $details['package'];
+            $this->volume = $details['volume'];
+            $this->unit = $details['unit'];
+            $this->totalAmountPerPallet = $details['total'];
+        }
+    }
+
+    public function getPalletsQuery()
+    {
+        return PalletRegister::where('production_line', 'Canning line 2')->orderBy($this->sortBy, $this->sortDir);
+    }
 
     public function store()
     {
         $this->validate([
             'start_pallet_number' => 'required|integer|min:1',
             'end_pallet_number' => 'required|integer|min:' . $this->start_pallet_number,
+            'productType' => 'required',
+            'productionLine' => 'required',
+            'volume' => 'required',
         ]);
 
         $currentDate = Carbon::today()->toDateString();
 
         for ($i = $this->start_pallet_number; $i <= $this->end_pallet_number; $i++) {
-            $exists = PalletRegister::where('pallet_number', $i)
+            if (PalletRegister::where('pallet_number', $i)
                 ->whereDate('created_at', $currentDate)
                 ->where('production_line', $this->productionLine)
                 ->where('product_type', $this->productType)
                 ->where('volume', $this->volume)
-                ->exists();
+                ->exists()) {
+//                session()->flash('error', "Pallet number $i already exists.");
 
-            if ($exists) {
                 session()->flash('error', "Pallet number $i already exists today for production line '{$this->productionLine}', product type '{$this->productType}', and volume '{$this->volume}'.");
                 return;
             }
@@ -142,27 +162,14 @@ class BottlinglineCrate extends Component
             ->success()
             ->send();
 
-        return to_route('pallet.bottlingline.crate');
+        return to_route('pallet.canning-line-two');
     }
-
-    public function allCheck()
-    {
-        $this->selectedPallets = PalletRegister::pluck('id')->toArray();
-        $this->selectAll = true;
-    }
-
-    public function removeCheck()
-    {
-        $this->selectedPallets = [];
-        $this->selectAll = false;
-    }
-
 
     public function render()
     {
-        $pallets = $this->getPalletsQuery()->paginate($this->perPage);
-
-        return view('livewire.pallet.bottlingline-crate', compact('pallets'));
+        return view('livewire.pallet.canning-line-two', [
+            'pallets' => $this->getPalletsQuery()->paginate($this->perPage)
+        ]);
     }
 
     public function getPrintUrl()

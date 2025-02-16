@@ -102,27 +102,6 @@ class PalletRegisterSubmit extends Component
         }
     }
 
-//    public function updatedProductionLine($value)
-//    {
-//        if (isset($this->data[$this->productType][$value])) {
-//            // Only Chang beer's Canning lines require volume selection
-//            if ($this->productType === 'Chang beer' && ($value === 'Canning line 1' || $value === 'Canning line 2')) {
-//                $this->availableVolumes = array_keys($this->data[$this->productType][$value]);
-//                $this->reset(['volumeSelection', 'package', 'volume', 'unit', 'totalAmountPerPallet']);
-//            } else {
-//                // Auto-fill for Tapper beer, Bottling lines, and Keg lines
-//                $this->availableVolumes = [];
-//                $details = $this->data[$this->productType][$value];
-//                $this->package = $details['package'];
-//                $this->volume = $details['volume'];
-//                $this->unit = $details['unit'];
-//                $this->totalAmountPerPallet = $details['total'];
-//            }
-//        } else {
-//            $this->reset(['availableVolumes', 'volumeSelection', 'package', 'volume', 'unit', 'totalAmountPerPallet']);
-//        }
-//    }
-
     public function updatedProductionLine($value)
     {
         if (isset($this->data[$this->productType][$value])) {

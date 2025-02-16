@@ -28,8 +28,8 @@
                                                       id="startPalletNumber" label="Start Pallet Number"
                                                       placeholder="Enter Start Pallet Number"
                                                       oninput="this.value = this.value.replace(/e|E|\+|\-/g, '')"
-                                                      min="0"/>
-                                        <x-form.input-error for="start_pallet_number" class="mt-2"/>
+                                                      min="0" />
+                                        <x-form.input-error for="start_pallet_number" class="mt-2" />
                                     </div>
 
                                     <!-- End Pallet Number -->
@@ -37,78 +37,68 @@
                                         <x-form.input wire:model="end_pallet_number" type="number" id="endPalletNumber"
                                                       label="End Pallet Number" placeholder="Enter End Pallet Number"
                                                       oninput="this.value = this.value.replace(/e|E|\+|\-/g, '')"
-                                                      min="0"/>
-                                        <x-form.input-error for="end_pallet_number" class="mt-2"/>
+                                                      min="0" />
+                                        <x-form.input-error for="end_pallet_number" class="mt-2" />
                                     </div>
 
                                     <script>
                                         // Prevent invalid keys during input
-                                        document.getElementById('startPalletNumber').addEventListener('keydown', function (e) {
+                                        document.getElementById('startPalletNumber').addEventListener('keydown', function(e) {
                                             if (['e', 'E', '+', '-'].includes(e.key)) {
                                                 e.preventDefault();
                                             }
                                         });
 
-                                        document.getElementById('endPalletNumber').addEventListener('keydown', function (e) {
+                                        document.getElementById('endPalletNumber').addEventListener('keydown', function(e) {
                                             if (['e', 'E', '+', '-'].includes(e.key)) {
                                                 e.preventDefault();
                                             }
                                         });
                                     </script>
 
-                                    <!-- Unit -->
-                                    <div class="w-full py-2">
-                                        <label for="unit" class="block text-sm font-medium text-gray-700">Unit</label>
-                                        <select wire:model.live="unit" id="unit"
-                                                class="block w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
-                                            <option value="carton">Carton</option>
-                                            <option value="crate">Crate</option>
-                                        </select>
-                                    </div>
-
                                     <!-- Production Line -->
                                     <div class="w-full py-2">
                                         <x-form.input wire:model="productionLine" type="text" label="Production Line"
-                                                      readonly/>
+                                                      readonly />
 
-                                        <x-form.input-error for="productionLine" class="mt-2"/>
+                                        <x-form.input-error for="productionLine" class="mt-2" />
                                     </div>
-
 
                                     <!-- Product Type -->
                                     <div class="w-full py-2">
                                         <x-form.input wire:model="productType" type="text" label="Product Type"
-                                                      readonly/>
+                                                      readonly />
 
-                                        <x-form.input-error for="productionLine" class="mt-2"/>
+                                        <x-form.input-error for="productionLine" class="mt-2" />
                                     </div>
                                     <!-- Package -->
                                     <div class="w-full py-2">
-                                        <x-form.input wire:model="package" type="text" label="Package" readonly/>
+                                        <x-form.input wire:model="package" type="text" label="Package" readonly />
 
-                                        <x-form.input-error for="package" class="mt-2"/>
+                                        <x-form.input-error for="package" class="mt-2" />
                                     </div>
 
                                     <!-- Volume (Always visible) -->
                                     <div class="w-full py-2">
-                                        <x-form.input wire:model="volume" type="text" label="Volume" readonly/>
+                                        <x-form.input wire:model="volume" type="text" label="Volume" readonly />
 
-                                        <x-form.input-error for="volume" class="mt-2"/>
+                                        <x-form.input-error for="volume" class="mt-2" />
                                     </div>
                                     <!-- Unit -->
                                     <div class="w-full py-2">
-                                        <x-form.input wire:model="unit" type="text" label="Unit" readonly/>
+                                        <x-form.input wire:model="unit" type="text" label="Unit" readonly />
 
-                                        <x-form.input-error for="unit" class="mt-2"/>
+                                        <x-form.input-error for="unit" class="mt-2" />
                                     </div>
 
                                     <!-- Total Amount per Pallet -->
                                     <div class="w-full py-2">
-
                                         <x-form.input wire:model="totalAmountPerPallet" type="text"
-                                                      label="Total Amount per Pallet"/>
-                                        <x-form.input-error for="totalAmountPerPallet" class="mt-2"/>
+                                                      label="Total Amount per Pallet" />
+
+                                        <x-form.input-error for="totalAmountPerPallet" class="mt-2" />
                                     </div>
+
 
                                 </div>
                                 <!-- Submit Button -->
@@ -226,12 +216,12 @@
                                                href="{{ route('palletqrcode.show', $user->id) }}"
                                                title="Generate QR Code">
                                                 <x-phosphor.icons::fill.qr-code
-                                                    class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}"/>
+                                                    class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}" />
                                             </a>
                                             <x-form.button class="bg-red-700 hover:bg-red-800"
                                                            wire:confirm="Are you sure you want to delete PLT - {{ $user->pallet_number }}?"
                                                            wire:click="deletePallet({{ $user->id }})">
-                                                <x-phosphor.icons::regular.trash class="w-6 h-6 mx-1 text-white"/>
+                                                <x-phosphor.icons::regular.trash class="w-6 h-6 mx-1 text-white" />
                                             </x-form.button>
 
                                         </td>
@@ -254,8 +244,8 @@
     </section>
 </div>
 <script>
-    document.addEventListener('livewire:load', function () {
-        document.getElementById('printQRCodesButton').addEventListener('click', function () {
+    document.addEventListener('livewire:load', function() {
+        document.getElementById('printQRCodesButton').addEventListener('click', function() {
             // Emit the Livewire event to get the print URL
             Livewire.emit('getPrintUrl');
 
