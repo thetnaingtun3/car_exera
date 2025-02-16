@@ -18,7 +18,7 @@
                     <div class="grid grid-cols-3 gap-4">
                         <div class="col-span-1">
                             <h6 class="text-xl font-semibold">
-                                {{ __('Pallet Register') }}
+                                {{ __('Pallet Register Bottling Line Carton') }}
                             </h6>
                             <div class="flex-auto py-10 pt-0">
                                 <div class="flex flex-wrap mt-8">
@@ -28,8 +28,8 @@
                                                       id="startPalletNumber" label="Start Pallet Number"
                                                       placeholder="Enter Start Pallet Number"
                                                       oninput="this.value = this.value.replace(/e|E|\+|\-/g, '')"
-                                                      min="0"/>
-                                        <x-form.input-error for="start_pallet_number" class="mt-2"/>
+                                                      min="0" />
+                                        <x-form.input-error for="start_pallet_number" class="mt-2" />
                                     </div>
 
                                     <!-- End Pallet Number -->
@@ -37,90 +37,66 @@
                                         <x-form.input wire:model="end_pallet_number" type="number" id="endPalletNumber"
                                                       label="End Pallet Number" placeholder="Enter End Pallet Number"
                                                       oninput="this.value = this.value.replace(/e|E|\+|\-/g, '')"
-                                                      min="0"/>
-                                        <x-form.input-error for="end_pallet_number" class="mt-2"/>
+                                                      min="0" />
+                                        <x-form.input-error for="end_pallet_number" class="mt-2" />
                                     </div>
 
                                     <script>
                                         // Prevent invalid keys during input
-                                        document.getElementById('startPalletNumber').addEventListener('keydown', function (e) {
+                                        document.getElementById('startPalletNumber').addEventListener('keydown', function(e) {
                                             if (['e', 'E', '+', '-'].includes(e.key)) {
                                                 e.preventDefault();
                                             }
                                         });
 
-                                        document.getElementById('endPalletNumber').addEventListener('keydown', function (e) {
+                                        document.getElementById('endPalletNumber').addEventListener('keydown', function(e) {
                                             if (['e', 'E', '+', '-'].includes(e.key)) {
                                                 e.preventDefault();
                                             }
                                         });
                                     </script>
-                                    <!-- Product Type -->
-                                    <div class="w-full py-2">
-                                        <label for="productType" class="block text-sm font-medium text-gray-700">Product
-                                            Type</label>
-                                        <select wire:model.live="productType"
-                                                class="w-full px-3 py-3 text-sm bg-white border-0 rounded shadow">
-                                            <option value="">Select Product Type</option>
-                                            @foreach ($data as $type => $lines)
-                                                <option value="{{ $type }}">{{ $type }}</option>
-                                            @endforeach
-                                        </select>
-                                        <x-form.input-error for="productType" class="mt-2"/>
-                                    </div>
 
                                     <!-- Production Line -->
-                                    @if (!empty($availableProductionLines))
-                                        <div class="w-full py-2">
-                                            <label for="productionLine"
-                                                   class="block text-sm font-medium text-gray-700">Production
-                                                Line</label>
-
-                                            <select wire:model.live="productionLine"
-                                                    class="w-full px-3 py-3 text-sm bg-white border-0 rounded shadow">
-                                                <option value="">Select Production Line</option>
-                                                @foreach ($availableProductionLines as $line)
-                                                    <option value="{{ $line }}">{{ $line }}</option>
-                                                @endforeach
-                                            </select>
-                                            <x-form.input-error for="productionLine" class="mt-2"/>
-                                        </div>
-                                    @endif
-
-                                <!-- Volume Selection (For Chang Beer & Tapper Beer Canning Lines) -->
-                                    @if (($productType === 'Chang beer' || $productType === 'Tapper beer') && !empty($availableVolumes))
-                                        <div class="w-full py-2">
-                                            <label for="volumeSelection"
-                                                   class="block text-sm font-medium text-gray-700">Select Volume</label>
-                                            <select wire:model.live="volumeSelection"
-                                                    class="w-full px-3 py-3 text-sm bg-white border-0 rounded shadow">
-                                                <option value="">Select Volume</option>
-                                                @foreach ($availableVolumes as $volume)
-                                                    <option value="{{ $volume }}">{{ $volume }}</option>
-                                                @endforeach
-                                            </select>
-                                            <x-form.input-error for="volumeSelection" class="mt-2"/>
-                                        </div>
-                                @endif
-
-                                <!-- Package -->
                                     <div class="w-full py-2">
-                                        <x-form.input wire:model="package" type="text" label="Package" readonly/>
+                                        <x-form.input wire:model="productionLine" type="text" label="Production Line"
+                                                      readonly />
+
+                                        <x-form.input-error for="productionLine" class="mt-2" />
+                                    </div>
+
+                                    <!-- Product Type -->
+                                    <div class="w-full py-2">
+                                        <x-form.input wire:model="productType" type="text" label="Product Type"
+                                                      readonly />
+
+                                        <x-form.input-error for="productionLine" class="mt-2" />
+                                    </div>
+                                    <!-- Package -->
+                                    <div class="w-full py-2">
+                                        <x-form.input wire:model="package" type="text" label="Package" readonly />
+
+                                        <x-form.input-error for="package" class="mt-2" />
                                     </div>
 
                                     <!-- Volume (Always visible) -->
                                     <div class="w-full py-2">
-                                        <x-form.input wire:model="volume" type="text" label="Volume" readonly/>
+                                        <x-form.input wire:model="volume" type="text" label="Volume" readonly />
+
+                                        <x-form.input-error for="volume" class="mt-2" />
                                     </div>
                                     <!-- Unit -->
                                     <div class="w-full py-2">
-                                        <x-form.input wire:model="unit" type="text" label="Unit" readonly/>
+                                        <x-form.input wire:model="unit" type="text" label="Unit" readonly />
+
+                                        <x-form.input-error for="unit" class="mt-2" />
                                     </div>
 
                                     <!-- Total Amount per Pallet -->
                                     <div class="w-full py-2">
                                         <x-form.input wire:model="totalAmountPerPallet" type="text"
-                                                      label="Total Amount per Pallet"/>
+                                                      label="Total Amount per Pallet" />
+
+                                        <x-form.input-error for="totalAmountPerPallet" class="mt-2" />
                                     </div>
 
 
@@ -162,9 +138,11 @@
                                     <!-- Select Range Inputs -->
                                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-auto">
                                         <div>
-                                            <label for="start_range" class="block text-sm font-medium text-gray-700">Start
+                                            <label for="start_range"
+                                                   class="block text-sm font-medium text-gray-700">Start
                                                 Range</label>
-                                            <input wire:model="rangeStart" type="number" min="1" id="start_range"
+                                            <input wire:model="rangeStart" type="number" min="1"
+                                                   id="start_range"
                                                    class="block w-full p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
                                                    placeholder="Start Range">
                                         </div>
@@ -217,8 +195,7 @@
 
                                         <td class="px-4 py-2">
                                             <input type="checkbox" wire:model="selectedPallets"
-                                                   value="{{ $user->id }}"
-                                                   class="form-checkbox">
+                                                   value="{{ $user->id }}" class="form-checkbox">
                                         </td>
                                         <td class="px-2 ">{{ $dynamic++ }}</td>
 
@@ -239,26 +216,14 @@
                                                href="{{ route('palletqrcode.show', $user->id) }}"
                                                title="Generate QR Code">
                                                 <x-phosphor.icons::fill.qr-code
-                                                    class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}"/>
+                                                    class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}" />
                                             </a>
                                             <x-form.button class="bg-red-700 hover:bg-red-800"
                                                            wire:confirm="Are you sure you want to delete PLT - {{ $user->pallet_number }}?"
                                                            wire:click="deletePallet({{ $user->id }})">
-                                                <x-phosphor.icons::regular.trash class="w-6 h-6 mx-1 text-white"/>
+                                                <x-phosphor.icons::regular.trash class="w-6 h-6 mx-1 text-white" />
                                             </x-form.button>
-                                            {{-- <a class=" hover:cursor-pointer" <a
-                                                href="{{ route('qrcode.show', $user->id) }}" target="_blank"
-                                                title="Generate QRcode">
 
-                                                <x-phosphor.icons::fill.qr-code
-                                                    class="w-6 h-6 mx-3 text-blue-400" />
-                                            </a> --}}
-                                            {{-- <button wire:click="generateQrCode({{ $user->id }})"
-                                                class="px-4 py-2 text-white bg-blue-500 rounded">
-                                                <x-phosphor.icons::fill.qr-code
-                                                    class="w-6 h-6 mx-3 text-blue-400" />
-
-                                            </button> --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -271,18 +236,16 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
+
 
         </div>
 
     </section>
 </div>
-</div>
 <script>
-    document.addEventListener('livewire:load', function () {
-        document.getElementById('printQRCodesButton').addEventListener('click', function () {
+    document.addEventListener('livewire:load', function() {
+        document.getElementById('printQRCodesButton').addEventListener('click', function() {
             // Emit the Livewire event to get the print URL
             Livewire.emit('getPrintUrl');
 

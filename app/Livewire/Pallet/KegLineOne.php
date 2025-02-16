@@ -1,70 +1,45 @@
 <?php
 
-namespace App\Livewire\PalletResiter;
+namespace App\Livewire\Pallet;
 
-use Carbon\Carbon;
-use Livewire\Component;
 use App\Models\PalletRegister;
+use Carbon\Carbon;
 use Filament\Notifications\Notification;
+use Livewire\Component;
 use Livewire\WithPagination;
 
-class PalletRegisterSubmit extends Component
+class KegLineOne extends Component
 {
     use WithPagination;
 
     public $start_pallet_number;
     public $end_pallet_number;
-    public $productType = '';
-    public $productionLine = '';
+
+    public $productType = 'Chang beer';
     public $volumeSelection = '';
-    public $package = '';
-    public $volume = '';
-    public $unit = '';
-    public $totalAmountPerPallet = '';
     public $availableProductionLines = [];
     public $availableVolumes = [];
-
     public $selectedPallets = [];  // Selected pallet IDs
     public $selectAll = false;     // Toggle for selecting all
     public $rangeStart;            // Start range for selection
     public $rangeEnd;              // End range for selection
-
     public $search = '';
     public $startDate = '';
     public $endDate = '';
-    public $selectedProductType = '';
-    public $selectedProductionLine = '';
-    public $selectedVolume = '';
     public $sortBy = 'id';
     public $sortDir = 'DESC';
     public $perPage = 100;
     public $dynamic = 1;
-    public $data = [
-        'Chang beer' => [
-            'Canning line 1' => [
-                '330 mL' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
-                '500 mL' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
-            ],
-            'Canning line 2' => [
-                '330 mL' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
-                '500 mL' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
-            ],
-            'Bottling line Carton' => ['package' => 'Bottle', 'volume' => '620 mL', 'unit' => 'carton', 'total' => '75 cartons'],
-            'Bottling line Crate' => ['package' => 'Bottle', 'volume' => '620 mL', 'unit' => 'crate', 'total' => '70 crates'],
-            'Keg line 1' => ['package' => 'Keg', 'volume' => '30 L', 'unit' => 'keg', 'total' => '8 kegs'],
-            'Keg line 2' => ['package' => 'Keg', 'volume' => '30 L', 'unit' => 'keg', 'total' => '8 kegs'],
-        ],
 
-        'Tapper beer' => [
-            'Canning line 1' => [
-                '330 mL' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
-                '500 mL' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
-            ],
-            'Canning line 2' => [
-                '330 mL' => ['package' => 'Can', 'volume' => '330 mL', 'unit' => 'carton', 'total' => '100 cartons'],
-                '500 mL' => ['package' => 'Can', 'volume' => '500 mL', 'unit' => 'carton', 'total' => '70 cartons'],
-            ],
-        ],
+    public $productionLine = 'Keg line 1';
+    public $package = 'Keg';
+    public $volume = '30 mL';
+    public $unit = 'keg';
+    public $totalAmountPerPallet = '8 kegs';
+
+    public $data = [
+
+        'Keg line 1' => ['package' => 'Keg', 'volume' => '30 L', 'unit' => 'keg', 'total' => '8 kegs'],
     ];
 
 
@@ -92,50 +67,6 @@ class PalletRegisterSubmit extends Component
         $this->selectAll = false;
     }
 
-    public function updatedProductType($value)
-    {
-        if (isset($this->data[$value])) {
-            $this->availableProductionLines = array_keys($this->data[$value]);
-            $this->reset(['productionLine', 'volumeSelection', 'package', 'volume', 'unit', 'totalAmountPerPallet']);
-        } else {
-            $this->reset(['availableProductionLines', 'productionLine', 'volumeSelection', 'package', 'volume', 'unit', 'totalAmountPerPallet']);
-        }
-    }
-
-    public function updatedProductionLine($value)
-    {
-        if (isset($this->data[$this->productType][$value])) {
-            // Both Chang beer & Tapper beer should allow volume selection for Canning lines
-            if (
-                ($this->productType === 'Chang beer' || $this->productType === 'Tapper beer') &&
-                ($value === 'Canning line 1' || $value === 'Canning line 2')
-            ) {
-                $this->availableVolumes = array_keys($this->data[$this->productType][$value]);
-                $this->reset(['volumeSelection', 'package', 'volume', 'unit', 'totalAmountPerPallet']);
-            } else {
-                // Auto-fill details for Bottling lines, Keg lines, etc.
-                $this->availableVolumes = [];
-                $details = $this->data[$this->productType][$value];
-                $this->package = $details['package'];
-                $this->volume = $details['volume'];
-                $this->unit = $details['unit'];
-                $this->totalAmountPerPallet = $details['total'];
-            }
-        } else {
-            $this->reset(['availableVolumes', 'volumeSelection', 'package', 'volume', 'unit', 'totalAmountPerPallet']);
-        }
-    }
-
-    public function updatedVolumeSelection($value)
-    {
-        if (isset($this->data[$this->productType][$this->productionLine][$value])) {
-            $details = $this->data[$this->productType][$this->productionLine][$value];
-            $this->package = $details['package'];
-            $this->volume = $details['volume'];
-            $this->unit = $details['unit'];
-            $this->totalAmountPerPallet = $details['total'];
-        }
-    }
 
     public function selectRangeByDynamic()
     {
@@ -156,7 +87,8 @@ class PalletRegisterSubmit extends Component
 
     public function getPalletsQuery()
     {
-        $query = PalletRegister::query();
+
+        $query = PalletRegister::query()->where('production_line', 'Keg line 1');
         return $query->orderBy($this->sortBy, $this->sortDir);
     }
 
@@ -166,9 +98,6 @@ class PalletRegisterSubmit extends Component
         $this->validate([
             'start_pallet_number' => 'required|integer|min:1',
             'end_pallet_number' => 'required|integer|min:' . $this->start_pallet_number,
-            'productType' => 'required',
-            'productionLine' => 'required',
-            'volume' => 'required',
         ]);
 
         $currentDate = Carbon::today()->toDateString();
@@ -182,7 +111,7 @@ class PalletRegisterSubmit extends Component
                 ->exists();
 
             if ($exists) {
-                session()->flash('error', "Pallet number $i already exists for today with production line '{$this->productionLine}' and volume '{$this->volume}'.");
+                session()->flash('error', "Pallet number $i already exists today for production line '{$this->productionLine}', product type '{$this->productType}', and volume '{$this->volume}'.");
                 return;
             }
         }
@@ -211,7 +140,7 @@ class PalletRegisterSubmit extends Component
             ->success()
             ->send();
 
-        return to_route('pallet.register');
+        return to_route('pallet.kegline.one');
     }
 
     public function allCheck()
@@ -226,10 +155,13 @@ class PalletRegisterSubmit extends Component
         $this->selectAll = false;
     }
 
+
     public function render()
     {
         $pallets = $this->getPalletsQuery()->paginate($this->perPage);
-        return view('livewire.pallet-resiter.pallet-register-submit', compact('pallets'));
+
+        return view('livewire.pallet.keg-line-one', compact('pallets'));
+//        return view('livewire.pallet.bottlingline-carton', compact('pallets'));
     }
 
     public function getPrintUrl()

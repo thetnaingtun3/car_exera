@@ -173,6 +173,12 @@ class SubmitCarRegister extends Component
         $this->orderNumbers = array_values($this->orderNumbers);
     }
 
+    public function updatedOtherTruckLicencePlate()
+    {
+        $this->validate([
+            'other_truck_licence_plate' => 'regex:/^\d[A-Z]-\d{4}$/',
+        ]);
+    }
     public function save()
     {
         if (empty($this->products)) {

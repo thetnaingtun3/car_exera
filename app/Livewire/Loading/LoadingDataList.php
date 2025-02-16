@@ -28,7 +28,7 @@ class LoadingDataList extends Component
     #[Url(history: true)] public $selectedProductType = ''; // Product Type filter
     #[Url(history: true)] public $selectedProductionLine = ''; // Production Line filter
     #[Url(history: true)] public $selectedVolume = ''; // Volume filter
-    #[Url(history: true)] public $sortBy = 'created_at';
+    #[Url(history: true)] public $sortBy = 'id';
     #[Url(history: true)] public $sortDir = 'DESC';
     #[Url()] public $perPage = 100;
 
@@ -39,10 +39,12 @@ class LoadingDataList extends Component
     {
         $this->reset(['startPalletNumber', 'endPalletNumber', 'search', 'startDate', 'endDate', 'selectedProductType', 'selectedProductionLine', 'selectedVolume']);
     }
+
     public function mount()
     {
         $this->count = LoadingData::count();
     }
+
     public function exportData()
     {
 
@@ -116,8 +118,8 @@ class LoadingDataList extends Component
         // Pallet Number Range Filter (Extract numeric part correctly)
         if (!empty($this->startPalletNumber) && !empty($this->endPalletNumber)) {
             $query->whereRaw("CAST(SUBSTRING_INDEX(pallet_number, '-', -1) AS UNSIGNED) BETWEEN ? AND ?", [
-                (int) $this->startPalletNumber,
-                (int) $this->endPalletNumber
+                (int)$this->startPalletNumber,
+                (int)$this->endPalletNumber
             ]);
         }
 
@@ -139,7 +141,7 @@ class LoadingDataList extends Component
         // ✅ Order By Numeric Part of Pallet Number
         $query->orderByRaw("CAST(SUBSTRING_INDEX(pallet_number, '-', -1) AS UNSIGNED) ASC");
 
-        $pallets = $query->paginate($this->perPage);
+        $pallets = $query->orderBy($this->sortBy,$this->sortDir)->paginate($this->perPage);
 
         // Get distinct values for dropdown filters
         $productTypes = PalletRegister::distinct()->pluck('product_type');

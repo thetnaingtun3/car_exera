@@ -69,26 +69,10 @@
                                         <x-form.input-error for="productType" class="mt-2"/>
                                     </div>
 
-                                    <!-- Production Line -->
-                                    @if (!empty($availableProductionLines))
-                                        <div class="w-full py-2">
-                                            <label for="productionLine"
-                                                   class="block text-sm font-medium text-gray-700">Production
-                                                Line</label>
+                                    <!-- Volume Selection (For Chang Beer & Tapper Beer Canning Lines) -->
 
-                                            <select wire:model.live="productionLine"
-                                                    class="w-full px-3 py-3 text-sm bg-white border-0 rounded shadow">
-                                                <option value="">Select Production Line</option>
-                                                @foreach ($availableProductionLines as $line)
-                                                    <option value="{{ $line }}">{{ $line }}</option>
-                                                @endforeach
-                                            </select>
-                                            <x-form.input-error for="productionLine" class="mt-2"/>
-                                        </div>
-                                    @endif
 
-                                <!-- Volume Selection (For Chang Beer & Tapper Beer Canning Lines) -->
-                                    @if (($productType === 'Chang beer' || $productType === 'Tapper beer') && !empty($availableVolumes))
+                                    @if (!empty($availableVolumes))
                                         <div class="w-full py-2">
                                             <label for="volumeSelection"
                                                    class="block text-sm font-medium text-gray-700">Select Volume</label>
@@ -110,7 +94,8 @@
 
                                     <!-- Volume (Always visible) -->
                                     <div class="w-full py-2">
-                                        <x-form.input wire:model="volume" type="text" label="Volume" readonly/>
+{{--                                        <x-form.input wire:model="volume" hidden type="text" readonly/>--}}
+                                        <input hidden type="text" wire:model="volume">
                                     </div>
                                     <!-- Unit -->
                                     <div class="w-full py-2">
@@ -278,7 +263,6 @@
         </div>
 
     </section>
-</div>
 </div>
 <script>
     document.addEventListener('livewire:load', function () {

@@ -17,6 +17,12 @@ use App\Livewire\LSP\LSPList;
 use App\Livewire\LSP\LSPCreate;
 use App\Livewire\LSP\LSPImports;
 use App\Livewire\Admin\ListAdmin;
+use App\Livewire\Pallet\BottlinglineCarton;
+use App\Livewire\Pallet\BottlinglineCrate;
+use App\Livewire\Pallet\CanningLineOne;
+use App\Livewire\Pallet\CanningLineTwo;
+use App\Livewire\Pallet\KegLineOne;
+use App\Livewire\Pallet\KegLineTwo;
 use App\Livewire\Truck\EditTruck;
 use App\Livewire\Truck\ListTruck;
 use App\Livewire\Admin\CreateAdmin;
@@ -100,6 +106,17 @@ Route::middleware('auth:admin')->group(callback: function () {
     // pallet register
     Route::get('pallet/register', PalletRegisterSubmit::class)->name('pallet.register');
 
+
+    // pallet register line splt start
+
+    Route::get('pallet/bottlingline/', BottlinglineCarton::class)->name('pallet.bottlingline.carton');
+    Route::get('pallet/kegline/one', KegLineOne::class)->name('pallet.kegline.one');
+    Route::get('pallet/kegline/two', KegLineTwo::class)->name('pallet.kegline.two');
+    Route::get('pallet/canningline/one', CanningLineOne::class)->name('pallet.canning-line-one');
+    Route::get('pallet/canningline/two', CanningLineTwo::class)->name('pallet.canning-line-two');
+    // pallet register line splt end
+
+
     // Route::get('/pallet-register/print-qr', [PalletRegisterHistory::class, 'printSelectedQRCodes'])->name('pallet.print.qr');
     Route::get('/pallet/history', PalletRegisterHistory::class)->name('pallet.history');
     Route::get('/pallet/qr/code/history', PalletRegisterQrCodeHistory::class)->name('pallet.qrcode.history');
@@ -117,21 +134,15 @@ Route::middleware('auth:admin')->group(callback: function () {
 
     Route::get('/loading/data', LoadingDataList::class)->name('loading.data');
     Route::get('/loading/create', LoadingDataCreate::class)->name('loading.create');
-//    Route::get('/loading/create', [LoadingDataController::class, 'create'])->name('loading.create');
-//    Route::post('/loading/create', [LoadingDataController::class, 'store'])->name('loading.data.store');
-
-
-//    Route::get('/pallet/history', PalletRegisterHistory::class)->name('pallet.history');
-
 
     Route::get('/chang/canningline/one', ChangCanningLineOne::class)->name('chang.canning.line.one');
     Route::get('/chang/canningline/two', ChangCanningLineTwo::class)->name('chang.canning.line.two');
+
     Route::get('/chang/bottling/carton', ChangBottlingLineCarton::class)->name('chang.bottling.line.carton');
-    Route::get('/chang/bottling/crate', ChangBottlingLineCrate::class)->name('chang.bottling.line.create');
+//    Route::get('/chang/bottling/crate', ChangBottlingLineCrate::class)->name('chang.bottling.line.create');
+
     Route::get('/chang/keg/one', ChangKegLineOne::class)->name('chang.keg.line.one');
     Route::get('/chang/keg/two', ChangKegLineTwo::class)->name('chang.keg.line.two');
     Route::get('/tapper/line/one', TapperCanningLineOne::class)->name('tapper.canning.line.one');
     Route::get('/tapper/line/two', TapperCanningLineTwo::class)->name('tapper.canning.line.two');
-
-
 });
