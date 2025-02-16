@@ -134,7 +134,8 @@ class ChangBottlingLineCarton extends Component
 
     public function getPalletsQuery()
     {
-        $query = PalletRegister::query()->where('production_line', 'Bottling line Carton');
+        $query = PalletRegister::query()->whereIn('production_line', ['Bottling line Carton', 'Bottling line Crate']);
+
 
         // Apply search filter using the model's search scope
         if (!empty($this->search)) {
@@ -173,7 +174,6 @@ class ChangBottlingLineCarton extends Component
     }
 
 
-
     public function render()
     {
         $pallets = $this->getPalletsQuery()->paginate($this->perPage);
@@ -181,8 +181,12 @@ class ChangBottlingLineCarton extends Component
         $productTypes = PalletRegister::distinct()->pluck('product_type');
         $productionLines = PalletRegister::distinct()->pluck('production_line');
 
-        $volumes = PalletRegister::distinct()->where('product_type','Chang beer')->where('production_line','Bottling line Carton')->pluck('volume');
+//        $units = PalletRegister::distinct()->where('product_type', 'Chang beer')->where('production_line', 'Bottling line Carton')->pluck('unit');
 
+        $volumes = PalletRegister::distinct()
+            ->where('product_type', 'Chang beer')
+            ->whereIn('production_line', ['Bottling line Carton', 'Bottling line Crate'])
+            ->pluck('unit');
         $this->count = $pallets->total();
 
         return view('livewire.line.chang-bottling-line-carton', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
@@ -202,6 +206,7 @@ class ChangBottlingLineCarton extends Component
         $palletIds = implode(',', $this->selectedPallets);
         return redirect()->route('pallet.print.qr', ['ids' => $palletIds]);
     }
+
     public function getChangeDateUrl()
     {
         if (empty($this->selectedPallets)) {
