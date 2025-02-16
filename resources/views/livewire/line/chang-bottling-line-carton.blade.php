@@ -86,7 +86,7 @@
                         <select wire:model.live="selectedVolume" id="volume"
                                 class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                             <option value="">All</option>
-                            @foreach ($volumes as $vol)
+                            @foreach ($units as $vol)
                                 <option value="{{ $vol }}">{{ $vol }}</option>
                             @endforeach
                         </select>

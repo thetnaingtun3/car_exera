@@ -134,17 +134,13 @@ Route::middleware('auth:admin')->group(callback: function () {
 
     Route::get('/loading/data', LoadingDataList::class)->name('loading.data');
     Route::get('/loading/create', LoadingDataCreate::class)->name('loading.create');
-    //    Route::get('/loading/create', [LoadingDataController::class, 'create'])->name('loading.create');
-    //    Route::post('/loading/create', [LoadingDataController::class, 'store'])->name('loading.data.store');
-
-
-    //    Route::get('/pallet/history', PalletRegisterHistory::class)->name('pallet.history');
-
 
     Route::get('/chang/canningline/one', ChangCanningLineOne::class)->name('chang.canning.line.one');
     Route::get('/chang/canningline/two', ChangCanningLineTwo::class)->name('chang.canning.line.two');
+
     Route::get('/chang/bottling/carton', ChangBottlingLineCarton::class)->name('chang.bottling.line.carton');
-    Route::get('/chang/bottling/crate', ChangBottlingLineCrate::class)->name('chang.bottling.line.create');
+//    Route::get('/chang/bottling/crate', ChangBottlingLineCrate::class)->name('chang.bottling.line.create');
+
     Route::get('/chang/keg/one', ChangKegLineOne::class)->name('chang.keg.line.one');
     Route::get('/chang/keg/two', ChangKegLineTwo::class)->name('chang.keg.line.two');
     Route::get('/tapper/line/one', TapperCanningLineOne::class)->name('tapper.canning.line.one');

@@ -167,7 +167,7 @@ class ChangBottlingLineCarton extends Component
 
         // Apply volume filter
         if (!empty($this->selectedVolume)) {
-            $query->where('volume', $this->selectedVolume);
+            $query->where('unit', $this->selectedVolume);
         }
 
         return $query->orderBy($this->sortBy, $this->sortDir);
@@ -181,15 +181,13 @@ class ChangBottlingLineCarton extends Component
         $productTypes = PalletRegister::distinct()->pluck('product_type');
         $productionLines = PalletRegister::distinct()->pluck('production_line');
 
-//        $units = PalletRegister::distinct()->where('product_type', 'Chang beer')->where('production_line', 'Bottling line Carton')->pluck('unit');
-
-        $volumes = PalletRegister::distinct()
+        $units = PalletRegister::distinct()
             ->where('product_type', 'Chang beer')
             ->whereIn('production_line', ['Bottling line Carton', 'Bottling line Crate'])
             ->pluck('unit');
         $this->count = $pallets->total();
 
-        return view('livewire.line.chang-bottling-line-carton', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
+        return view('livewire.line.chang-bottling-line-carton', compact('pallets', 'productTypes', 'productionLines', 'units'));
 
     }
 
