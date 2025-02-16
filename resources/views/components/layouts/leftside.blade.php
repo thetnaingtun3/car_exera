@@ -56,58 +56,7 @@
                             <span class="ml-3" sidebar-toggle-item>Dashboard</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('pallet.canning-line-one') }}" wire:navigate
-                           class="flex active items-center
-                        @yield('dashboard-active')
-                               p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 ">
-                            <x-phosphor.icons::regular.gauge class="w-6 h-6 mx-3 text-blue-800"/>
-                            <span class="ml-3" sidebar-toggle-item>Canning Line 1</span>
-                        </a>
 
-                    </li>
-                    <li>
-                        <a href="{{ route('pallet.canning-line-two') }}" wire:navigate
-                           class="flex active items-center
-                        @yield('dashboard-active')
-                               p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 ">
-                            <x-phosphor.icons::regular.gauge class="w-6 h-6 mx-3 text-blue-800"/>
-                            <span class="ml-3" sidebar-toggle-item>Canning Line 2</span>
-                        </a>
-
-                    </li>
-
-                    <li>
-                        <a href="{{ route('pallet.kegline.one') }}" wire:navigate
-                           class="flex active items-center
-                        @yield('dashboard-active')
-                               p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 ">
-                            <x-phosphor.icons::regular.gauge class="w-6 h-6 mx-3 text-blue-800"/>
-                            <span class="ml-3" sidebar-toggle-item>Keg Line 1</span>
-                        </a>
-
-                    </li>
-                    <li>
-                        <a href="{{ route('pallet.kegline.two') }}" wire:navigate
-                           class="flex active items-center
-                        @yield('dashboard-active')
-                               p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 ">
-                            <x-phosphor.icons::regular.gauge class="w-6 h-6 mx-3 text-blue-800"/>
-                            <span class="ml-3" sidebar-toggle-item> Keg Line 2 </span>
-                        </a>
-
-                    </li>
-                    <li>
-
-                        <a href="{{ route('pallet.bottlingline.carton') }}" wire:navigate
-                           class="flex active items-center
-                        @yield('dashboard-active')
-                               p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 ">
-                            <x-phosphor.icons::regular.gauge class="w-6 h-6 mx-3 text-blue-800"/>
-                            <span class="ml-3" sidebar-toggle-item>BottlingLineCarton</span>
-                        </a>
-
-                    </li>
 
                     @hasanyrole('root-admin')
                     <li>
@@ -160,23 +109,10 @@
                                     </span>
                             </a>
                         </li>
-                        {{--
-                <li>
-                    <a href="{{ route('order.qrcode.history') }}" wire:navigate
-                        class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
-                        <x-phosphor.icons::regular.pen class="w-6 h-6 mx-3 text-blue-800" />
-                        <span class="ml-3" sidebar-toggle-item>
 
-                            Car Registration Qr Code History
-                        </span>
-                    </a>
-                </li> --}}
                     </ul>
                     @endhasanyrole
 
-                    {{-- Admin Section (Only for admin or root-admin) --}}
-
-                    {{--                    @hasanyrole('admin|root-admin|registration') --}}
                     @hasanyrole('admin|root-admin')
                     <li>
                         <a href="{{ route('index.lsp') }}" wire:navigate
@@ -231,7 +167,6 @@
                         </svg>
                     </button>
 
-                    <!-- Dropdown Menu -->
                     <ul id="dropdown-student" class="py-2 space-y-2 ">
 
 
@@ -243,8 +178,68 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{ route('pallet.canning-line-one') }}" wire:navigate
+                               class="flex active items-center
+                        @yield('pallet-canning-line-one-active')
+                                   p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 ">
+                                <x-phosphor.icons::regular.approximate-equals class="w-6 h-6 mx-3 text-blue-800"/>
+                                <span class="ml-3" sidebar-toggle-item>Canning Line 1</span>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a href="{{ route('pallet.canning-line-two') }}" wire:navigate
+                               class="flex active items-center
+
+                               @yield('pallet-canning-line-two-active')
+                                   p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 ">
+                                <x-phosphor.icons::regular.approximate-equals class="w-6 h-6 mx-3 text-blue-800"/>
+                                <span class="ml-3" sidebar-toggle-item>Canning Line 2</span>
+                            </a>
+
+                        </li>
+                        <li>
+
+                            <a href="{{ route('pallet.bottlingline.carton') }}" wire:navigate
+                               class="flex active items-center
+
+                               @yield('pallet-bottlingline-active')
+                                   p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 ">
+                                <x-phosphor.icons::regular.approximate-equals class="w-6 h-6 mx-3 text-blue-800"/>
+                                <span class="ml-3" sidebar-toggle-item>BottlingLine</span>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a href="{{ route('pallet.kegline.one') }}" wire:navigate
+                               class="flex active items-center
+
+                               @yield('pallet-kegline-one-active')
+                                   p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 ">
+                                <x-phosphor.icons::regular.approximate-equals class="w-6 h-6 mx-3 text-blue-800"/>
+                                <span class="ml-3" sidebar-toggle-item>Keg Line 1</span>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a href="{{ route('pallet.kegline.two') }}" wire:navigate
+                               class="flex active items-center
+
+                               @yield('pallet-kegline-two-active')
+                                   p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 ">
+                                <x-phosphor.icons::regular.approximate-equals class="w-6 h-6 mx-3 text-blue-800"/>
+                                <span class="ml-3" sidebar-toggle-item> Keg Line 2 </span>
+                            </a>
+
+                        </li>
+
+                        <li>
                             <a href="{{ route('pallet.history') }}" wire:navigate
-                               class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
+
+                               class="
+
+                               @yield('pallet-history-active')
+                               flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
                                 <x-phosphor.icons::regular.factory class="w-6 h-6 mx-2 text-blue-800"/>
                                 <span class="ml-3" sidebar-toggle-item>Pallet History</span>
                             </a>
@@ -253,15 +248,21 @@
 
                         <li>
                             <a href="{{ route('chang.canning.line.one') }}" wire:navigate
-                               class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
+                               class="flex
+
+                               @yield('chang-canning-line-one-active')
+                               items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
                                 <x-phosphor.icons::regular.factory class="w-6 h-6 mx-2 text-blue-800"/>
                                 <span class="ml-3" sidebar-toggle-item> Canning Line 1</span>
                             </a>
                         </li>
 
                         <li>
-                            <a href="{{ route('chang.canning.line.one') }}" wire:navigate
-                               class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
+                            <a href="{{ route('chang.canning.line.two') }}" wire:navigate
+                               class="flex
+
+                               @yield('chang-canning-line-two-active')
+                                items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
                                 <x-phosphor.icons::regular.factory class="w-6 h-6 mx-2 text-blue-800"/>
                                 <span class="ml-3" sidebar-toggle-item> Canning Line 2</span>
                             </a>
@@ -269,26 +270,35 @@
 
                         <li>
                             <a href="{{ route('chang.bottling.line.carton') }}" wire:navigate
-                               class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
+                               class="flex
+
+                               @yield('chang-bottling-active')
+                                items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
                                 <x-phosphor.icons::regular.factory class="w-6 h-6 mx-2 text-blue-800"/>
-                                <span class="ml-3" sidebar-toggle-item>Chang Bottling Line </span>
+                                <span class="ml-3" sidebar-toggle-item> Bottling Line </span>
                             </a>
                         </li>
 
                         <li>
                             <a href="{{ route('chang.keg.line.one') }}" wire:navigate
-                               class="flex items-center p-2 text-base text-gray-900 rounded-lg dark
+                               class="flex
+
+                               @yield('chang-keg-line-one-active')
+                               items-center p-2 text-base text-gray-900 rounded-lg dark
                                     :text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
                                 <x-phosphor.icons::regular.factory class="w-6 h-6 mx-2 text-blue-800"/>
-                                <span class="ml-3" sidebar-toggle-item>Chang Keg Line 1</span>
+                                <span class="ml-3" sidebar-toggle-item> Keg Line 1</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('chang.keg.line.two') }}" wire:navigate
-                               class="flex items-center p-2 text-base text-gray-900 rounded-lg dark
+                               class="flex
+
+                               @yield('chang-keg-line-two-active')
+                                items-center p-2 text-base text-gray-900 rounded-lg dark
                                     :text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
                                 <x-phosphor.icons::regular.factory class="w-6 h-6 mx-2 text-blue-800"/>
-                                <span class="ml-3" sidebar-toggle-item>Chang Keg Line 2</span>
+                                <span class="ml-3" sidebar-toggle-item> Keg Line 2</span>
                             </a>
                         </li>
 
@@ -300,7 +310,10 @@
                     @hasanyrole('loading|root-admin')
                     <li>
                         <a href="{{ route('loading.data') }}" wire:navigate
-                           class="flex items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
+                           class="flex
+
+                               @yield('loading-active')
+                            items-center p-2 text-base text-gray-900 rounded-lg dark:text-gray-200 hover:bg-gray-100 group dark:hover:bg-gray-700">
                             <x-phosphor.icons::regular.truck class="w-6 h-6 mx-3 text-blue-800"/>
                             <span class="ml-3" sidebar-toggle-item>Loading</span>
                         </a>

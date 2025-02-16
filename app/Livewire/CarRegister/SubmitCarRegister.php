@@ -176,9 +176,17 @@ class SubmitCarRegister extends Component
     public function updatedOtherTruckLicencePlate()
     {
         $this->validate([
-            'other_truck_licence_plate' => 'regex:/^\d[A-Z]-\d{4}$/',
-        ]);
+                'other_truck_licence_plate' => 'regex:/^\d[A-Z]-\d{4}$/',
+
+            ]
+
+            ,
+            [
+                'other_truck_licence_plate.regex' => 'You should write the Plate Number in this format: 7b-1234',
+            ]
+        );
     }
+
     public function save()
     {
         if (empty($this->products)) {
@@ -202,7 +210,11 @@ class SubmitCarRegister extends Component
                 $this->validate([
                     'lsp_id' => 'required|integer',
                     'other_truck_licence_plate' => 'required|regex:/^\d[A-Z]-\d{4}$/|unique:trucks,licence_plate',
-                ]);
+                ],
+                    [
+                        'other_truck_licence_plate.regex' => 'You should write the Plate Number in this format: 7b-1234',
+                    ]
+                );
 
                 $truck = Truck::create([
                     'lsp_id' => $this->lsp_id,

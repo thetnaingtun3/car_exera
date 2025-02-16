@@ -92,7 +92,7 @@
                                                     </div>
                                                     <div class="w-full lg:w-5/12">
                                                         <x-form.select-box wire:model="tunit" label="Select Unit">
-                                                            <option value="" disabled>Select Type</option>
+                                                            <option selected>Select Type</option>
                                                             <option value="Wheel">Wheel
                                                             </option>
                                                             <option value="Feet">Feet

@@ -103,24 +103,40 @@ class ChangBottlingLineCarton extends Component
             return;
         }
 
-//        return Excel::download(new PalletRegistrationExport($this->startDate, $this->endDate), 'filtered_data.xlsx');
+        if ($this->selectedVolume == '') {
+            return Excel::download(new PalletRegistrationExport(
+                $this->startDate,
+                $this->endDate,
+                'Chang beer',
+                ['Bottling line Carton', 'Bottling line Crate']
+            ), 'BottlinglineCartonCrate.xlsx');
+        }
 
-        return Excel::download(new PalletRegistrationExport($this->startDate, $this->endDate, 'Chang beer', 'Bottling line Carton'), 'BottlinglineCarton.xlsx');
+// If a specific volume is selected
+        return Excel::download(new PalletRegistrationExport(
+            $this->startDate,
+            $this->endDate,
+            'Chang beer',
+            'Bottling line ' . $this->selectedVolume
+        ), 'BottlinglineCarton.xlsx');
     }
 
-    public function allCheck()
+    public
+    function allCheck()
     {
         $this->selectedPallets = PalletRegister::pluck('id')->toArray();
         $this->selectAll = true;
     }
 
-    public function removeCheck()
+    public
+    function removeCheck()
     {
         $this->selectedPallets = [];
         $this->selectAll = false;
     }
 
-    public function setSortBy($sortByField)
+    public
+    function setSortBy($sortByField)
     {
         if ($this->sortBy === $sortByField) {
             $this->sortDir = $this->sortDir === 'ASC' ? 'DESC' : 'ASC';
@@ -132,7 +148,8 @@ class ChangBottlingLineCarton extends Component
     }
 
 
-    public function getPalletsQuery()
+    public
+    function getPalletsQuery()
     {
         $query = PalletRegister::query()->whereIn('production_line', ['Bottling line Carton', 'Bottling line Crate']);
 
@@ -174,7 +191,8 @@ class ChangBottlingLineCarton extends Component
     }
 
 
-    public function render()
+    public
+    function render()
     {
         $pallets = $this->getPalletsQuery()->paginate($this->perPage);
 
@@ -191,7 +209,8 @@ class ChangBottlingLineCarton extends Component
 
     }
 
-    public function getPrintUrl()
+    public
+    function getPrintUrl()
     {
         if (empty($this->selectedPallets)) {
             Notification::make()
@@ -205,7 +224,8 @@ class ChangBottlingLineCarton extends Component
         return redirect()->route('pallet.print.qr', ['ids' => $palletIds]);
     }
 
-    public function getChangeDateUrl()
+    public
+    function getChangeDateUrl()
     {
         if (empty($this->selectedPallets)) {
             Notification::make()
@@ -219,7 +239,8 @@ class ChangBottlingLineCarton extends Component
         return redirect()->route('pallet.qrcode.date.change', ['ids' => $Ids]);
     }
 
-    public function deletePallet($id)
+    public
+    function deletePallet($id)
     {
         $pallet = PalletRegister::find($id);
         $pallet->delete();
