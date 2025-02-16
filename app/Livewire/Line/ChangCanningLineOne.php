@@ -105,7 +105,7 @@ class ChangCanningLineOne extends Component
 
 //        return Excel::download(new PalletRegistrationExport($this->startDate, $this->endDate), 'filtered_data.xlsx');
 
-        return Excel::download(new PalletRegistrationExport($this->startDate, $this->endDate, 'Chang beer', 'Canning line 1'), 'changline1.xlsx');
+        return Excel::download(new PalletRegistrationExport($this->startDate, $this->endDate, $this->selectedProductType, 'Canning line 1', $this->selectedVolume), 'changline1.xlsx');
     }
 
     public function allCheck()
@@ -135,7 +135,9 @@ class ChangCanningLineOne extends Component
     public function getPalletsQuery()
     {
 
-        $query = PalletRegister::query()->where('product_type', 'Chang beer')->where('production_line', 'Canning line 1');
+        $query = PalletRegister::query()
+            ->whereIn('product_type', ['Chang beer', 'Tapper beer'])
+            ->where('production_line', 'Canning line 1');
 
         // Apply search filter using the model's search scope
         if (!empty($this->search)) {

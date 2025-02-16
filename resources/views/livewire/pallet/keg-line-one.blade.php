@@ -1,4 +1,4 @@
-@section('pallet-active', 'bg-gray-100 group')
+@section('pallet.kegline.one', 'bg-gray-100 group')
 <div>
     <section class="py-1 bg-blueGray-50">
 
@@ -18,7 +18,7 @@
                     <div class="grid grid-cols-3 gap-4">
                         <div class="col-span-1">
                             <h6 class="text-xl font-semibold">
-                                {{ __('Pallet Register Bottling Line Carton') }}
+                                {{ __('Pallet Register Keg Line 1') }}
                             </h6>
                             <div class="flex-auto py-10 pt-0">
                                 <div class="flex flex-wrap mt-8">
@@ -131,7 +131,7 @@
 
                                         <button wire:click="getPrintUrl"
                                                 class="px-4 py-2 text-white bg-purple-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
-                                            Selected Print QR Codes
+                                            Print Selected QR Codes
                                         </button>
                                     </div>
 

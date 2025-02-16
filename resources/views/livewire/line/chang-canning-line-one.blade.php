@@ -1,4 +1,4 @@
-@section('pallet-active', 'bg-gray-100 group')
+@section('chang-canning-line-one-active', 'bg-gray-100 group')
 <div>
     <div class="px-4 py-2 bg-gray-200">
 
@@ -57,17 +57,17 @@
                 <!-- Product Type, Production Line, Volume Filters -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                     <!-- Product Type -->
-                {{--                    <div>--}}
-                {{--                        <label for="product_type" class="block text-sm font-medium text-gray-700">Product--}}
-                {{--                            Type</label>--}}
-                {{--                        <select wire:model.live="selectedProductType" id="product_type"--}}
-                {{--                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">--}}
-                {{--                            <option value="">All</option>--}}
-                {{--                            @foreach ($productTypes as $type)--}}
-                {{--                                <option value="{{ $type }}">{{ $type }}</option>--}}
-                {{--                            @endforeach--}}
-                {{--                        </select>--}}
-                {{--                    </div>--}}
+                                    <div>
+                                        <label for="product_type" class="block text-sm font-medium text-gray-700">Product
+                                            Type</label>
+                                        <select wire:model.live="selectedProductType" id="product_type"
+                                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">All</option>
+                                            @foreach ($productTypes as $type)
+                                                <option value="{{ $type }}">{{ $type }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
                 <!-- Production Line -->
                 {{--                    <div>--}}
@@ -124,7 +124,7 @@
                         </button>
                         <button wire:click="getPrintUrl"
                                 class="px-4 py-2 text-white bg-purple-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
-                            Selected Print QR Codes
+                            Print Selected QR Codes
                         </button>
                         <button wire:click="getChangeDateUrl"
                                 id="ChangeCodesButton"

@@ -1,4 +1,4 @@
-@section('pallet-active', 'bg-gray-100 group')
+@section('chang-keg-line-two-active', 'bg-gray-100 group')
 <div>
     <div class="px-4 py-2 bg-gray-200">
         <span class="text-gray-500 text-md">Home / <span class="text-blue-900">Pallet Register History</span></span>
@@ -55,32 +55,32 @@
                 <!-- Product Type, Production Line, Volume Filters -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                     <!-- Product Type -->
-{{--                    <div>--}}
-{{--                        <label for="product_type" class="block text-sm font-medium text-gray-700">Product--}}
-{{--                            Type</label>--}}
-{{--                        <select wire:model.live="selectedProductType" id="product_type"--}}
-{{--                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">--}}
-{{--                            <option value="">All</option>--}}
-{{--                            @foreach ($productTypes as $type)--}}
-{{--                                <option value="{{ $type }}">{{ $type }}</option>--}}
-{{--                            @endforeach--}}
-{{--                        </select>--}}
-{{--                    </div>--}}
+                {{--                    <div>--}}
+                {{--                        <label for="product_type" class="block text-sm font-medium text-gray-700">Product--}}
+                {{--                            Type</label>--}}
+                {{--                        <select wire:model.live="selectedProductType" id="product_type"--}}
+                {{--                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">--}}
+                {{--                            <option value="">All</option>--}}
+                {{--                            @foreach ($productTypes as $type)--}}
+                {{--                                <option value="{{ $type }}">{{ $type }}</option>--}}
+                {{--                            @endforeach--}}
+                {{--                        </select>--}}
+                {{--                    </div>--}}
 
-{{--                    <!-- Production Line -->--}}
-{{--                    <div>--}}
-{{--                        <label for="production_line" class="block text-sm font-medium text-gray-700">Production--}}
-{{--                            Line</label>--}}
-{{--                        <select wire:model.live="selectedProductionLine" id="production_line"--}}
-{{--                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">--}}
-{{--                            <option value="">All</option>--}}
-{{--                            @foreach ($productionLines as $line)--}}
-{{--                                <option value="{{ $line }}">{{ $line }}</option>--}}
-{{--                            @endforeach--}}
-{{--                        </select>--}}
-{{--                    </div>--}}
+                {{--                    <!-- Production Line -->--}}
+                {{--                    <div>--}}
+                {{--                        <label for="production_line" class="block text-sm font-medium text-gray-700">Production--}}
+                {{--                            Line</label>--}}
+                {{--                        <select wire:model.live="selectedProductionLine" id="production_line"--}}
+                {{--                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">--}}
+                {{--                            <option value="">All</option>--}}
+                {{--                            @foreach ($productionLines as $line)--}}
+                {{--                                <option value="{{ $line }}">{{ $line }}</option>--}}
+                {{--                            @endforeach--}}
+                {{--                        </select>--}}
+                {{--                    </div>--}}
 
-                    <!-- Volume -->
+                <!-- Volume -->
                     <div>
                         <label for="volume" class="block text-sm font-medium text-gray-700">Volume</label>
                         <select wire:model.live="selectedVolume" id="volume"
@@ -122,7 +122,7 @@
                         </button>
                         <button wire:click="getPrintUrl"
                                 class="px-4 py-2 text-white bg-purple-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
-                            Selected Print QR Codes
+                            Print Selected QR Codes
                         </button>
                         <button wire:click="getChangeDateUrl"
                                 id="ChangeCodesButton"
@@ -142,7 +142,7 @@
                                  viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                       d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                      clip-rule="evenodd" />
+                                      clip-rule="evenodd"/>
                             </svg>
                         </div>
                     </div>
@@ -222,12 +222,12 @@
                                    href="{{ route('palletqrcode.show', $user->id) }}"
                                    title="Generate QR Code">
                                     <x-phosphor.icons::fill.qr-code
-                                        class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}" />
+                                        class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}"/>
                                 </a>
                                 <x-form.button class="bg-red-700 hover:bg-red-800"
                                                wire:confirm="Are you sure you want to delete PLT - {{ $user->pallet_number }}?"
                                                wire:click="deletePallet({{ $user->id }})">
-                                    <x-phosphor.icons::regular.trash class="w-6 h-6 mx-1 text-white" />
+                                    <x-phosphor.icons::regular.trash class="w-6 h-6 mx-1 text-white"/>
                                 </x-form.button>
                             </td>
                         </tr>
@@ -243,8 +243,8 @@
     </section>
 </div>
 <script>
-    document.addEventListener('livewire:load', function() {
-        document.getElementById('printQRCodesButton').addEventListener('click', function() {
+    document.addEventListener('livewire:load', function () {
+        document.getElementById('printQRCodesButton').addEventListener('click', function () {
             // Emit the Livewire event to get the print URL
             Livewire.emit('getPrintUrl');
 

@@ -1,4 +1,4 @@
-@section('student-active', 'bg-gray-100 group')
+@section('loading-active', 'bg-gray-100 group')
 
 <section class="py-1 bg-blueGray-50">
     <div class="w-full px-6 mx-auto mt-6 ">
