@@ -33,7 +33,9 @@
                                         <div class="w-full py-2">
                                             <select wire:model.live="customer_id"
                                                     class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
-                                                <option value="">Select Customer</option>
+                                                <option>Select Customer</option>
+
+                                                <option value="other">Other</option>
                                                 @foreach ($this->customers as $customer)
                                                     <option value="{{ $customer->id }}">{{ $customer->customer_name }}
                                                     </option>
@@ -42,34 +44,51 @@
                                             <x-form.input-error for="customer_id" class="mt-2"/>
 
                                         </div>
-                                        <!-- Truck Dropdown -->
-                                        {{--
-                                        <div class="w-full py-2">
-                                            <select wire:model.live="car_id"
-                                                class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
-                                                <option value="">Select Truck</option>
-                                                @foreach ($this->trucks as $truck)
-                                                    <option value="{{ $truck->id }}">{{ $truck->licence_plate }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div> --}}
+
+                                    @if ($customer_id === 'other')
+
+                                        <!-- Other Customer  -->
+                                            <div class="w-full py-2">
+                                                <div class="flex flex-wrap gap-2">
+                                                    <div class="w-full lg:w-6/12">
+                                                        <x-form.input wire:model.live="other_customer_name"
+                                                                      type="text"
+                                                                      label="Customer Name"
+                                                        />
+                                                        <x-form.input-error for="other_customer_name" class="mt-2"/>
+                                                    </div>
+                                                    <div class="w-full lg:w-5/12">
+                                                        <x-form.input wire:model.live="other_customer_code"
+                                                                      type="number"
+                                                                      maxlength="7"
+                                                                      onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                                                      oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
+
+                                                                      label="Customer Code"/>
+
+                                                        <x-form.input-error for="other_customer_code" class="mt-2"/>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        @endif
+
                                         <div class="w-full py-2">
                                             <select wire:model.live="car_id"
                                                     class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">
                                                 <option value="">Select Truck</option>
+
+                                                <option value="other">Other</option>
                                                 @foreach ($this->trucks as $truck)
                                                     <option value="{{ $truck->id }}">{{ $truck->licence_plate }}
                                                     </option>
                                                 @endforeach
-                                                <option value="other">Other</option>
                                             </select>
                                         </div>
 
                                         @if ($car_id === 'other')
                                         <!-- Truck Number -->
-
-
                                             <div class="w-full py-2">
                                                 <x-form.input wire:model.live="other_truck_licence_plate" type="text"
                                                               label="Truck Number"
@@ -102,21 +121,6 @@
                                                 </div>
                                             </div>
                                         @endif
-                                        {{-- @if ($car_id === 'other')
-                                            <div class="w-full py-2 ">
-                                                <div class="w-full  pt-2 lg:w-3/12">
-                                                    <x-form.input wire:model.live="other_truck_licence_plate"
-                                                        type="text" label="Truck Number" />
-
-                                                </div>
-
-                                                <div class="w-full  pt-2 lg:w-3/12">
-                                                    <x-form.input wire:model.live="other_truck_size" type="text"
-                                                        label="Truck Size" />
-                                                </div>
-                                            </div>
-                                        @endif --}}
-
                                         <div class="w-full py-2">
                                             <select wire:model.live="driver_id"
                                                     class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 ring-inset">

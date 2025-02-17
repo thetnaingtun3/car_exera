@@ -44,6 +44,10 @@ class SubmitCarRegister extends Component
     public $perPage = 100;
     public $rangeStart;
     public $rangeEnd;
+//    other for customer
+    public $other_customer_name = '';
+    public $other_customer_code = '';
+    public $isOtherCustomer = false;
 
     #[Computed]
     public function lsps()
@@ -141,6 +145,18 @@ class SubmitCarRegister extends Component
         }
     }
 
+//    public function updatedCustomerId()
+//    {
+//        if ($this->customer_id === 'other') {
+//            $this->isOtherCustomer = true;
+//            $this->other_customer_name = '';
+//            $this->other_customer_code = '';
+//        } else {
+//            $this->isOtherCustomer = false;
+//            $this->customer_name = Customer::where('id', $this->customer_id)->where('status', 'active')->value('customer_name');
+//        }
+//    }
+
     public function removeProduct($index)
     {
         unset($this->products[$index]);
@@ -176,11 +192,9 @@ class SubmitCarRegister extends Component
     public function updatedOtherTruckLicencePlate()
     {
         $this->validate([
-                'other_truck_licence_plate' => 'regex:/^\d[A-Z]-\d{4}$/',
+            'other_truck_licence_plate' => 'regex:/^\d[A-Z]-\d{4}$/',
 
-            ]
-
-            ,
+        ],
             [
                 'other_truck_licence_plate.regex' => 'You should write the Plate Number in this format: 7b-1234',
             ]
@@ -224,16 +238,28 @@ class SubmitCarRegister extends Component
                     'status' => 'active',
                 ]);
             }
+            if ($this->customer_id === 'other') {
+                $this->validate([
+                    'other_customer_name' => 'required|string',
+                    'other_customer_code' => 'required|digits:7|unique:customers,customer_code',
+                ]);
+                $customer = Customer::create([
+                    'lsp_id' => $this->lsp_id,
+                    'customer_name' => $this->other_customer_name,
+                    'customer_code' => $this->other_customer_code,
+                    'status' => 'active',
+                ]);
+            }
             $carRegistration = CarRegistration::create([
                 'lsp_id' => $this->lsp_id,
-                'customer_id' => $this->customer_id,
-                'car_id' => $this->car_id === 'other' ? null : $this->car_id,
+                'customer_id' => $this->customer_id === 'other' ? $customer->id : $this->customer_id,
+                'car_id' => $this->car_id === 'other' ? $truck->id : $this->car_id,
                 'driver_id' => $driverIdToStore,
                 'driver_name' => $driverNameToStore,
                 'order_number' => $concatenatedOrderNumbers,
                 'remark' => $this->remark,
-                'licence_plate' => $this->car_id === 'other' ? $this->other_truck_licence_plate : null,
-                'size' => $this->car_id === 'other' ? $this->other_truck_size . ' ' . $this->tunit : null,
+//                'licence_plate' => $this->car_id === 'other' ? $this->other_truck_licence_plate : null,
+//                'size' => $this->car_id === 'other' ? $this->other_truck_size . ' ' . $this->tunit : null,
                 'dynamic' => $this->dynamic, // Added dynamic property to database
             ]);
 
