@@ -23,26 +23,26 @@ class ImportCustomer extends Component
     public $importErrors = [];
 
     public function save()
-{
-    // Proceed only if a file is present
-    if ($this->file) {
-        $import = new CustomersImport($this->lsp_id);
-        Excel::import($import, $this->file->getRealPath());
+    {
+        // Proceed only if a file is present
+        if ($this->file) {
+            $import = new CustomersImport($this->lsp_id);
+            Excel::import($import, $this->file->path());
 
-        // Collect validation errors after import
-        $this->importErrors = $import->errors;
-        $this->reset('file');
+            // Collect validation errors after import
+            $this->importErrors = $import->errors;
+            $this->reset('file');
 
-        if (empty($this->importErrors)) {
-            Notification::make()
-                ->title('Customer Data Imported Successfully!')
-                ->success()
-                ->send();
+            if (empty($this->importErrors)) {
+                Notification::make()
+                    ->title('Customer Data Imported Successfully!')
+                    ->success()
+                    ->send();
 
-            return redirect()->route('index.customer');
+                return redirect()->route('index.customer');
+            }
         }
     }
-}
 
 
 
