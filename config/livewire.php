@@ -65,7 +65,7 @@ return [
 
     'temporary_file_upload' => [
 
-       'disk' => 'local',       // Example: 'local', 's3'              | Default: 'default'
+        'disk' => 'local',       // Example: 'local', 's3'              | Default: 'default'
         'directory' => null,   // Example: 'tmp'                      | Default: 'livewire-tmp'
         'middleware' => null,  // Example: 'throttle:5,1'             | Default: 'throttle:60,1'
         'preview_mimes' => [   // Supported file types for temporary pre-signed file URLs...
@@ -87,11 +87,12 @@ return [
             'wma',
             'pdf',
             'txt',
+            'csv',
             'vtt'
         ],
 
-//        'rules'=> ' file|mimes:png,jpg,pdf,xlsx,csv,xls,mp4,mov,avi,vtt,txt|max:402400',
-        'rules' => 'file|mimes:xls,xlsx,xlsm,xlsb,xltx,xltm,xlt,xml,xlam,xla,xlw,xlr|max:402400',
+        //        'rules'=> ' file|mimes:png,jpg,pdf,xlsx,csv,xls,mp4,mov,avi,vtt,txt|max:402400',
+        'rules' => 'file|mimes:xls,csv,xlsx,xlsm,xlsb,xltx,xltm,xlt,xml,xlam,xla,xlw,xlr|max:402400',
 
         'max_upload_time' => 5, // Max duration (in minutes) before an upload is invalidated...
         'cleanup' => true, // Should cleanup temporary uploads older than 24 hrs...
