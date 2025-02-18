@@ -155,6 +155,7 @@
                         <th class="px-4 py-3 ">Product Type</th>
                         <th class="px-4 py-3 ">Volume</th>
                         <th class="px-4 py-3 ">Production Line</th>
+                        <th class="px-4 py-3 ">Date</th>
                         <th class="px-4 py-3 ">Pallet No.</th>
 
                     </tr>
@@ -175,6 +176,7 @@
                                 <td class="px-4 py-3">{{ $user->volume }}</td>
 
                                 <td class="px-4 py-3">{{ $user->production_line }}</td>
+                                <td class="px-4 py-3">{{ $user->date }}</td>
                                 <td class="px-4 py-3">{{ $user->pallet_number }}</td>
 
                             </tr>

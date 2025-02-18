@@ -63,6 +63,7 @@ class LoadingDataExport implements FromQuery, WithHeadings, WithMapping
             'Product Type',
             'Volume',
             'Production Line',
+            'Date',
             'Pallet No.',
         ];
     }
@@ -81,6 +82,7 @@ class LoadingDataExport implements FromQuery, WithHeadings, WithMapping
             $loading->product_type,
             $loading->volume,
             $loading->production_line,
+            $loading->date,
             $loading->pallet_number,
         ];
     }
