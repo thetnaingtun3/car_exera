@@ -156,7 +156,9 @@ class PalletRegisterSubmit extends Component
 
     public function getPalletsQuery()
     {
-        $query = PalletRegister::query();
+        $query = PalletRegister::query()
+
+            ->whereDate('created_at', Carbon::today());
         return $query->orderBy($this->sortBy, $this->sortDir);
     }
 
@@ -252,5 +254,4 @@ class PalletRegisterSubmit extends Component
         $pallet->delete();
         $this->render();
     }
-
 }

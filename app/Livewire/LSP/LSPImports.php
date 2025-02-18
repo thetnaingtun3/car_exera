@@ -28,7 +28,7 @@ class LSPImports extends Component
             // Store the file temporarily and retrieve its real path
             $filePath = $this->file->store('temp');
 
-            Excel::import(new LspImport(), $this->file->getRealPath());
+            Excel::import(new LspImport(), $this->file->path());
             $this->reset('file');
 
             $this->message = 'Customer Data Imported Successfully!';

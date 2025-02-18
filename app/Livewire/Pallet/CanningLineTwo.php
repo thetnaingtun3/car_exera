@@ -83,7 +83,15 @@ class CanningLineTwo extends Component
     }
 
     protected $queryString = [
-        'search', 'startDate', 'endDate', 'selectedProductType', 'selectedProductionLine', 'selectedVolume', 'sortBy', 'sortDir', 'perPage'
+        'search',
+        'startDate',
+        'endDate',
+        'selectedProductType',
+        'selectedProductionLine',
+        'selectedVolume',
+        'sortBy',
+        'sortDir',
+        'perPage'
     ];
 
     public function updatedProductType($value)
@@ -109,7 +117,9 @@ class CanningLineTwo extends Component
 
     public function getPalletsQuery()
     {
-        return PalletRegister::where('production_line', 'Canning line 2')->orderBy($this->sortBy, $this->sortDir);
+        return PalletRegister::where('production_line', 'Canning line 2')
+            ->whereDate('created_at', Carbon::today())
+            ->orderBy($this->sortBy, $this->sortDir);
     }
 
     public function store()
@@ -130,8 +140,9 @@ class CanningLineTwo extends Component
                 ->where('production_line', $this->productionLine)
                 ->where('product_type', $this->productType)
                 ->where('volume', $this->volume)
-                ->exists()) {
-//                session()->flash('error', "Pallet number $i already exists.");
+                ->exists()
+            ) {
+                //                session()->flash('error', "Pallet number $i already exists.");
 
                 session()->flash('error', "Pallet number $i already exists today for production line '{$this->productionLine}', product type '{$this->productType}', and volume '{$this->volume}'.");
                 return;
@@ -192,5 +203,4 @@ class CanningLineTwo extends Component
         $pallet->delete();
         $this->render();
     }
-
 }

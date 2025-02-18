@@ -182,7 +182,7 @@ class ChangKegLineTwo extends Component
 
         $this->count = $pallets->total();
 
-        $volumes = PalletRegister::distinct()->where('product_type','Chang beer')->where('production_line','Keg line 1')->pluck('volume');
+        $volumes = PalletRegister::distinct()->where('product_type', 'Chang beer')->where('production_line', 'Keg line 1')->pluck('volume');
         return view('livewire.line.chang-keg-line-two', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
     }
 

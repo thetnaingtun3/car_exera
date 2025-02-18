@@ -88,7 +88,9 @@ class KegLineOne extends Component
     public function getPalletsQuery()
     {
 
-        $query = PalletRegister::query()->where('production_line', 'Keg line 1');
+        $query = PalletRegister::query()->where('production_line', 'Keg line 1')
+
+            ->whereDate('created_at', Carbon::today());
         return $query->orderBy($this->sortBy, $this->sortDir);
     }
 
@@ -161,7 +163,7 @@ class KegLineOne extends Component
         $pallets = $this->getPalletsQuery()->paginate($this->perPage);
 
         return view('livewire.pallet.keg-line-one', compact('pallets'));
-//        return view('livewire.pallet.bottlingline-carton', compact('pallets'));
+        //        return view('livewire.pallet.bottlingline-carton', compact('pallets'));
     }
 
     public function getPrintUrl()
@@ -184,5 +186,4 @@ class KegLineOne extends Component
         $pallet->delete();
         $this->render();
     }
-
 }

@@ -17,5 +17,6 @@ class LoadingData extends Model
         'volume',
         'production_line',
         'pallet_number',
+        'date',
     ];
 }

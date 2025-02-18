@@ -31,7 +31,8 @@ class ImportTruck extends Component
         try {
 
             $import = new TrucksImport($this->lsp_id);
-            Excel::import($import, $this->file->getRealPath());
+            Excel::import($import, $this->file->path());
+
 
 
             $this->importErrors = $import->errors;

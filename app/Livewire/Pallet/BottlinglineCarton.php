@@ -98,7 +98,10 @@ class BottlinglineCarton extends Component
 
     public function getPalletsQuery()
     {
+
         return PalletRegister::whereIn('production_line', ['Bottling line Carton', 'Bottling line Crate'])
+            ->whereDate('created_at', Carbon::today())
+
             ->orderBy($this->sortBy, $this->sortDir);
     }
 
@@ -185,7 +188,10 @@ class BottlinglineCarton extends Component
 
     public function render()
     {
-        $pallets = $this->getPalletsQuery()->paginate($this->perPage);
+
+        $pallets = $this->getPalletsQuery()
+
+            ->paginate($this->perPage);
         return view('livewire.pallet.bottlingline-carton', compact('pallets'));
     }
 }
