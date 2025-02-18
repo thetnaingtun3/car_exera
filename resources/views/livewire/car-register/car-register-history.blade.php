@@ -134,6 +134,11 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- PAGINATION -->
+                        <div class="px-3 py-4">
+                            {{ $registrations->links() }}
+                        </div>
                     </div>
                 </div>
 
@@ -255,10 +260,6 @@
                 </table>
             </div>
 
-            <!-- PAGINATION -->
-            <div class="px-3 py-4">
-                {{ $registrations->links() }}
-            </div>
 
         </div>
     </section>

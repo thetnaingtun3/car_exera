@@ -99,6 +99,7 @@
                                     </div>
 
                                     <!-- Total Amount per Pallet -->
+
                                     <div class="w-full py-2">
 
                                         <x-form.input wire:model="totalAmountPerPallet" type="text"

@@ -168,6 +168,10 @@
                             </button>
                         </div>
                     </div>
+
+                    <div class="px-3 py-4">
+                        {{ $pallets->links() }}
+                    </div>
                 </div>
             </div>
 
@@ -238,9 +242,6 @@
                 </table>
             </div>
 
-            <div class="px-3 py-4">
-                {{ $pallets->links() }}
-            </div>
         </div>
     </section>
 </div>
