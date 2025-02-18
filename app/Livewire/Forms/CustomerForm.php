@@ -13,7 +13,7 @@ class CustomerForm extends Form
     public $status = 'active';
 
     protected $rules = [
-        'form.customer_code' => 'required|digits:7',  // Ensures exactly 9 digits
+        'form.customer_code' => 'required|digits:7',  // Ensures exactly 7 digits
     ];
 
     public function updatedFormCustomerCode($value)
