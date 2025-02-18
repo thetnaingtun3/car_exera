@@ -139,9 +139,11 @@ class LoadingDataList extends Component
         }
 
         // ✅ Order By Numeric Part of Pallet Number
-        $query->orderByRaw("CAST(SUBSTRING_INDEX(pallet_number, '-', -1) AS UNSIGNED) ASC");
+        // $query->orderByRaw("CAST(SUBSTRING_INDEX(pallet_number, '-', -1) AS UNSIGNED) ASC");
 
-        $pallets = $query->orderBy($this->sortBy,$this->sortDir)->paginate($this->perPage);
+        // ✅ Ensure sorting by ID DESC by default
+        $pallets = $query->orderBy('id', 'DESC')->paginate($this->perPage);
+
 
         // Get distinct values for dropdown filters
         $productTypes = PalletRegister::distinct()->pluck('product_type');
