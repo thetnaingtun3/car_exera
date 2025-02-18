@@ -9,13 +9,7 @@
                 class="relative flex flex-col w-full min-w-0 mb-6 break-words border-0 rounded-lg shadow-lg bg-blueGray-100">
                 <div class="px-6 py-6 mb-0 ">
 
-                    <!-- Success/Error Message -->
-                    @if (session()->has('success'))
-                        <div class="mt-4 text-green-500">{{ session('success') }}</div>
-                    @elseif (session()->has('error'))
-                        <div class="mt-4 text-red-500">{{ session('error') }}</div>
-                    @endif
-                    <div class="grid grid-cols-3 gap-4">
+                   <div class="grid grid-cols-3 gap-4">
                         <div class="col-span-1">
                             <h6 class="text-xl font-semibold">
 
@@ -117,6 +111,13 @@
                                         Register Pallets
                                     </button>
                                 </div>
+     <!-- Success/Error Message -->
+                    @if (session()->has('success'))
+                        <div class="mt-4 text-green-500">{{ session('success') }}</div>
+                    @elseif (session()->has('error'))
+                        <div class="mt-4 text-red-500">{{ session('error') }}</div>
+                    @endif
+                
                             </div>
 
                             {{-- </form> --}}
