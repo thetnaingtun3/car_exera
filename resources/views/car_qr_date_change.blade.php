@@ -67,7 +67,7 @@
 
             Registered Date
 
-            {{ \Carbon\Carbon::parse($selectedPallets->last()->click_date)->format('d-m-Y H:i:s') }}
+            {{ \Carbon\Carbon::parse($selectedCars->last()->click_date)->format('d-m-Y H:i:s') }}
             <br>
             <!-- Start Date -->
 
