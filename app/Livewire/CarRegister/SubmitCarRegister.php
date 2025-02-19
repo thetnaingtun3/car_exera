@@ -182,7 +182,7 @@ class SubmitCarRegister extends Component
 
             ,
             [
-                'other_truck_licence_plate.regex' => 'You should write the Plate Number in this format: 7b-1234',
+                'other_truck_licence_plate.regex' => 'You should write the Plate Number in this format: 7B-1234',
             ]
         );
     }
@@ -212,7 +212,7 @@ class SubmitCarRegister extends Component
                     'other_truck_licence_plate' => 'required|regex:/^\d[A-Z]-\d{4}$/|unique:trucks,licence_plate',
                 ],
                     [
-                        'other_truck_licence_plate.regex' => 'You should write the Plate Number in this format: 7b-1234',
+                        'other_truck_licence_plate.regex' => 'You should write the Plate Number in this format: 7B-1234',
                     ]
                 );
 
