@@ -127,7 +127,7 @@
                         <button wire:click="getChangeDateUrl"
                                 id="ChangeCodesButton"
                                 class="px-4 py-2 text-white bg-orange-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
-                            Back Date Change Date
+                            Change Back Date
                         </button>
 
                     </div>

@@ -144,6 +144,11 @@
                                             class="px-4 py-2 text-white bg-purple-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
                                             Print Selected QR Codes
                                         </button>
+                                        <button wire:click="getChangeDateUrl" id="ChangeCodesButton"
+                                            class="px-4 py-2 text-white bg-orange-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
+                                            Change Back Date </button>
+
+
                                     </div>
 
                                     <!-- Select Range Inputs -->
@@ -169,9 +174,11 @@
                                         <div class="flex items-end">
                                             <button wire:click="selectRangeByDynamic"
                                                 class="px-4 py-2 w-full text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300">
-                                                Select Rows in Range
+                                                Select Range
                                             </button>
+
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -272,6 +279,21 @@
         document.getElementById('printQRCodesButton').addEventListener('click', function() {
             // Emit the Livewire event to get the print URL
             Livewire.emit('getPrintUrl');
+
+            // Listen for the response and open the new tab
+            Livewire.on('receivePrintUrl', (url) => {
+                if (!url) {
+                    alert('No pallets selected.');
+                    return;
+                }
+                window.open(url, '_blank');
+            });
+        });
+    });
+    document.addEventListener('livewire:load', function() {
+        document.getElementById('ChangeCodesButton').addEventListener('click', function() {
+            // Emit the Livewire event to get the print URL
+            Livewire.emit('getChangeDateUrl');
 
             // Listen for the response and open the new tab
             Livewire.on('receivePrintUrl', (url) => {

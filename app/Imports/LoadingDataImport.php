@@ -28,6 +28,8 @@ class LoadingDataImport implements ToModel, WithHeadingRow
             'production_line' => $row['production_line'],
             'pallet_number' => $row['pallet_number'],
             'date' => $row['date'],
+            'truck_number' => $row['car_number'],
+
         ]);
     }
 }

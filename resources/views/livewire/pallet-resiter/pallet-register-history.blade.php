@@ -1,4 +1,3 @@
-
 @section('pallet-history-active', 'bg-gray-100 group')
 
 <div>
@@ -126,10 +125,9 @@
                             class="px-4 py-2 text-white bg-purple-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
                             Print Selected QR Codes
                         </button>
-                        <button wire:click="getChangeDateUrl"
-                                id="ChangeCodesButton"
-                                class="px-4 py-2 text-white bg-orange-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
-                            Back Date Change Date
+                        <button wire:click="getChangeDateUrl" id="ChangeCodesButton"
+                            class="px-4 py-2 text-white bg-orange-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
+                            Change Back Date
                         </button>
 
                     </div>
@@ -164,7 +162,7 @@
                         <div class="flex items-end">
                             <button wire:click="selectRangeByDynamic"
                                 class="px-4 py-2 text-white bg-green-600 rounded-lg">
-                                Select Rows in Range
+                                Select Range
                             </button>
                         </div>
                     </div>
@@ -225,8 +223,7 @@
                                 <td class="">{{ $user->created_at->format('h:i:s A') }}</td>
                                 <td class="flex items-center justify-center my-2">
                                     <a class="hover:cursor-pointer"
-                                        href="{{ route('palletqrcode.show', $user->id) }}"
-                                        title="Generate QR Code">
+                                        href="{{ route('palletqrcode.show', $user->id) }}" title="Generate QR Code">
                                         <x-phosphor.icons::fill.qr-code
                                             class="w-6 h-6 mx-3 {{ $user->status == 1 ? 'text-red-400' : 'text-blue-400' }}" />
                                     </a>
@@ -262,8 +259,8 @@
         });
     });
 
-    document.addEventListener('livewire:load', function () {
-        document.getElementById('ChangeCodesButton').addEventListener('click', function () {
+    document.addEventListener('livewire:load', function() {
+        document.getElementById('ChangeCodesButton').addEventListener('click', function() {
             // Emit the Livewire event to get the print URL
             Livewire.emit('getChangeDateUrl');
 
@@ -277,5 +274,4 @@
             });
         });
     });
-
 </script>

@@ -104,8 +104,10 @@ class LoadingDataList extends Component
 
         // Search Filter
         if (!empty($this->search)) {
-            $query->where('pallet_number', 'like', "%{$this->search}%");
+            $query->search($this->search);
         }
+
+
 
         // Date Filters
         if (!empty($this->startDate)) {
@@ -146,9 +148,9 @@ class LoadingDataList extends Component
 
 
         // Get distinct values for dropdown filters
-        $productTypes = PalletRegister::distinct()->pluck('product_type');
-        $productionLines = PalletRegister::distinct()->pluck('production_line');
-        $volumes = PalletRegister::distinct()->pluck('volume');
+        $productTypes = LoadingData::distinct()->pluck('product_type');
+        $productionLines = LoadingData::distinct()->pluck('production_line');
+        $volumes = LoadingData::distinct()->pluck('volume');
 
         return view('livewire.loading.loading-data-list', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
     }
