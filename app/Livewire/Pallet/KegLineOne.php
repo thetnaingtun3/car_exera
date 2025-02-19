@@ -179,7 +179,19 @@ class KegLineOne extends Component
         $palletIds = implode(',', $this->selectedPallets);
         return redirect()->route('pallet.print.qr', ['ids' => $palletIds]);
     }
+    public function getChangeDateUrl()
+    {
+        if (empty($this->selectedPallets)) {
+            Notification::make()
+                ->title('No  selected for printing.')
+                ->danger()
+                ->send();
+            return;
+        }
+        $Ids = implode(',', $this->selectedPallets);
 
+        return redirect()->route('pallet.qrcode.date.change', ['ids' => $Ids]);
+    }
     public function deletePallet($id)
     {
         $pallet = PalletRegister::find($id);

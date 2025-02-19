@@ -16,20 +16,23 @@
 
             <h1 class="mb-4 text-2xl font-bold">Pallet Number </h1>
             <!-- Display QR Code -->
-            <div class="mb-4">
+            <div class="mb-4 grid grid-cols-3 ">
                 @foreach ($selectedPallets as $record)
                     <div class="w-full px-6 mx-auto mt-6">
-                        <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800 p-6">
+                        <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800 p-8 ">
 
-                            <!-- FILTER SECTION -->
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <p>
+                                Pallet Number: PLT - {{ $record->pallet_number }} <br>
+                                Product Type: {{ $record->product_type }} <br>
+                                Production Line: {{ $record->production_line }} <br>
+                                Package: {{ $record->package }} <br>
+                                Volume: {{ $record->volume }} <br>
+                                Unit: {{ $record->unit }} <br>
+                                Total Amount per Pallet: {{ $record->total_amount_per_pallet }} <br>
+                            </p>
 
-                                PLT - {{ $record->pallet_number }}
-                                <br>
-                                <!-- Start Date -->
 
-                            </div>
                         </div>
                     </div>
                 @endforeach

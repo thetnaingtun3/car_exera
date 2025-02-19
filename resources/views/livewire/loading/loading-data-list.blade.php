@@ -150,7 +150,9 @@
                         <th class="px-4 py-3 ">Delivery Order Number</th>
                         <th class="px-4 py-3 ">LSP Name</th>
                         <th class="px-4 py-3 ">Customer Name</th>
+                        <th class="px-4 py-3 ">Truck Number</th>
                         <th class="px-4 py-3 ">Truck Type</th>
+
                         <th class="px-4 py-3 ">Truck Driver Name</th>
                         <th class="px-4 py-3 ">Product Type</th>
                         <th class="px-4 py-3 ">Volume</th>
@@ -170,6 +172,7 @@
 
                                 <td class="px-4 py-3">{{ $user->lsp_name }}</td>
                                 <td class="px-4 py-3">{{ $user->customer_name }}</td>
+                                <td class="px-4 py-3">{{ $user->truck_number }}</td>
                                 <td class="px-4 py-3">{{ $user->truck_type }}</td>
                                 <td class="px-4 py-3">{{ $user->truck_driver_name }}</td>
                                 <td class="px-4 py-3">{{ $user->product_type }}</td>
