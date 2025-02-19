@@ -13,8 +13,8 @@ use DB;
 
 class DashboardController extends Controller
 {
-
-
+   
+   
 
     public function table(Request $request)
     {

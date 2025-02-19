@@ -15,7 +15,7 @@ class LoadingDataImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-
+      
         return new LoadingData([
             'delivery_date' => $row['delivery_date'],
             'delivery_order_number' => $row['delivery_order_number'],

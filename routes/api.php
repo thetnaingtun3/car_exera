@@ -23,4 +23,3 @@ Route::get('/productiondayreport', [DashboardController::class, 'productiondayre
 
 
 Route::get('/loadingreport', [DashboardController::class, 'loadingreport'])->name('api.loadingreport');
-
