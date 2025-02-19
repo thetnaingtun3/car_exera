@@ -41,7 +41,9 @@
 
 
                     Old Date
-                    {{ $selectedPallets->last()->click_date }}
+                    {{ \Carbon\Carbon::parse($selectedPallets->last()->click_date)->format('d-m-Y H:i:s') }}
+
+
                     <br>
                     <!-- Start Date -->
 

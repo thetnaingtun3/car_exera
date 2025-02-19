@@ -66,7 +66,8 @@
         <div class=" mt-5">
 
             Registered Date
-            {{ $selectedCars->last()->click_date }}
+
+            {{ \Carbon\Carbon::parse($selectedPallets->last()->click_date)->format('d-m-Y H:i:s') }}
             <br>
             <!-- Start Date -->
 
@@ -77,7 +78,9 @@
             @csrf
             <input type="hidden" name="selectedCars" value="{{ json_encode($selectedCars) }}">
             <div>
-                <label class="block text-sm font-medium text-gray-700">Start Date (MM/DD/YYYY)</label>
+                <label class="block text-sm font-medium text-gray-700">
+                    Registered Date
+                    (MM/DD/YYYY)</label>
                 <input name="click_date" type="date"
                     class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
             </div>

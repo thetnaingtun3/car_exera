@@ -18,9 +18,18 @@ class LoadingDataCreate extends Component
     public function save()
     {
 
-         
-            Excel::import(new LoadingDataImport(), $this->file->path());
 
+
+
+
+        if (!$this->file) {
+            $this->message = 'No File Selected!';
+            $this->messageType = 'danger';
+            return;
+        }
+
+        try {
+            Excel::import(new LoadingDataImport(), $this->file->path());
 
             $this->reset('file');
             Notification::make()
@@ -29,7 +38,13 @@ class LoadingDataCreate extends Component
                 ->send();
 
             return redirect()->route('loading.data');
-        
+
+            $this->message = 'Customer Data Imported Successfully!';
+            $this->messageType = 'success';
+        } catch (\Exception $e) {
+            $this->message = 'Import Error: ' . $e->getMessage();
+            $this->messageType = 'danger';
+        }
     }
 
 
