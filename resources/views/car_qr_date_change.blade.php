@@ -17,22 +17,7 @@
         <!-- Display QR Code -->
 
         <div class="mb-4 grid grid-cols-3 ">
-            {{-- @foreach ($selectedCars as $record)
-                <div class="w-full px-6 mx-auto mt-6">
-                    <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800 p-8 ">
 
-
-                        @if ($record->car_id === null)
-                            {{ $record->licence_plate }}
-                            <br>
-                        @else
-                            {{ $record->truck->licence_plate }}
-                        @endif
-
-                    </div>
-                </div>
-            @endforeach
- --}}
             @foreach ($selectedCars as $record)
                 <div class="w-full px-6 mx-auto mt-6">
                     <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800 p-8 ">
