@@ -9,12 +9,69 @@ use App\Models\PalletRegister;
 use App\Models\CarRegisterProduct;
 use App\Models\LSP;
 use App\Models\LoadingData;
+use Illuminate\Support\Facades\Validator;
 use DB;
 
 class DashboardController extends Controller
 {
    
+    
+    public function csvdata(Request $request)
+{
+    
+    $validator = Validator::make($request->all(), [
+        'csv_file' => 'required|file|mimes:csv,txt|max:2048',
+    ]);
+     
+    if ($validator->fails()) {
+        return response()->json(['error' => $validator->errors()], 400);
+    }
+
+    
+    $file = $request->file('csv_file');
+    $filePath = $file->getRealPath();
+    $data = array_map('str_getcsv', file($filePath));
+
+    
+    $header = array_map('strtolower', array_map('trim', $data[0]));
+
+    
+    array_shift($data);
+
    
+    $csvData = [];
+    foreach ($data as $row) {
+        $csvData[] = array_combine($header, $row);
+    }
+
+    foreach ($csvData as $row) {
+        LoadingData::create([
+            'customer_name' => $row['customer_name'],
+            'truck_driver_name' => $row['truck_driver_name'],
+            'truck_type' => $row['truck_type'],
+            'delivery_date' => $row['delivery_date'],
+            'lsp_name' => $row['lsp_name'],
+            'pallet_number' => $row['pallet_number'],
+            'product_type' => $row['product_type'],
+            'production_line' => $row['production_line'],
+            'package_type' => $row['package_type'],
+            'volume' => $row['volume'],
+            'unit' => $row['unit'],
+            'total' => $row['total'],
+            'date' => $row['date'],
+            'delivery_order_number' => $row['delivery_order_number'],
+            'truck_number' => $row['car_number'],  
+        ]);
+    }
+
+    
+    return response()->json([
+        'message' => 'CSV uploaded and data stored successfully',
+    ], 200);
+}
+
+    
+    
 
     public function table(Request $request)
     {
