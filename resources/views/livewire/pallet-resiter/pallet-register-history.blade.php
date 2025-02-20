@@ -192,7 +192,7 @@
                         <th scope="col" class="">Volume</th>
                         <th scope="col" class="">Unit</th>
                         <th scope="col" class="">Total</th>
-                        <th scope="col" class="">Date</th>
+                        <th scope="col" class="">Register Date</th>
                         <th scope="col" class="">Time</th>
 
 
@@ -219,7 +219,8 @@
                                 <td class="">{{ $user->total_amount_per_pallet }}</td>
 
 
-                                <td class="">{{ $user->created_at->format('d-m-Y') }}</td>
+                                <!-- <td class="">{{ $user->created_at->format('d-m-Y') }}</td> -->
+                                <td class="">{{ \Carbon\Carbon::parse($user->click_date)->format('Y-m-d') }}</td>
                                 <td class="">{{ $user->created_at->format('h:i:s A') }}</td>
                                 <td class="flex items-center justify-center my-2">
                                     <a class="hover:cursor-pointer"
