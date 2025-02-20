@@ -11,6 +11,7 @@ use App\Models\CarRegisterProduct;
 use Filament\Notifications\Notification;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class SubmitCarRegister extends Component
 {
@@ -203,6 +204,7 @@ class SubmitCarRegister extends Component
 
     public function save()
     {
+        // dd('Debug message here');
         if (empty($this->products)) {
             Notification::make()->title('No products added!')->danger()->send();
             return;
@@ -219,17 +221,20 @@ class SubmitCarRegister extends Component
 
         DB::transaction(function () use ($concatenatedOrderNumbers, $driverIdToStore, $driverNameToStore) {
 
-
             if ($this->car_id === 'other') {
                 $this->validate([
                     'lsp_id' => 'required|integer',
-                    'other_truck_licence_plate' => 'required|regex:/^\d[A-Z]-\d{4}$/|unique:trucks,licence_plate',
-                ],
-                    [
-                        'other_truck_licence_plate.regex' => 'You should write the Plate Number in this format: 7b-1234',
-                    ]
-                );
-
+                    'other_truck_licence_plate' => [
+                        'required',
+                        'regex:/^\d[A-Z]-\d{4}$/',
+                        Rule::unique('trucks', 'licence_plate')->where(function ($query) {
+                            return $query->where('lsp_id', $this->lsp_id);
+                        }),
+                    ],
+                ], [
+                    'other_truck_licence_plate.regex' => 'You should write the Plate Number in this format: 7b-1234',
+                ]);
+            
                 $truck = Truck::create([
                     'lsp_id' => $this->lsp_id,
                     'licence_plate' => $this->other_truck_licence_plate,
