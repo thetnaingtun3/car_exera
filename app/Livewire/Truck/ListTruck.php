@@ -28,7 +28,7 @@ class ListTruck extends Component
     public $sortDir = 'DESC';
 
     #[Url()]
-    public $perPage = 20;
+    public $perPage = 500;
 
     #[Url(history: true)]
     public $startDate = '';

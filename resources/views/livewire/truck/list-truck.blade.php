@@ -15,10 +15,11 @@
                     <a href="{{ route('import.truck') }}"
                        class="px-4 py-2 text-white bg-emerald-500 rounded-lg hover:bg-emerald-600 focus:ring-4 focus:ring-emerald-300">
                         Import</a>
-                    <button wire:click="exportData"
+                    <!-- <button wire:click="exportData"
                             class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">
                         Export Data
-                    </button>
+                    </button> -->
+                    <button id="exportBtn"  class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">Export Data</button>
                 </div>
 
                 <!-- FILTER SECTION -->
@@ -69,7 +70,7 @@
 
             <!-- TABLE DATA -->
             <div class="overflow-x-auto mt-6">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <table id="myTable"  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th class="px-4 py-3">ID</th>
@@ -117,3 +118,41 @@
         </div>
     </section>
 </div>
+<script src="{{ asset('js/xlsx.full.min.js') }}"></script>
+
+<script>
+function exportTableToExcel(tableID, filename = '') {
+    let table = document.getElementById(tableID);
+    let wb = XLSX.utils.book_new();
+    
+ 
+    let wsData = [];
+    let rows = table.querySelectorAll("tr");
+
+    rows.forEach(row => {
+        let rowData = [];
+        let cells = row.querySelectorAll("th, td");
+
+        cells.forEach((cell, index) => {
+           
+            if (index !== cells.length - 1) {
+                rowData.push(cell.innerText);
+            }
+        });
+
+        wsData.push(rowData);
+    });
+
+ 
+    let ws = XLSX.utils.aoa_to_sheet(wsData);
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    filename = filename ? filename + '.xlsx' : 'export.xlsx';
+    XLSX.writeFile(wb, filename);
+}
+
+
+document.getElementById("exportBtn").addEventListener("click", function () {
+    exportTableToExcel("myTable", "truck_data");
+});
+    </script>

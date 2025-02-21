@@ -31,7 +31,7 @@ class CarRegisterQrCodeHistory extends Component
     public $sortDir = 'DESC';
 
     #[Url()]
-    public $perPage = 20;
+    public $perPage = 400;
 
     protected $queryString = ['search', 'startDate', 'endDate', 'sortBy', 'sortDir', 'perPage'];
 
