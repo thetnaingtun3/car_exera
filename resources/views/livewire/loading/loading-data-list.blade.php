@@ -102,10 +102,7 @@
                 <!-- Actions: Filter, Reset, Export -->
                 <div class="flex flex-wrap justify-between items-center mt-6 space-x-2">
                     <div class="flex space-x-2">
-                        <button wire:click="applyFilters"
-                            class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
-                            Apply Filters
-                        </button>
+
 
                         <button wire:click="resetFilters"
                             class="px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 focus:ring-4 focus:ring-gray-300">
@@ -197,8 +194,8 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".date-cell").forEach(cell => {
-            let fullDate = cell.innerText.trim(); 
-            let formattedDate = fullDate.split(" ")[0]; 
+            let fullDate = cell.innerText.trim();
+            let formattedDate = fullDate.split(" ")[0];
             cell.innerText = formattedDate;
         });
     });
