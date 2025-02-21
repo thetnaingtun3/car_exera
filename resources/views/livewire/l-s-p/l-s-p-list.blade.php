@@ -22,10 +22,11 @@
                         Import
                     </a>
 
-                    <button wire:click="exportData"
+                    <!-- <button wire:click="exportData"
                             class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">
                         Export Data
-                    </button>
+                    </button> -->
+                    <button id="exportBtn"  class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">Export to Excel</button>
                 </div>
 
                 <div class="relative w-80 mt-5">
@@ -41,7 +42,7 @@
 
         <!-- LSP Table -->
         <div class="overflow-x-auto px-5   mt-4">
-            <table class="w-full text-sm text-left text-gray-500">
+            <table id="myTable" class="w-full text-sm text-left text-gray-500">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                 <tr>
                     <th class="px-4 py-3 text-start">ID</th>
@@ -89,3 +90,41 @@
         </div>
     </section>
 </div>
+
+<script src="{{ asset('js/xlsx.full.min.js') }}"></script>
+<script>
+function exportTableToExcel(tableID, filename = '') {
+  let table = document.getElementById(tableID);
+  let wb = XLSX.utils.book_new();
+  
+
+  let wsData = [];
+  let rows = table.querySelectorAll("tr");
+
+  rows.forEach(row => {
+      let rowData = [];
+      let cells = row.querySelectorAll("th, td");
+
+      cells.forEach((cell, index) => {
+         
+          if (index !== cells.length - 1) {
+              rowData.push(cell.innerText);
+          }
+      });
+
+      wsData.push(rowData);
+  });
+
+
+  let ws = XLSX.utils.aoa_to_sheet(wsData);
+  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+  filename = filename ? filename + '.xlsx' : 'export.xlsx';
+  XLSX.writeFile(wb, filename);
+}
+
+
+document.getElementById("exportBtn").addEventListener("click", function () {
+  exportTableToExcel("myTable", "isp_data");
+});
+    </script>

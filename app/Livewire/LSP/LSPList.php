@@ -31,7 +31,7 @@ class LSPList extends Component
     public $sortDir = 'DESC';
 
     #[Url()]
-    public $perPage = 20;
+    public $perPage = 300;
 
     public $count = 0;
 

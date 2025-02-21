@@ -18,7 +18,7 @@ Route::get('/productionreport', [DashboardController::class, 'productionreport']
 
 Route::get('/productionmonthlyreport', [DashboardController::class, 'productionmonthlyreport'])->name('api.productionmonthlyreport');
 
-    Route::post('/csvdata', [DashboardController::class, 'csvdata'])->name('api.csvdata');
+Route::post('/csvdata', [DashboardController::class, 'csvdata'])->name('api.csvdata');
 
 
 Route::get('/productiondayreport', [DashboardController::class, 'productiondayreport'])->name('api.productiondayreport');

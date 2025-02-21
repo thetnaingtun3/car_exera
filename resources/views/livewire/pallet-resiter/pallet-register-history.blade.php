@@ -103,10 +103,11 @@
                             Reset Filters
                         </button>
 
-                        <button wire:click="exportData"
+                        <!-- <button wire:click="exportData"
                             class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">
                             Export Data
-                        </button>
+                        </button> -->
+                        <button id="exportBtn" class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">Export to Excel</button>
 
                     </div>
 
@@ -174,7 +175,9 @@
             </div>
 
             <div class="overflow-x-auto mt-4">
-                <table class="w-full text-sm text-left text-gray-500">
+            <!-- <button id="exportBtn" class="px-4 py-2 text-white bg-teal-500 rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-300">Export to Excel</button> -->
+
+                <table id="myTable" class="w-full text-sm text-left text-gray-500">
 
                     <tr>
                         <th scope="col" class="px-4 py-2">
@@ -243,7 +246,46 @@
         </div>
     </section>
 </div>
+<script src="{{ asset('js/xlsx.full.min.js') }}"></script>
+
 <script>
+   function exportTableToExcel(tableID, filename = '') {
+    let table = document.getElementById(tableID);
+    let wb = XLSX.utils.book_new();
+    
+ 
+    let wsData = [];
+    let rows = table.querySelectorAll("tr");
+
+    rows.forEach(row => {
+        let rowData = [];
+        let cells = row.querySelectorAll("th, td");
+
+        cells.forEach((cell, index) => {
+           
+            if (index !== cells.length - 1) {
+                rowData.push(cell.innerText);
+            }
+        });
+
+        wsData.push(rowData);
+    });
+
+ 
+    let ws = XLSX.utils.aoa_to_sheet(wsData);
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    filename = filename ? filename + '.xlsx' : 'export.xlsx';
+    XLSX.writeFile(wb, filename);
+}
+
+// Attach function to button click
+document.getElementById("exportBtn").addEventListener("click", function () {
+    exportTableToExcel("myTable", "pallets_data");
+});
+
+
+
     document.addEventListener('livewire:load', function() {
         document.getElementById('printQRCodesButton').addEventListener('click', function() {
             // Emit the Livewire event to get the print URL

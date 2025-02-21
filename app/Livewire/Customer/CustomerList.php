@@ -35,7 +35,7 @@ class CustomerList extends Component
     public $sortDir = 'DESC';
 
     #[Url()]
-    public $perPage = 20;
+    public $perPage = 290;
 
     public $lsps;
     public $count = 0;
