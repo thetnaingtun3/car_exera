@@ -150,14 +150,12 @@
                         <th class="px-4 py-3 ">Delivery Order Number</th>
                         <th class="px-4 py-3 ">LSP Name</th>
                         <th class="px-4 py-3 ">Customer Name</th>
-                        <th class="px-4 py-3 ">Truck Number</th>
                         <th class="px-4 py-3 ">Truck Type</th>
-
                         <th class="px-4 py-3 ">Truck Driver Name</th>
                         <th class="px-4 py-3 ">Product Type</th>
                         <th class="px-4 py-3 ">Volume</th>
                         <th class="px-4 py-3 ">Production Line</th>
-                        <th class="px-4 py-3 ">Production Date</th>
+                        <th class="px-4 py-3 ">Date</th>
                         <th class="px-4 py-3 ">Pallet No.</th>
 
                     </tr>
@@ -172,14 +170,13 @@
 
                                 <td class="px-4 py-3">{{ $user->lsp_name }}</td>
                                 <td class="px-4 py-3">{{ $user->customer_name }}</td>
-                                <td class="px-4 py-3">{{ $user->truck_number }}</td>
                                 <td class="px-4 py-3">{{ $user->truck_type }}</td>
                                 <td class="px-4 py-3">{{ $user->truck_driver_name }}</td>
                                 <td class="px-4 py-3">{{ $user->product_type }}</td>
                                 <td class="px-4 py-3">{{ $user->volume }}</td>
 
                                 <td class="px-4 py-3">{{ $user->production_line }}</td>
-                                <td class="px-4 py-3 date-cell">{{ $user->date }}</td>
+                                <td class="px-4 py-3">{{ $user->date }}</td>
                                 <td class="px-4 py-3">{{ $user->pallet_number }}</td>
 
                             </tr>
@@ -194,12 +191,3 @@
         </div>
     </section>
 </div>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll(".date-cell").forEach(cell => {
-            let fullDate = cell.innerText.trim(); 
-            let formattedDate = fullDate.split(" ")[0]; 
-            cell.innerText = formattedDate;
-        });
-    });
-</script>
