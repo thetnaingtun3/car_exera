@@ -137,14 +137,14 @@
             </div>
 
             <div class="overflow-x-auto mt-4">
-            <button id="exportBtn">Export to Excel</button>
+                <button id="exportBtn">Export to Excel</button>
                 <table id="myTable" class="w-full text-sm text-left text-gray-500">
 
                     <tr>
 
                         <th scope="px-4 py-3 " class="px-2"> ID</th>
 
-                        <th class="px-4 py-3 ">Delivery Date</th>
+                        {{-- <th class="px-4 py-3 ">Delivery Date</th> --}}
                         <th class="px-4 py-3 ">Delivery Order Number</th>
                         <th class="px-4 py-3 ">LSP Name</th>
                         <th class="px-4 py-3 ">Customer Name</th>
@@ -163,7 +163,7 @@
                             <tr class="border-b">
                                 <td class="px-4 py-3">{{ ++$key }}</td>
 
-                                <td class="px-4 py-3">{{ $user->delivery_date }}</td>
+                                {{-- <td class="px-4 py-3">{{ $user->delivery_date }}</td> --}}
                                 <td class="px-4 py-3">{{ $user->delivery_order_number }}</td>
 
                                 <td class="px-4 py-3">{{ $user->lsp_name }}</td>
@@ -174,7 +174,7 @@
                                 <td class="px-4 py-3">{{ $user->volume }}</td>
 
                                 <td class="px-4 py-3">{{ $user->production_line }}</td>
-                                <td class="px-4 py-3">{{ $user->date }}</td>
+                                <td class="px-4 py-3">{{ $user->created_at->format('d-m-Y') }}</td>
                                 <td class="px-4 py-3">{{ $user->pallet_number }}</td>
 
                             </tr>
@@ -192,44 +192,44 @@
 <script src="{{ asset('js/xlsx.full.min.js') }}"></script>
 <script>
     function exportTableToExcel(tableID, filename = '') {
-    let table = document.getElementById(tableID);
-    let wb = XLSX.utils.book_new();
-    
- 
-    let wsData = [];
-    let rows = table.querySelectorAll("tr");
+        let table = document.getElementById(tableID);
+        let wb = XLSX.utils.book_new();
 
-    rows.forEach(row => {
-        let rowData = [];
-        let cells = row.querySelectorAll("th, td");
 
-        cells.forEach((cell, index) => {
-           
-            if (index !== cells.length - 1) {
-                rowData.push(cell.innerText);
-            }
+        let wsData = [];
+        let rows = table.querySelectorAll("tr");
+
+        rows.forEach(row => {
+            let rowData = [];
+            let cells = row.querySelectorAll("th, td");
+
+            cells.forEach((cell, index) => {
+
+                if (index !== cells.length - 1) {
+                    rowData.push(cell.innerText);
+                }
+            });
+
+            wsData.push(rowData);
         });
 
-        wsData.push(rowData);
+
+        let ws = XLSX.utils.aoa_to_sheet(wsData);
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+        filename = filename ? filename + '.xlsx' : 'export.xlsx';
+        XLSX.writeFile(wb, filename);
+    }
+
+
+    document.getElementById("exportBtn").addEventListener("click", function() {
+        exportTableToExcel("myTable", "loading_data");
     });
-
- 
-    let ws = XLSX.utils.aoa_to_sheet(wsData);
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-
-    filename = filename ? filename + '.xlsx' : 'export.xlsx';
-    XLSX.writeFile(wb, filename);
-}
-
-
-document.getElementById("exportBtn").addEventListener("click", function () {
-    exportTableToExcel("myTable", "loading_data");
-});
 
     document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".date-cell").forEach(cell => {
-            let fullDate = cell.innerText.trim(); 
-            let formattedDate = fullDate.split(" ")[0]; 
+            let fullDate = cell.innerText.trim();
+            let formattedDate = fullDate.split(" ")[0];
             cell.innerText = formattedDate;
         });
     });
