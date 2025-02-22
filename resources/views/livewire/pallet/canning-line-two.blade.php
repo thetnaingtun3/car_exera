@@ -89,7 +89,8 @@
 
                                     <!-- Volume (Always visible) -->
                                     <div class="w-full py-2">
-                                        <x-form.input wire:model="volume" type="text" label="Volume" readonly />
+
+                                        <input hidden type="text" wire:model="volume">
                                     </div>
                                     <!-- Unit -->
                                     <div class="w-full py-2">
