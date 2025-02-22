@@ -137,7 +137,8 @@
             </div>
 
             <div class="overflow-x-auto mt-4">
-                <table class="w-full text-sm text-left text-gray-500">
+            <button id="exportBtn">Export to Excel</button>
+                <table id="myTable" class="w-full text-sm text-left text-gray-500">
 
                     <tr>
 
@@ -188,7 +189,52 @@
         </div>
     </section>
 </div>
+<script src="{{ asset('js/xlsx.full.min.js') }}"></script>
 <script>
+    function exportTableToExcel(tableID, filename = '') {
+    let table = document.getElementById(tableID);
+    let wb = XLSX.utils.book_new();
+    
+ 
+    let wsData = [];
+    let rows = table.querySelectorAll("tr");
+
+    rows.forEach(row => {
+        let rowData = [];
+        let cells = row.querySelectorAll("th, td");
+
+        cells.forEach((cell, index) => {
+           
+            if (index !== cells.length - 1) {
+                rowData.push(cell.innerText);
+            }
+        });
+
+        wsData.push(rowData);
+    });
+
+ 
+    let ws = XLSX.utils.aoa_to_sheet(wsData);
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    filename = filename ? filename + '.xlsx' : 'export.xlsx';
+    XLSX.writeFile(wb, filename);
+}
+
+
+document.getElementById("exportBtn").addEventListener("click", function () {
+    exportTableToExcel("myTable", "loading_data");
+});
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".date-cell").forEach(cell => {
+            let fullDate = cell.innerText.trim(); 
+            let formattedDate = fullDate.split(" ")[0]; 
+            cell.innerText = formattedDate;
+        });
+    });
+
+
     document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".date-cell").forEach(cell => {
             let fullDate = cell.innerText.trim();
