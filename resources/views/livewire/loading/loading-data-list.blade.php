@@ -109,10 +109,11 @@
                             Reset Filters
                         </button>
 
-                        <button wire:click="exportData"
+                        <!-- <button wire:click="exportData"
                             class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300">
                             Export By Excel
-                        </button>
+                        </button> -->
+                        <button id="exportBtn" class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300">Export to Excel</button>
                         <button wire:click="exportToPDF"
                             class="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-red-300">
                             Export By PDF
@@ -137,7 +138,7 @@
             </div>
 
             <div class="overflow-x-auto mt-4">
-            <button id="exportBtn">Export to Excel</button>
+            
                 <table id="myTable" class="w-full text-sm text-left text-gray-500">
 
                     <tr>
