@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PalletRegister extends Model
 {
@@ -44,5 +45,10 @@ class PalletRegister extends Model
             ->orWhere('volume', 'like', "%{$value}%")
             ->orWhere('unit', 'like', "%{$value}%")
             ->orWhere('total_amount_per_pallet', 'like', "%{$value}%");
+    }
+
+    public function palletChangeDateHistory(): HasMany
+    {
+        return $this->hasMany(PalletChangeDateHistory::class, 'pallet_register_id');
     }
 }

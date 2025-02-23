@@ -33,7 +33,7 @@ class ChangBottlingLineCarton extends Component
     public $sortBy = 'id';
 
     public $sortDir = 'DESC';
-    public $perPage = 100;
+    public $perPage = 500;
 
     protected $queryString = [
         'search',

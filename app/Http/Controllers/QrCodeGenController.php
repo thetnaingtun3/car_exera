@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PalletChangeDateHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\CarRegistration;
@@ -32,10 +33,10 @@ class QrCodeGenController extends Controller
         $qrData = sprintf(
             "LSPName:  %s\nCar Number:  %s\nDriver Name:  %s\nDelivery Order Number: %s\nType of Truck:  %s\nCustomer Name:  %s\nDate and Time:  %s",
             $record->lsp?->lsp_name ?? 'No LSP Assigned',
-            $record->car_id == null ? $record->licence_plate :  $record->truck->licence_plate,
+            $record->car_id == null ? $record->licence_plate : $record->truck->licence_plate,
             $record->driver_name,
             $record->order_number,
-            $record->car_id == null ? $record->size :  $record->truck->size,
+            $record->car_id == null ? $record->size : $record->truck->size,
             $record->customer?->customer_name ?? 'No Customer Assigned',
 
             // $record->click_date,
@@ -102,10 +103,10 @@ class QrCodeGenController extends Controller
             $qrData = sprintf(
                 "LSPName:  %s\nCar Number:  %s\nDriver Name:  %s\nDelivery Order Number: %s\nType of Truck:  %s\nCustomer Name:  %s\nDate and Time:  %s",
                 $car->lsp?->lsp_name ?? 'No LSP Assigned',
-                $car->car_id == null ? $car->licence_plate :  $car->truck->licence_plate,
+                $car->car_id == null ? $car->licence_plate : $car->truck->licence_plate,
                 $car->driver_name,
                 $car->order_number,
-                $car->car_id == null ? $car->size :  $car->truck->size,
+                $car->car_id == null ? $car->size : $car->truck->size,
                 $car->customer?->customer_name ?? 'No Customer Assigned',
                 Carbon::parse($car->click_date)->format('d-m-Y H:i:s'),
             );
@@ -171,6 +172,7 @@ class QrCodeGenController extends Controller
         return view('car_qr_date_change', compact('selectedCars', 'carIds'));
     }
 
+
     public function qrcodeDateChangePost(Request $request)
     {
         $carIds = explode(',', $request->query('ids'));
@@ -190,6 +192,37 @@ class QrCodeGenController extends Controller
         $selectedPallets = PalletRegister::whereIn('id', $palletIds)->get();
         return view('pallet_qr_date_change', compact('selectedPallets', 'palletIds'));
     }
+
+    // single
+
+    public function qrcodeDateChangeSingle($id)
+    {
+        $record = PalletRegister::where('id', $id)->first();
+
+        return view('pallet_qr_date_change_single', compact('record'));
+    }
+
+
+    public function qrcodeDateChangeSinglePost(Request $request)
+    {
+        $validatedData = $request->validate([
+            'click_date' => 'required|date',
+        ]);
+        $record = PalletRegister::where('id', $request->pallet_id)->first();
+
+        $record->click_date = $validatedData['click_date'];
+        $record->save();
+
+        $palletChangeDateHistory = new PalletChangeDateHistory();
+        $palletChangeDateHistory->pallet_register_id = $request->pallet_id;
+        $formattedOldDate = $request->old_date;
+        $palletChangeDateHistory->history_date = $formattedOldDate;
+
+        $palletChangeDateHistory->save();
+
+        return redirect($request->previous_url);
+    }
+
 
     public function palletQrCodeDateChangePost(Request $request)
     {

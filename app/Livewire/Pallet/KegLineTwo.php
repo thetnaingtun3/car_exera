@@ -29,7 +29,7 @@ class KegLineTwo extends Component
     public $endDate = '';
     public $sortBy = 'id';
     public $sortDir = 'DESC';
-    public $perPage = 100;
+    public $perPage = 500;
     public $dynamic = 1;
 
     public $productionLine = 'Keg line 2';

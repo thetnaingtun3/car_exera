@@ -32,7 +32,7 @@ class PalletRegisterHistory extends Component
     public $sortBy = 'id';
 
     public $sortDir = 'DESC';
-    public $perPage = 400;
+    public $perPage = 500;
 
     protected $queryString = [
         'search',

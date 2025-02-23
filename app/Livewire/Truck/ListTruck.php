@@ -4,6 +4,7 @@ namespace App\Livewire\Truck;
 
 use App\Models\Truck;
 use App\Models\LSP;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;

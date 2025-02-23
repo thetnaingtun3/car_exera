@@ -113,23 +113,23 @@
 
                     <!-- Select / Remove All -->
                     <div class="flex space-x-2">
-                        <button wire:click="allCheck"
-                            class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300">
-                            Select All
-                        </button>
+{{--                        <button wire:click="allCheck"--}}
+{{--                            class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300">--}}
+{{--                            Select All--}}
+{{--                        </button>--}}
 
-                        <button wire:click="removeCheck"
-                            class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 focus:ring-4 focus:ring-red-300">
-                            Remove All
-                        </button>
+{{--                        <button wire:click="removeCheck"--}}
+{{--                            class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 focus:ring-4 focus:ring-red-300">--}}
+{{--                            Remove All--}}
+{{--                        </button>--}}
                         <button wire:click="getPrintUrl"
                             class="px-4 py-2 text-white bg-purple-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
                             Print Selected QR Codes
                         </button>
-                        <button wire:click="getChangeDateUrl" id="ChangeCodesButton"
-                            class="px-4 py-2 text-white bg-orange-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
-                            Change Back Date
-                        </button>
+{{--                        <button wire:click="getChangeDateUrl" id="ChangeCodesButton"--}}
+{{--                            class="px-4 py-2 text-white bg-orange-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">--}}
+{{--                            Change Back Date--}}
+{{--                        </button>--}}
 
                     </div>
 
@@ -189,7 +189,10 @@
                         <th scope="col" class="">Volume</th>
                         <th scope="col" class="">Unit</th>
                         <th scope="col" class="">Total</th>
-                        <th scope="col" class="">Date</th>
+
+                        <th scope="col" class="">Register Date</th>
+                        <th scope="col" class="">QR Code Registration Date</th>
+                        <th scope="col" class="">Change Date History</th>
                         <th scope="col" class="">Time</th>
 
 
@@ -215,10 +218,32 @@
                                 <td class="">{{ $user->unit }}</td>
                                 <td class="">{{ $user->total_amount_per_pallet }}</td>
 
-
                                 <td class="">{{ $user->created_at->format('d-m-Y') }}</td>
+
+                                <td class="">{{ $user->click_date ? date('d-m-Y', strtotime(substr($user->click_date, 0, 10))) : '' }}</td>
+
+                                <td class="">
+                                    @foreach( $user->palletChangeDateHistory as $history)
+                                        {{ date('d-m-Y', strtotime(substr($history->history_date , 0, 10))) }}
+                                        <br>
+                                    @endforeach
+                                </td>
                                 <td class="">{{ $user->created_at->format('h:i:s A') }}</td>
                                 <td class="flex items-center justify-center my-2">
+                                    @if(($user->click_date == null))
+                                        <span class="cursor-not-allowed opacity-50" title="edit">
+                                    <x-phosphor.icons::fill.pencil class="w-6 h-6 mx-3 text-blue-400"/>
+                                </span>
+
+
+                                    @else
+                                        <a class="hover:cursor-pointer"
+                                           href="{{ route('car.qrcode.date.change.single', $user->id) }}"
+                                           title="edit">
+                                            <x-phosphor.icons::fill.pencil class="w-6 h-6 mx-3 text-blue-400"/>
+                                        </a>
+                                    @endif
+
                                     <a class="hover:cursor-pointer"
                                         href="{{ route('palletqrcode.show', $user->id) }}" title="Generate QR Code">
                                         <x-phosphor.icons::fill.qr-code

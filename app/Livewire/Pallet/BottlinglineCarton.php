@@ -28,7 +28,7 @@ class BottlinglineCarton extends Component
     public $endDate = '';
     public $sortBy = 'id';
     public $sortDir = 'DESC';
-    public $perPage = 100;
+    public $perPage = 500;
     public $dynamic = 1;
 
     public $productionLine = 'Bottling line Carton';

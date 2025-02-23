@@ -64,6 +64,8 @@
 
 
                             <input type="hidden" name="selectedCars" value="{{ json_encode($selectedPallets) }}">
+                            {{ $selectedPallets }}
+                            <input type="hidden" name="old_date" value="{{ $selectedPallets->last()->click_date }} ">
 
                             <div class="w-full lg:w-6/12">
                                 <label class="block text-sm font-medium text-gray-700">Production Date

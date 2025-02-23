@@ -28,7 +28,7 @@ class KegLineOne extends Component
     public $endDate = '';
     public $sortBy = 'id';
     public $sortDir = 'DESC';
-    public $perPage = 100;
+    public $perPage = 500;
     public $dynamic = 1;
 
     public $productionLine = 'Keg line 1';
@@ -89,7 +89,6 @@ class KegLineOne extends Component
     {
 
         $query = PalletRegister::query()->where('production_line', 'Keg line 1')
-
             ->whereDate('created_at', Carbon::today());
         return $query->orderBy($this->sortBy, $this->sortDir);
     }
@@ -179,6 +178,7 @@ class KegLineOne extends Component
         $palletIds = implode(',', $this->selectedPallets);
         return redirect()->route('pallet.print.qr', ['ids' => $palletIds]);
     }
+
     public function getChangeDateUrl()
     {
         if (empty($this->selectedPallets)) {
@@ -192,6 +192,7 @@ class KegLineOne extends Component
 
         return redirect()->route('pallet.qrcode.date.change', ['ids' => $Ids]);
     }
+
     public function deletePallet($id)
     {
         $pallet = PalletRegister::find($id);

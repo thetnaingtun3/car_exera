@@ -126,6 +126,9 @@ Route::middleware('auth:admin')->group(callback: function () {
     Route::get('/car/print-qr', [QrCodeGenController::class, 'printCarQRCodes'])->name('car.print.qr');
 
     Route::get('car/qrcode/chnage/date', [QrCodeGenController::class, 'qrcodeDateChange'])->name('car.qrcode.date.change');
+    Route::get('car/qrcode/chnage/date/single/{id}', [QrCodeGenController::class, 'qrcodeDateChangeSingle'])->name('car.qrcode.date.change.single');
+    Route::post('car/qrcode/chnage/date/single', [QrCodeGenController::class, 'qrcodeDateChangeSinglePost'])->name('car.qrcode.date.change.single.post');
+
     Route::post('car/qrcode/chnage/date', [QrCodeGenController::class, 'qrcodeDateChangePost'])->name('car-qr-date-change');
 
     Route::get('pallet/qrcode/chnage/date', [QrCodeGenController::class, 'palletQrCodeDateChange'])->name('pallet.qrcode.date.change');
@@ -134,15 +137,15 @@ Route::middleware('auth:admin')->group(callback: function () {
 
     Route::get('/loading/data', LoadingDataList::class)->name('loading.data');
     Route::get('/loading/create', LoadingDataCreate::class)->name('loading.create');
-// report route start
+    // report route start
     Route::get('/chang/canningline/one', ChangCanningLineOne::class)->name('chang.canning.line.one');
     Route::get('/chang/canningline/two', ChangCanningLineTwo::class)->name('chang.canning.line.two');
     Route::get('/chang/bottling/carton', ChangBottlingLineCarton::class)->name('chang.bottling.line.carton');
     Route::get('/chang/keg/one', ChangKegLineOne::class)->name('chang.keg.line.one');
     Route::get('/chang/keg/two', ChangKegLineTwo::class)->name('chang.keg.line.two');
-// report route end
+    // report route end
 
-//    Route::get('/chang/bottling/crate', ChangBottlingLineCrate::class)->name('chang.bottling.line.create');
-//    Route::get('/tapper/line/one', TapperCanningLineOne::class)->name('tapper.canning.line.one');
-//    Route::get('/tapper/line/two', TapperCanningLineTwo::class)->name('tapper.canning.line.two');
+    //    Route::get('/chang/bottling/crate', ChangBottlingLineCrate::class)->name('chang.bottling.line.create');
+    //    Route::get('/tapper/line/one', TapperCanningLineOne::class)->name('tapper.canning.line.one');
+    //    Route::get('/tapper/line/two', TapperCanningLineTwo::class)->name('tapper.canning.line.two');
 });
