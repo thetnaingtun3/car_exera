@@ -178,7 +178,8 @@
 
                                 <td class="px-4 py-3">{{ $user->production_line }}</td>
                                 <td class="px-4 py-3">{{ $user->created_at->format('d-m-Y') }}</td>
-                                <td class="px-4 py-3">{{ $user->pallet_number }}</td>
+                                <td class="px-4 py-3">{{ str_replace('PLT - ', '', $user->pallet_number) }}</td>
+
 
                             </tr>
                         @endforeach
