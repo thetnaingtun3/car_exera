@@ -213,6 +213,7 @@
     var isProduction = @json(auth()->user()->hasRole('production'));
     var isLoading = @json(auth()->user()->hasRole('loading'));
     var isRegistration = @json(auth()->user()->hasRole('registration'));
+   
 
 
     document.addEventListener("DOMContentLoaded", function() {

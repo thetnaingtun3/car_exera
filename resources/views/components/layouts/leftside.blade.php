@@ -48,14 +48,14 @@
 
                     {{-- Dashboard (Visible to all roles) --}}
                     <li>
-                        <a href="{{ route('dashboard') }}" wire:navigate
-                           class="flex active items-center
-                        @yield('dashboard-active')
-                               p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 ">
-                            <x-phosphor.icons::regular.gauge class="w-6 h-6 mx-3 text-blue-800"/>
-                            <span class="ml-3" sidebar-toggle-item>Dashboard</span>
-                        </a>
-                    </li>
+    <a href="{{ route('dashboard') }}" wire:navigate
+       onclick="handleDashboardClick(event)"
+       class="flex active items-center @yield('dashboard-active') p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200">
+        <x-phosphor.icons::regular.gauge class="w-6 h-6 mx-3 text-blue-800"/>
+        <span class="ml-3" sidebar-toggle-item>Dashboard</span>
+    </a>
+</li>
+
 
 
                     @hasanyrole('root-admin')
@@ -325,3 +325,16 @@
         </div>
     </div>
 </aside>
+<script>
+function handleDashboardClick(e) {
+    console.log('Dashboard link clicked');
+    setTimeout(() => {
+        if (!window.location.search.includes("reloaded=1")) {
+            const separator = window.location.search ? "&" : "?";
+            window.location.href = window.location.href + separator + "reloaded=1";
+        }
+    }, 2000);
+}
+
+
+    </script>
