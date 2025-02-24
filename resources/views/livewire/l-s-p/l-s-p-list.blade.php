@@ -34,9 +34,42 @@
                            class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                            placeholder="Search">
                 </div>
+                  
+                <div class="px-3 py-4">
+    @if ($lsps->lastPage() > 1)
+        {{ $lsps->links() }}
+    @else
+        <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center justify-end">
+            <span class="relative inline-flex rounded-md shadow-sm">
+                <!-- Disabled Previous Button -->
+                <span aria-disabled="true" aria-label="Previous">
+                    <span class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-l-md leading-5 dark:bg-gray-800 dark:border-gray-600" aria-hidden="true">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </span>
+                </span>
+
+                <!-- Current Page (Disabled) -->
+                <span aria-current="page">
+                    <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 dark:bg-gray-800 dark:border-gray-600">1</span>
+                </span>
+
+                <!-- Disabled Next Button -->
+                <span aria-disabled="true" aria-label="Next">
+                    <span class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-r-md leading-5 dark:bg-gray-800 dark:border-gray-600" aria-hidden="true">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </span>
+                </span>
+            </span>
+        </nav>
+    @endif
+</div>
 
             </div>
-
+            
         </div>
 
 
@@ -84,10 +117,7 @@
             </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="px-3 py-4">
-            {{ $lsps->links() }}
-        </div>
+        
     </section>
 </div>
 

@@ -189,8 +189,8 @@
                                     <th class="px-3 py-2 text-right">Day 28</th>
                                     <th class="px-3 py-2 text-right">Day 29</th>
                                     <th class="px-3 py-2 text-right">Day 30</th>
-                                    <th class="px-3 py-2 text-right">Day 31</th>
                                     <th class="px-3 py-2 text-right">Total</th>
+                                    <!-- <th class="px-3 py-2 text-right"></th> -->
                                 </tr>
                             </thead>
                             <tbody id="loadingReportTableBody"
