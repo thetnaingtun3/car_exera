@@ -30,7 +30,7 @@ class LoadingDataList extends Component
     #[Url(history: true)] public $selectedVolume = ''; // Volume filter
     #[Url(history: true)] public $sortBy = 'id';
     #[Url(history: true)] public $sortDir = 'DESC';
-    #[Url()] public $perPage = 400;
+    #[Url()] public $perPage = 10000;
 
     protected $queryString = ['search', 'startDate', 'endDate', 'startPalletNumber', 'endPalletNumber', 'selectedProductType', 'selectedProductionLine', 'selectedVolume', 'sortBy', 'sortDir', 'perPage'];
 
