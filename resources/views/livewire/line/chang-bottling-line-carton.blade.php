@@ -167,9 +167,11 @@
                             </button>
                         </div>
 
-                        <div class="px-3 py-4">
-                            {{ $pallets->links() }}
-                        </div>
+                        @if ($pallets instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                            <div class="px-3 py-4">
+                                {{ $pallets->links() }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

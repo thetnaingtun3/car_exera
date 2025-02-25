@@ -178,14 +178,20 @@ class TapperCanningLineOne extends Component
 
     public function render()
     {
-        $pallets = $this->getPalletsQuery()->paginate($this->perPage);
+//        $pallets = $this->getPalletsQuery()->paginate($this->perPage);
 
+        if (!empty($this->search)) {
+            $pallets = $this->getPalletsQuery()->get(); // Fetch all records when searching
+        } else {
+            $pallets = $this->getPalletsQuery()->paginate($this->perPage);
+        }
         $productTypes = PalletRegister::distinct()->pluck('product_type');
         $productionLines = PalletRegister::distinct()->pluck('production_line');
 
         $volumes = PalletRegister::distinct()->where('product_type','Tapper beer')->where('production_line','Canning line 1')->pluck('volume');
-        $this->count = $pallets->total();
+//        $this->count = $pallets->total();
 
+        $this->count = $pallets instanceof \Illuminate\Pagination\LengthAwarePaginator ? $pallets->total() : $pallets->count();
         return view('livewire.line.tapper-canning-line-one', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
     }
 
