@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('loading_data', function (Blueprint $table) {
             $table->after('date', function ($table) {
 
-                $table->string('truck_number')->nullable();
+//                $table->string('truck_number')->nullable();
             });
         });
     }

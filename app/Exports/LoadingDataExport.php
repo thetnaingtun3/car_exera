@@ -16,6 +16,7 @@ class LoadingDataExport implements FromQuery, WithHeadings, WithMapping
     protected $endDate;
 
     protected $counter = 1; // Counter starts at 1
+
     /**
      * Constructor to receive start and end dates.
      */
@@ -50,6 +51,7 @@ class LoadingDataExport implements FromQuery, WithHeadings, WithMapping
 
         return LoadingData::whereBetween('created_at', [$startDateTime, $endDateTime]);
     }
+
     public function headings(): array
     {
         return [

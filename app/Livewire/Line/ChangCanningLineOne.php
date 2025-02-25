@@ -33,7 +33,7 @@ class ChangCanningLineOne extends Component
     public $sortBy = 'id';
 
     public $sortDir = 'DESC';
-    public $perPage = 1000;
+    public $perPage = 500;
 
     protected $queryString = [
         'search',
@@ -179,8 +179,15 @@ class ChangCanningLineOne extends Component
     public function render()
     {
 //        $pallets = $this->getPalletsQuery()->paginate($this->perPage);
+        $isFiltered = !empty($this->search)
+            || !empty($this->startDate)
+            || !empty($this->endDate)
+            || (!empty($this->startPalletNumber) && !empty($this->endPalletNumber))
+            || !empty($this->selectedProductType)
+            || !empty($this->selectedProductionLine)
+            || !empty($this->selectedVolume);
 
-        if (!empty($this->search)) {
+        if ($isFiltered) {
             $pallets = $this->getPalletsQuery()->get(); // Fetch all records when searching
         } else {
             $pallets = $this->getPalletsQuery()->paginate($this->perPage);

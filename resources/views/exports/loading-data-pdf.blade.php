@@ -50,42 +50,44 @@
 
 <body>
 
-    <h2>Loading Data Report</h2>
+<h2>Loading Data Report</h2>
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Delivery Date</th>
-                <th>Delivery Order Number</th>
-                <th>LSP Name</th>
-                <th>Customer Name</th>
-                <th>Truck Type</th>
-                <th>Truck Driver Name</th>
-                <th>Product Type</th>
-                <th>Volume</th>
-                <th>Production Line</th>
-                <th>Pallet No.</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($loadingData as $key => $data)
-                <tr>
-                    <td>{{ ++$key }}</td>
-                    <td>{{ $data->delivery_date }}</td>
-                    <td>{{ $data->delivery_order_number }}</td>
-                    <td>{{ $data->lsp_name }}</td>
-                    <td>{{ $data->customer_name }}</td>
-                    <td>{{ $data->truck_type }}</td>
-                    <td>{{ $data->truck_driver_name }}</td>
-                    <td>{{ $data->product_type }}</td>
-                    <td>{{ $data->volume }}</td>
-                    <td>{{ $data->production_line }}</td>
-                    <td>{{ $data->pallet_number }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Delivery Date</th>
+        <th>Delivery Order Number</th>
+        <th>LSP Name</th>
+        <th>Customer Name</th>
+        <th>Truck Type</th>
+        <th>Truck Driver Name</th>
+        <th>Product Type</th>
+        <th>Volume</th>
+        <th>Production Line</th>
+        <th>Production Date</th>
+        <th>Pallet No.</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach ($loadingData as $key => $data)
+        <tr>
+            <td>{{ ++$key }}</td>
+            <td>{{ $data->delivery_date }}</td>
+            <td>{{ $data->delivery_order_number }}</td>
+            <td>{{ $data->lsp_name }}</td>
+            <td>{{ $data->customer_name }}</td>
+            <td>{{ $data->truck_type }}</td>
+            <td>{{ $data->truck_driver_name }}</td>
+            <td>{{ $data->product_type }}</td>
+            <td>{{ $data->volume }}</td>
+            <td>{{ $data->production_line }}</td>
+            <td>{{ $data->created_at->format('d-m-Y') }}</td>
+            <td>{{ $data->pallet_number }}</td>
+        </tr>
+    @endforeach
+    </tbody>
+</table>
 
 </body>
 

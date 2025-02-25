@@ -33,7 +33,7 @@ class PalletRegisterHistory extends Component
 
     public $sortDir = 'DESC';
 
-    public $perPage = 1000;
+    public $perPage = 500;
 
     protected $queryString = [
         'search',
@@ -172,8 +172,15 @@ class PalletRegisterHistory extends Component
 
     public function render()
     {
-//        $pallets = $this->getPalletsQuery()->paginate($this->perPage);
-        if (!empty($this->search)) {
+        $isFiltered = !empty($this->search)
+            || !empty($this->startDate)
+            || !empty($this->endDate)
+            || (!empty($this->startPalletNumber) && !empty($this->endPalletNumber))
+            || !empty($this->selectedProductType)
+            || !empty($this->selectedProductionLine)
+            || !empty($this->selectedVolume);
+
+        if ($isFiltered) {
             $pallets = $this->getPalletsQuery()->get(); // Fetch all records when searching
         } else {
             $pallets = $this->getPalletsQuery()->paginate($this->perPage);
@@ -203,6 +210,7 @@ class PalletRegisterHistory extends Component
         $palletIds = implode(',', $this->selectedPallets);
         return redirect()->route('pallet.print.qr', ['ids' => $palletIds]);
     }
+
     public function getChangeDateUrl()
     {
         if (empty($this->selectedPallets)) {
