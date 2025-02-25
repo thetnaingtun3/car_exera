@@ -33,7 +33,8 @@ class ChangBottlingLineCrate extends Component
     public $sortBy = 'id';
 
     public $sortDir = 'DESC';
-    public $perPage = 100;
+
+    public $perPage = 1000;
 
     protected $queryString = [
         'search',

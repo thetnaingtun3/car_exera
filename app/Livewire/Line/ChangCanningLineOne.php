@@ -33,7 +33,7 @@ class ChangCanningLineOne extends Component
     public $sortBy = 'id';
 
     public $sortDir = 'DESC';
-    public $perPage = 500;
+    public $perPage = 1000;
 
     protected $queryString = [
         'search',

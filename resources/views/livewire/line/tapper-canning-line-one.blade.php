@@ -166,6 +166,10 @@
                                 Select Rows in Range
                             </button>
                         </div>
+
+                        <div class="px-3 py-4">
+                            {{ $pallets->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -237,9 +241,9 @@
                 </table>
             </div>
 
-            <div class="px-3 py-4">
-                {{ $pallets->links() }}
-            </div>
+{{--            <div class="px-3 py-4">--}}
+{{--                {{ $pallets->links() }}--}}
+{{--            </div>--}}
         </div>
     </section>
 </div>

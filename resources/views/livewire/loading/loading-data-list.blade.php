@@ -121,7 +121,10 @@
                             Export By PDF
                         </button>
                     </div>
-                    {{ $pallets->links() }}
+
+                    <div class="px-3 py-4">
+                        {{ $pallets->links() }}
+                    </div>
                     <!-- Search Box -->
                     <div class="relative w-60">
                         <input wire:model.live.debounce.300ms="search" type="text"
@@ -187,14 +190,14 @@
             </div>
 
             <div class="px-3 py-4">
-                
+
             </div>
         </div>
     </section>
 </div>
 <script src="{{ asset('js/xlsx.full.min.js') }}"></script>
 <script>
-    
+
     function exportTableToExcel(tableID, filename = '') {
         let table = document.getElementById(tableID);
         let wb = XLSX.utils.book_new();
