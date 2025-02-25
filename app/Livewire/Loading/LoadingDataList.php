@@ -144,8 +144,13 @@ class LoadingDataList extends Component
         // $query->orderByRaw("CAST(SUBSTRING_INDEX(pallet_number, '-', -1) AS UNSIGNED) ASC");
 
         // ✅ Ensure sorting by ID DESC by default
-        $pallets = $query->orderBy('id', 'DESC')->paginate($this->perPage);
+//        $pallets = $query->orderBy('id', 'DESC')->paginate($this->perPage);
 
+        if (!empty($this->search)) {
+            $pallets = $query->orderBy('id', 'DESC')->get(); // Remove pagination
+        } else {
+            $pallets = $query->orderBy('id', 'DESC')->paginate($this->perPage);
+        }
 
         // Get distinct values for dropdown filters
         $productTypes = LoadingData::distinct()->pluck('product_type');

@@ -166,6 +166,11 @@
                                 Select Rows in Range
                             </button>
                         </div>
+                        @if ($pallets instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                            <div class="px-3 py-4">
+                                {{ $pallets->links() }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -237,9 +242,9 @@
                 </table>
             </div>
 
-            <div class="px-3 py-4">
-                {{ $pallets->links() }}
-            </div>
+{{--            <div class="px-3 py-4">--}}
+{{--                {{ $pallets->links() }}--}}
+{{--            </div>--}}
         </div>
     </section>
 </div>

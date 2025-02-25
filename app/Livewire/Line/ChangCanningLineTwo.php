@@ -32,7 +32,7 @@ class ChangCanningLineTwo extends Component
     public $sortBy = 'id';
 
     public $sortDir = 'DESC';
-    public $perPage = 500;
+    public $perPage = 1000;
 
     protected $queryString = [
         'search',
@@ -177,14 +177,20 @@ class ChangCanningLineTwo extends Component
 
     public function render()
     {
-        $pallets = $this->getPalletsQuery()->paginate($this->perPage);
+//        $pallets = $this->getPalletsQuery()->paginate($this->perPage);
 
+        if (!empty($this->search)) {
+            $pallets = $this->getPalletsQuery()->get(); // Fetch all records when searching
+        } else {
+            $pallets = $this->getPalletsQuery()->paginate($this->perPage);
+        }
         $productTypes = PalletRegister::distinct()->pluck('product_type');
         $productionLines = PalletRegister::distinct()->pluck('production_line');
 
         $volumes = PalletRegister::distinct()->where('product_type', 'Chang beer')->where('production_line', 'Canning line 2')->pluck('volume');
-        $this->count = $pallets->total();
+//        $this->count = $pallets->total();
 
+        $this->count = $pallets instanceof \Illuminate\Pagination\LengthAwarePaginator ? $pallets->total() : $pallets->count();
         return view('livewire.line.chang-canning-line-two', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
     }
 
