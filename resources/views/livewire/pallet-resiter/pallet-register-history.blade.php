@@ -200,7 +200,7 @@
                         <th scope="col" class="">Change Date History</th>
                         <th scope="col" class="">Time</th>
 
-
+                        <th scope="col" class="">Back Date Change</th>
                         <th scope="col" class="px-4 py-3 text-center">
                             <span class="">Actions</span>
                         </th>
@@ -233,8 +233,8 @@
                                 @endforeach
                             </td>
                             <td class="">{{ $user->created_at->format('h:i:s A') }}</td>
-                            <td class="flex items-center justify-center my-2">
-                                @if(($user->click_date == null))
+                            <td>
+                            @if(($user->click_date == null))
                                     <span class="cursor-not-allowed opacity-50" title="edit">
                                     <x-phosphor.icons::fill.pencil class="w-6 h-6 mx-3 text-blue-400"/>
                                 </span>
@@ -247,6 +247,9 @@
                                         <x-phosphor.icons::fill.pencil class="w-6 h-6 mx-3 text-blue-400"/>
                                     </a>
                                 @endif
+                        </td>
+                            <td class="flex items-center justify-center my-2">
+                              
 
                                 <a class="hover:cursor-pointer"
                                    href="{{ route('palletqrcode.show', $user->id) }}" title="Generate QR Code">
