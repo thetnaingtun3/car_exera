@@ -41,7 +41,7 @@
         <div class=" mt-5">
 
 
-            Old Date
+        Current Date
             {{ \Carbon\Carbon::parse($record->click_date)->format('d-m-Y H:i:s') }}
 
 
@@ -72,7 +72,7 @@
                         <input type="hidden" name="old_date" value="{{ $record->click_date }} ">
 
                         <div class="w-full lg:w-6/12">
-                            <label class="block text-sm font-medium text-gray-700">Production Date
+                            <label class="block text-sm font-medium text-gray-700">Production Current Date
                                 (MM/DD/YYYY)</label>
 
                             <input name="click_date" type="date"
@@ -82,7 +82,7 @@
 {{--                                   class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">--}}
                         </div>
                         <div class="mt-4 px-4">
-                            <a href="{{ url()->previous() }}"
+                            <a href="/pallet/history"
                                class="inline-block px-4 py-2 ml-2 text-white bg-blue-500 rounded">Go Back</a>
                             <button type="submit" class="px-4 py-2 text-white bg-green-500 rounded">Submit</button>
                         </div>

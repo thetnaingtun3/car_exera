@@ -167,7 +167,7 @@
                         <th class="px-4 py-3 ">Volume</th>
                         <th class="px-4 py-3 ">Production Line</th>
                         <th class="px-4 py-3 ">Production Date</th>
-                        <th class="px-4 py-3 ">Pallet No.</th>
+                        <th class="px-4 py-3 ">Pallet No</th>
 
                     </tr>
                     </thead>
@@ -188,7 +188,7 @@
 
                             <td class="px-4 py-3">{{ $user->production_line }}</td>
                             <td class="px-4 py-3">{{ $user->created_at->format('d-m-Y') }}</td>
-                            <td class="px-4 py-3">{{ str_replace('PLT - ', '', $user->pallet_number) }}</td>
+                            <td class="px-4 py-3">{{  $user->pallet_number }}</td>
 
                         </tr>
                     @endforeach
@@ -205,35 +205,31 @@
 <script src="{{ asset('js/xlsx.full.min.js') }}"></script>
 <script>
 
-    function exportTableToExcel(tableID, filename = '') {
-        let table = document.getElementById(tableID);
-        let wb = XLSX.utils.book_new();
+function exportTableToExcel(tableID, filename = '') {
+    let table = document.getElementById(tableID);
+    let wb = XLSX.utils.book_new();
 
+    let wsData = [];
+    let rows = table.querySelectorAll("tr");
 
-        let wsData = [];
-        let rows = table.querySelectorAll("tr");
+    rows.forEach(row => {
+        let rowData = [];
+        let cells = row.querySelectorAll("th, td");
 
-        rows.forEach(row => {
-            let rowData = [];
-            let cells = row.querySelectorAll("th, td");
-
-            cells.forEach((cell, index) => {
-
-                if (index !== cells.length - 1) {
-                    rowData.push(cell.innerText);
-                }
-            });
-
-            wsData.push(rowData);
+        cells.forEach((cell) => {
+            rowData.push(cell.innerText);
         });
 
+        wsData.push(rowData);
+    });
 
-        let ws = XLSX.utils.aoa_to_sheet(wsData);
-        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    let ws = XLSX.utils.aoa_to_sheet(wsData);
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
 
-        filename = filename ? filename + '.xlsx' : 'export.xlsx';
-        XLSX.writeFile(wb, filename);
-    }
+    filename = filename ? filename + '.xlsx' : 'export.xlsx';
+    XLSX.writeFile(wb, filename);
+}
+
 
 
     document.getElementById("exportBtn").addEventListener("click", function () {
