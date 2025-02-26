@@ -33,7 +33,7 @@ class CarRegisterHistory extends Component
     public $selectedCustomer = '';
     public $sortBy = 'id';
     public $sortDir = 'DESC';
-    public $perPage = 500;
+    public $perPage = 5;
 
     protected $queryString = [
         'search',
@@ -147,10 +147,23 @@ class CarRegisterHistory extends Component
         return $query->orderBy($this->sortBy, $this->sortDir);
     }
 
+
     public function render()
     {
-        $registrations = $this->getCarsQuery()->paginate($this->perPage);
-        $this->count = $registrations->total();
+
+
+        $isFiltered = !empty($this->search) || !empty($this->startDate) || !empty($this->endDate) || !empty($this->selectedLsp) || !empty($this->selectedCustomer);
+
+
+        if ($isFiltered) {
+            $registrations = $this->getCarsQuery()->get(); // Fetch all records when searching
+        } else {
+            $registrations = $this->getCarsQuery()->paginate($this->perPage);
+        }
+
+//        $this->count = $registrations->total();
+
+        $this->count = $registrations instanceof \Illuminate\Pagination\LengthAwarePaginator ? $registrations->total() : $registrations->count();
 
         return view('livewire.car-register.car-register-history', compact('registrations'));
     }

@@ -30,7 +30,7 @@ class LoadingDataList extends Component
     #[Url(history: true)] public $selectedVolume = ''; // Volume filter
     #[Url(history: true)] public $sortBy = 'id';
     #[Url(history: true)] public $sortDir = 'DESC';
-    #[Url()] public $perPage = 10000;
+    #[Url()] public $perPage = 500;
 
     protected $queryString = ['search', 'startDate', 'endDate', 'startPalletNumber', 'endPalletNumber', 'selectedProductType', 'selectedProductionLine', 'selectedVolume', 'sortBy', 'sortDir', 'perPage'];
 
@@ -108,7 +108,6 @@ class LoadingDataList extends Component
         }
 
 
-
         // Date Filters
         if (!empty($this->startDate)) {
             $query->whereDate('created_at', '>=', $this->startDate);
@@ -145,17 +144,23 @@ class LoadingDataList extends Component
 
         // ✅ Ensure sorting by ID DESC by default
 //        $pallets = $query->orderBy('id', 'DESC')->paginate($this->perPage);
-
-        if (!empty($this->search)) {
+        $isFiltered = !empty($this->search)
+            || !empty($this->startDate)
+            || !empty($this->endDate)
+            || (!empty($this->startPalletNumber) && !empty($this->endPalletNumber))
+            || !empty($this->selectedProductType)
+            || !empty($this->selectedProductionLine)
+            || !empty($this->selectedVolume);
+        if ($isFiltered) {
             $pallets = $query->orderBy('id', 'DESC')->get(); // Remove pagination
         } else {
             $pallets = $query->orderBy('id', 'DESC')->paginate($this->perPage);
         }
 
-        // Get distinct values for dropdown filters
-        $productTypes = LoadingData::distinct()->pluck('product_type');
-        $productionLines = LoadingData::distinct()->pluck('production_line');
-        $volumes = LoadingData::distinct()->pluck('volume');
+// Exclude NULL and empty values for dropdown filters
+        $productTypes = LoadingData::whereNotNull('product_type')->where('product_type', '!=', 'null')->distinct()->pluck('product_type');
+        $productionLines = LoadingData::whereNotNull('production_line')->where('production_line', '!=', 'null')->distinct()->pluck('production_line');
+        $volumes = LoadingData::whereNotNull('volume')->where('volume', '!=', 'null')->distinct()->pluck('volume');
 
         return view('livewire.loading.loading-data-list', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
     }

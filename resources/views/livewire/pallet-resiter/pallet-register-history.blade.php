@@ -113,23 +113,23 @@
 
                     <!-- Select / Remove All -->
                     <div class="flex space-x-2">
-{{--                        <button wire:click="allCheck"--}}
-{{--                                class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300">--}}
-{{--                            Select All--}}
-{{--                        </button>--}}
+                        {{--                        <button wire:click="allCheck"--}}
+                        {{--                                class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300">--}}
+                        {{--                            Select All--}}
+                        {{--                        </button>--}}
 
-{{--                        <button wire:click="removeCheck"--}}
-{{--                                class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 focus:ring-4 focus:ring-red-300">--}}
-{{--                            Remove All--}}
-{{--                        </button>--}}
+                        {{--                        <button wire:click="removeCheck"--}}
+                        {{--                                class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 focus:ring-4 focus:ring-red-300">--}}
+                        {{--                            Remove All--}}
+                        {{--                        </button>--}}
                         <button wire:click="getPrintUrl"
                                 class="px-4 py-2 text-white bg-purple-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">
                             Print Selected QR Codes
                         </button>
-{{--                        <button wire:click="getChangeDateUrl" id="ChangeCodesButton"--}}
-{{--                                class="px-4 py-2 text-white bg-orange-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">--}}
-{{--                            Change Back Date--}}
-{{--                        </button>--}}
+                        {{--                        <button wire:click="getChangeDateUrl" id="ChangeCodesButton"--}}
+                        {{--                                class="px-4 py-2 text-white bg-orange-500 rounded-lg hover:bg-purple-600 focus:ring-4 focus:ring-purple-300">--}}
+                        {{--                            Change Back Date--}}
+                        {{--                        </button>--}}
 
                     </div>
 
@@ -172,7 +172,13 @@
                         <div class="px-3 py-4">
                             {{ $pallets->links() }}
                         </div>
+                    @else
+
+                        <div class="px-3 py-4">
+                            page 1 of 1
+                        </div>
                     @endif
+
                 </div>
             </div>
 
