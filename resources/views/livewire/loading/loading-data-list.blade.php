@@ -15,7 +15,7 @@
 
                     <h2 class="text-lg font-semibold text-gray-700 mb-4">Total Count {{ $count }}</h2>
                     <a href="{{ route('loading.create') }}"
-                       class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300">Import</a>
+                        class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300">Import</a>
 
                 </div>
 
@@ -26,14 +26,14 @@
                     <div>
                         <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date</label>
                         <input wire:model.live="startDate" type="date" id="start_date"
-                               class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                            class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <!-- End Date -->
                     <div>
                         <label for="end_date" class="block text-sm font-medium text-gray-700">End Date</label>
                         <input wire:model.live="endDate" type="date" id="end_date"
-                               class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                            class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <!-- Start Pallet No. -->
@@ -41,9 +41,9 @@
                         <label for="start_pallet" class="block text-sm font-medium text-gray-700">Start Pallet
                             No.</label>
                         <input wire:model.live="startPalletNumber" type="number" min="1" step="1"
-                               id="start_pallet"
-                               class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                               placeholder="Enter start number">
+                            id="start_pallet"
+                            class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Enter start number">
                     </div>
 
                     <!-- End Pallet No. -->
@@ -51,9 +51,9 @@
                         <label for="end_pallet" class="block text-sm font-medium text-gray-700">End Pallet
                             No.</label>
                         <input wire:model.live="endPalletNumber" type="number" min="1" step="1"
-                               id="end_pallet"
-                               class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                               placeholder="Enter end number">
+                            id="end_pallet"
+                            class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Enter end number">
                     </div>
                 </div>
 
@@ -64,7 +64,7 @@
                         <label for="product_type" class="block text-sm font-medium text-gray-700">Product
                             Type</label>
                         <select wire:model.live="selectedProductType" id="product_type"
-                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                            class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                             <option value="">All</option>
                             @foreach ($productTypes as $type)
                                 <option value="{{ $type }}">{{ $type }}</option>
@@ -72,12 +72,28 @@
                         </select>
                     </div>
 
+
+                    <!-- Car Number  -->
+                    <div>
+                        <label for="production_line" class="block text-sm font-medium text-gray-700">Car Number
+                        </label>
+                        <select wire:model.live="selectedTruckNumber" id="truck_number"
+                            class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">All</option>
+                            @foreach ($car_numbers as $line)
+                                <option value="{{ $line }}">{{ $line }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
                     <!-- Production Line -->
+
                     <div>
                         <label for="production_line" class="block text-sm font-medium text-gray-700">Production
                             Line</label>
                         <select wire:model.live="selectedProductionLine" id="production_line"
-                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                            class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                             <option value="">All</option>
                             @foreach ($productionLines as $line)
                                 <option value="{{ $line }}">{{ $line }}</option>
@@ -89,7 +105,7 @@
                     <div>
                         <label for="volume" class="block text-sm font-medium text-gray-700">Volume</label>
                         <select wire:model.live="selectedVolume" id="volume"
-                                class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                            class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                             <option value="">All</option>
                             @foreach ($volumes as $vol)
                                 <option value="{{ $vol }}">{{ $vol }}</option>
@@ -104,7 +120,7 @@
 
 
                         <button wire:click="resetFilters"
-                                class="px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 focus:ring-4 focus:ring-gray-300">
+                            class="px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 focus:ring-4 focus:ring-gray-300">
                             Reset Filters
                         </button>
 
@@ -113,12 +129,12 @@
                             Export By Excel
                         </button> -->
                         <button id="exportBtn"
-                                class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300">
+                            class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300">
                             Export
                             to Excel
                         </button>
                         <button wire:click="exportToPDF"
-                                class="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-red-300">
+                            class="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-red-300">
                             Export By PDF
                         </button>
                     </div>
@@ -127,22 +143,22 @@
                         <div class="px-3 py-4">
                             {{ $pallets->links() }}
                         </div>
-                @endif
+                    @endif
 
-                {{--                    <div class="px-3 py-4">--}}
-                {{--                        {{ $pallets->links() }}--}}
-                {{--                    </div>--}}
-                <!-- Search Box -->
+                    {{--                    <div class="px-3 py-4"> --}}
+                    {{--                        {{ $pallets->links() }} --}}
+                    {{--                    </div> --}}
+                    <!-- Search Box -->
                     <div class="relative w-60">
                         <input wire:model.live.debounce.300ms="search" type="text"
-                               class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                               placeholder="Search">
+                            class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Search">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="currentColor"
-                                 viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
-                                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                      clip-rule="evenodd"/>
+                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                    clip-rule="evenodd" />
                             </svg>
                         </div>
                     </div>
@@ -172,26 +188,26 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($pallets as $key => $user)
-                        <tr class="border-b">
-                            <td class="px-4 py-3">{{ ++$key }}</td>
+                        @foreach ($pallets as $key => $user)
+                            <tr class="border-b">
+                                <td class="px-4 py-3">{{ ++$key }}</td>
 
-                            {{-- <td class="px-4 py-3">{{ $user->delivery_date }}</td> --}}
-                            <td class="px-4 py-3">{{ $user->delivery_order_number }}</td>
+                                {{-- <td class="px-4 py-3">{{ $user->delivery_date }}</td> --}}
+                                <td class="px-4 py-3">{{ $user->delivery_order_number }}</td>
 
-                            <td class="px-4 py-3">{{ $user->lsp_name }}</td>
-                            <td class="px-4 py-3">{{ $user->customer_name }}</td>
-                            <td class="px-4 py-3">{{ $user->truck_type }}</td>
-                            <td class="px-4 py-3">{{ $user->truck_driver_name }}</td>
-                            <td class="px-4 py-3">{{ $user->product_type }}</td>
-                            <td class="px-4 py-3">{{ $user->volume }}</td>
+                                <td class="px-4 py-3">{{ $user->lsp_name }}</td>
+                                <td class="px-4 py-3">{{ $user->customer_name }}</td>
+                                <td class="px-4 py-3">{{ $user->truck_type }}</td>
+                                <td class="px-4 py-3">{{ $user->truck_driver_name }}</td>
+                                <td class="px-4 py-3">{{ $user->product_type }}</td>
+                                <td class="px-4 py-3">{{ $user->volume }}</td>
 
-                            <td class="px-4 py-3">{{ $user->production_line }}</td>
-                            <td class="px-4 py-3">{{ $user->created_at->format('d-m-Y') }}</td>
-                            <td class="px-4 py-3">{{  $user->pallet_number }}</td>
+                                <td class="px-4 py-3">{{ $user->production_line }}</td>
+                                <td class="px-4 py-3">{{ $user->created_at->format('d-m-Y') }}</td>
+                                <td class="px-4 py-3">{{ $user->pallet_number }}</td>
 
-                        </tr>
-                    @endforeach
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -204,39 +220,38 @@
 </div>
 <script src="{{ asset('js/xlsx.full.min.js') }}"></script>
 <script>
+    function exportTableToExcel(tableID, filename = '') {
+        let table = document.getElementById(tableID);
+        let wb = XLSX.utils.book_new();
 
-function exportTableToExcel(tableID, filename = '') {
-    let table = document.getElementById(tableID);
-    let wb = XLSX.utils.book_new();
+        let wsData = [];
+        let rows = table.querySelectorAll("tr");
 
-    let wsData = [];
-    let rows = table.querySelectorAll("tr");
+        rows.forEach(row => {
+            let rowData = [];
+            let cells = row.querySelectorAll("th, td");
 
-    rows.forEach(row => {
-        let rowData = [];
-        let cells = row.querySelectorAll("th, td");
+            cells.forEach((cell) => {
+                rowData.push(cell.innerText);
+            });
 
-        cells.forEach((cell) => {
-            rowData.push(cell.innerText);
+            wsData.push(rowData);
         });
 
-        wsData.push(rowData);
-    });
+        let ws = XLSX.utils.aoa_to_sheet(wsData);
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
 
-    let ws = XLSX.utils.aoa_to_sheet(wsData);
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-
-    filename = filename ? filename + '.xlsx' : 'export.xlsx';
-    XLSX.writeFile(wb, filename);
-}
+        filename = filename ? filename + '.xlsx' : 'export.xlsx';
+        XLSX.writeFile(wb, filename);
+    }
 
 
 
-    document.getElementById("exportBtn").addEventListener("click", function () {
+    document.getElementById("exportBtn").addEventListener("click", function() {
         exportTableToExcel("myTable", "loading_data");
     });
 
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".date-cell").forEach(cell => {
             let fullDate = cell.innerText.trim();
             let formattedDate = fullDate.split(" ")[0];
@@ -245,7 +260,7 @@ function exportTableToExcel(tableID, filename = '') {
     });
 
 
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".date-cell").forEach(cell => {
             let fullDate = cell.innerText.trim();
             let formattedDate = fullDate.split(" ")[0];
@@ -253,5 +268,3 @@ function exportTableToExcel(tableID, filename = '') {
         });
     });
 </script>
-
-
