@@ -175,6 +175,8 @@
 
                         {{-- <th class="px-4 py-3 ">Delivery Date</th> --}}
                         <th class="px-4 py-3 ">Delivery Order Number</th>
+                        <th class="px-4 py-3 ">Loading Date</th>
+
                         <th class="px-4 py-3 ">LSP Name</th>
                         <th class="px-4 py-3 ">Customer Name</th>
                         <th class="px-4 py-3 ">Truck Type</th>
@@ -194,6 +196,8 @@
 
                                 {{-- <td class="px-4 py-3">{{ $user->delivery_date }}</td> --}}
                                 <td class="px-4 py-3">{{ $user->delivery_order_number }}</td>
+
+                                <td class="px-4 py-3">{{ $user->created_at->format('d-m-Y') }}</td>
 
                                 <td class="px-4 py-3">{{ $user->lsp_name }}</td>
                                 <td class="px-4 py-3">{{ $user->customer_name }}</td>
@@ -255,12 +259,18 @@
 
 
     <<
-    << << < HEAD
+    <<
+    <<
+    <
+    HEAD
         ===
-        === =
+        ===
+        =
 
         >>>
-        >>> > efa43ea68bfc825c64f9957c920bd0c3089f22e5
+        >>>
+        >
+        efa43ea68bfc825c64f9957c920bd0c3089f22e5
     document.getElementById("exportBtn").addEventListener("click", function() {
         exportTableToExcel("myTable", "loading_data");
     });
