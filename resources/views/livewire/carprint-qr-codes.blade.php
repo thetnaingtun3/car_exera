@@ -64,37 +64,52 @@
 
 <body onload="window.print(); setTimeout(() => window.close(), 500);">
 
-<div class="qr-container">
-    @foreach ($carsWithQrCodes as $item)
-        <div class="qr-box">
-            <!-- QR Code -->
-            <div class="qr-code">
-                {!! $item['qrCode'] !!}
-            </div>
+    <div class="qr-container">
+        @foreach ($carsWithQrCodes as $item)
+            <div class="qr-box">
+                <!-- QR Code -->
+                <div class="qr-code">
+                    {!! $item['qrCode'] !!}
+                </div>
 
-            <!-- Car Details -->
-            <div class="details">
-                <h2 class="text-lg font-bold mb-2">LSP Registration Code</h2>
-                <p><strong>LSP Name:</strong> {{ $item['record']->lsp?->lsp_name ?? 'No Truck Assigned' }}</p>
-                <p><strong>Car Number:</strong> {{ $item['record']->car_id == null ? $item['record']->licence_plate :  $item['record']->truck->licence_plate }}</p>
-                <p><strong>Driver Name:</strong> {{ $item['record']->driver_name }}</p>
-                <p><strong>Delivery Order Number:</strong> {{ $item['record']->order_number }}</p>
-                <p><strong>Type of Truck:</strong> {{ $item['record']->car_id == null ? $item['record']->size :  $item['record']->truck->size }}</p>
-                <p><strong>Customer
-                        Name:</strong> {{ $item['record']->customer?->customer_name ?? 'No Customer Assigned' }}</p>
-                <p><strong>Date and
-                        Time:</strong> {{ \Carbon\Carbon::parse($item['record']->click_date)->format('d-m-Y H:i:s') }}
-                </p>
-            </div>
-        </div>
-    @endforeach
-</div>
+                <!-- Car Details -->
+                <div class="details">
+                    <h2 class="text-lg font-bold mb-2">LSP Registration Code</h2>
+                    <p><strong>LSP Name:</strong> {{ $item['record']->lsp?->lsp_name ?? 'No Truck Assigned' }}</p>
+                    <p><strong>Car Number:</strong>
+                        {{ $item['record']->car_id == null ? $item['record']->licence_plate : $item['record']->truck->licence_plate }}
+                    </p>
+                    <p><strong>Driver Name:</strong> {{ $item['record']->driver_name }}</p>
+                    <strong>Delivery Order Number:</strong>
+                    {{-- {{ $item['record']->order_number }} --}}
 
-<!-- Navigation Buttons (Hidden on Print) -->
-<div class="no-print">
-    <button onclick="window.print()" class="px-4 py-2 bg-green-500 text-white rounded">Print QR Codes</button>
-    <a href="{{ url()->previous() }}" class="ml-4 px-4 py-2 bg-blue-500 text-white rounded">Go Back</a>
-</div>
+
+
+                    @foreach (collect(explode(',', $item['record']->order_number))->chunk(5) as $chunk)
+                        <small>{{ $chunk->join(', ') }}</small><br>
+                    @endforeach
+
+
+
+                    <p><strong>Type of Truck:</strong>
+                        {{ $item['record']->car_id == null ? $item['record']->size : $item['record']->truck->size }}
+                    </p>
+                    <p><strong>Customer
+                            Name:</strong> {{ $item['record']->customer?->customer_name ?? 'No Customer Assigned' }}</p>
+                    <p><strong>Date and
+                            Time:</strong>
+                        {{ \Carbon\Carbon::parse($item['record']->click_date)->format('d-m-Y H:i:s') }}
+                    </p>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
+    <!-- Navigation Buttons (Hidden on Print) -->
+    <div class="no-print">
+        <button onclick="window.print()" class="px-4 py-2 bg-green-500 text-white rounded">Print QR Codes</button>
+        <a href="{{ url()->previous() }}" class="ml-4 px-4 py-2 bg-blue-500 text-white rounded">Go Back</a>
+    </div>
 
 </body>
 
