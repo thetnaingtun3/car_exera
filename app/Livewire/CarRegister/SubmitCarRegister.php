@@ -45,7 +45,7 @@ class SubmitCarRegister extends Component
     public $perPage = 100;
     public $rangeStart;
     public $rangeEnd;
-//    other for customer
+    //    other for customer
     public $other_customer_name = '';
     public $other_customer_code = '';
     public $isOtherCustomer = false;
@@ -146,17 +146,17 @@ class SubmitCarRegister extends Component
         }
     }
 
-//    public function updatedCustomerId()
-//    {
-//        if ($this->customer_id === 'other') {
-//            $this->isOtherCustomer = true;
-//            $this->other_customer_name = '';
-//            $this->other_customer_code = '';
-//        } else {
-//            $this->isOtherCustomer = false;
-//            $this->customer_name = Customer::where('id', $this->customer_id)->where('status', 'active')->value('customer_name');
-//        }
-//    }
+    //    public function updatedCustomerId()
+    //    {
+    //        if ($this->customer_id === 'other') {
+    //            $this->isOtherCustomer = true;
+    //            $this->other_customer_name = '';
+    //            $this->other_customer_code = '';
+    //        } else {
+    //            $this->isOtherCustomer = false;
+    //            $this->customer_name = Customer::where('id', $this->customer_id)->where('status', 'active')->value('customer_name');
+    //        }
+    //    }
 
     public function removeProduct($index)
     {
@@ -170,10 +170,14 @@ class SubmitCarRegister extends Component
             'temporaryOrderNumber' => 'required|digits:10',
         ]);
 
-        if (count($this->orderNumbers) >= 10) {
-            $this->addError('orderNumbers', 'You can only add a maximum of 10 order numbers.');
-            return;
-        }
+        // if (count($this->orderNumbers) >= 100) {
+        //     $this->addError('orderNumbers', 'You can only add a maximum of 100 order numbers.');
+        //     return;
+        // }
+        // if (count($this->orderNumbers) >= 10) {
+        //     $this->addError('orderNumbers', 'You can only add a maximum of 10 order numbers.');
+        //     return;
+        // }
 
         if (in_array($this->temporaryOrderNumber, $this->orderNumbers)) {
             $this->addError('temporaryOrderNumber', 'This order number has already been added.');
@@ -192,10 +196,11 @@ class SubmitCarRegister extends Component
 
     public function updatedOtherTruckLicencePlate()
     {
-        $this->validate([
-            'other_truck_licence_plate' => 'regex:/^\d[A-Z]-\d{4}$/',
+        $this->validate(
+            [
+                'other_truck_licence_plate' => 'regex:/^\d[A-Z]-\d{4}$/',
 
-        ],
+            ],
             [
                 'other_truck_licence_plate.regex' => 'You should write the Plate Number in this format: 7B-1234',
             ]
@@ -210,10 +215,10 @@ class SubmitCarRegister extends Component
             return;
         }
 
-        if (empty($this->orderNumbers)) {
-            $this->addError('orderNumbers', 'Please add at least one valid order number.');
-            return;
-        }
+        // if (empty($this->orderNumbers)) {
+        //     $this->addError('orderNumbers', 'Please add at least one valid order number.');
+        //     return;
+        // }
 
         $concatenatedOrderNumbers = implode(',', $this->orderNumbers);
         $driverIdToStore = $this->isOtherDriver ? null : $this->driver_id;
@@ -261,10 +266,12 @@ class SubmitCarRegister extends Component
                 'car_id' => $this->car_id === 'other' ? $truck->id : $this->car_id,
                 'driver_id' => $driverIdToStore,
                 'driver_name' => $driverNameToStore,
-                'order_number' => $concatenatedOrderNumbers,
+                // 'order_number' => $concatenatedOrderNumbers,
+                'order_number' => empty($this->orderNumbers) ? null : implode(',', $this->orderNumbers),
+
                 'remark' => $this->remark,
-//                'licence_plate' => $this->car_id === 'other' ? $this->other_truck_licence_plate : null,
-//                'size' => $this->car_id === 'other' ? $this->other_truck_size . ' ' . $this->tunit : null,
+                //                'licence_plate' => $this->car_id === 'other' ? $this->other_truck_licence_plate : null,
+                //                'size' => $this->car_id === 'other' ? $this->other_truck_size . ' ' . $this->tunit : null,
                 'dynamic' => $this->dynamic, // Added dynamic property to database
             ]);
 

@@ -44,56 +44,61 @@
 
 <body class="flex items-center justify-center min-h-screen bg-gray-100">
 
-<div class="p-6 bg-white rounded-lg shadow-lg">
+    <div class="p-6 bg-white rounded-lg shadow-lg">
 
-    <div id="printArea" class="flex items-start">
-        <!-- QR Code Section -->
+        <div id="printArea" class="flex items-start">
+            <!-- QR Code Section -->
 
-        <div class="qr-container mt-[11px] mr-6">
-            {!! $qrCode !!}
+            <div class="qr-container mt-[11px] mr-6">
+                {!! $qrCode !!}
+            </div>
+
+            <!-- Text Section -->
+            <div class="text-container text-left">
+                <h1 class="mb-4 text-2xl font-bold">LSP Registration Code</h1>
+
+                <p><strong>LSP Name: </strong> {{ $record->lsp?->lsp_name ?? 'No Truck Assigned' }}</p>
+                <p><strong>Car Number: </strong>
+                    @if ($record->car_id === null)
+                        {{ $record->licence_plate }}
+                    @else
+                        {{ $record->truck->licence_plate }}
+                    @endif
+                </p>
+                <p><strong>Driver Name: </strong> {{ $record->driver_name }}</p>
+                <strong>Delivery Order Number: </strong>
+                @foreach (collect(explode(',', $record->order_number))->chunk(5) as $chunk)
+                    <small>{{ $chunk->join(', ') }}</small><br>
+                @endforeach
+                <p><strong>Type of Truck: </strong>
+
+                    @if ($record->car_id === null)
+                        {{ $record->size }}
+                    @else
+                        {{ $record->truck->size }}
+                    @endif
+                </p>
+                <p><strong>Customer Name: </strong> {{ $record->customer?->customer_name ?? 'No Customer Assigned' }}
+                </p>
+                <p><strong>Date and Time: </strong>
+                    {{ \Carbon\Carbon::parse($record->click_date)->format('d-m-Y H:i:s') }}
+                </p>
+            </div>
         </div>
 
-        <!-- Text Section -->
-        <div class="text-container text-left">
-            <h1 class="mb-4 text-2xl font-bold">LSP Registration Code</h1>
-
-            <p><strong>LSP Name: </strong> {{ $record->lsp?->lsp_name ?? 'No Truck Assigned' }}</p>
-            <p><strong>Car Number: </strong>
-                @if($record->car_id === null)
-                    {{$record->licence_plate}}
-                @else
-                    {{ $record->truck->licence_plate }}
-                @endif
-            </p>
-            <p><strong>Driver Name: </strong> {{ $record->driver_name }}</p>
-            <p><strong>Delivery Order Number: </strong> {{ $record->order_number }}</p>
-            <p><strong>Type of Truck: </strong>
-
-                @if($record->car_id === null)
-                    {{$record->size}}
-
-                @else
-                    {{ $record->truck->size }}
-                @endif
-            </p>
-            <p><strong>Customer Name: </strong> {{ $record->customer?->customer_name ?? 'No Customer Assigned' }}</p>
-            <p><strong>Date and Time: </strong> {{ \Carbon\Carbon::parse($record->click_date)->format('d-m-Y H:i:s') }}
-            </p>
+        <!-- Buttons (Hidden in Print) -->
+        <div class="mt-4 px-4 no-print">
+            <button onclick="printQRCode()" class="px-4 py-2 text-white bg-green-500 rounded">Print QR Code</button>
+            <a href="{{ url()->previous() }}" class="inline-block px-4 py-2 ml-2 text-white bg-blue-500 rounded">Go
+                Back</a>
         </div>
     </div>
 
-    <!-- Buttons (Hidden in Print) -->
-    <div class="mt-4 px-4 no-print">
-        <button onclick="printQRCode()" class="px-4 py-2 text-white bg-green-500 rounded">Print QR Code</button>
-        <a href="{{ url()->previous() }}" class="inline-block px-4 py-2 ml-2 text-white bg-blue-500 rounded">Go Back</a>
-    </div>
-</div>
-
-<script>
-    function printQRCode() {
-        window.print();
-    }
-</script>
+    <script>
+        function printQRCode() {
+            window.print();
+        }
+    </script>
 
 </body>
 
