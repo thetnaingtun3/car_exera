@@ -237,7 +237,7 @@
                                         <div class="w-full py-2">
                                             <button type="button" wire:click="addOrderNumber"
                                                 class="px-4 py-2 text-white bg-blue-500 rounded"
-                                                @if (count($orderNumbers) >= 10) disabled @endif>
+                                                @if (count($orderNumbers) >= 100) disabled @endif>
                                                 Add Delivery Order Number
                                             </button>
                                         </div>
