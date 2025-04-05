@@ -27,23 +27,25 @@ class LoadingDataList extends Component
     #[Url(history: true)] public $endPalletNumber = '';   // End pallet filter
     #[Url(history: true)] public $selectedProductType = ''; // Product Type filter
     #[Url(history: true)] public $selectedProductionLine = ''; // Production Line filter
+    #[Url(history: true)] public $selectedTruckNumber = ''; // Truck Number filter
+
     #[Url(history: true)] public $selectedVolume = ''; // Volume filter
     #[Url(history: true)] public $sortBy = 'id';
     #[Url(history: true)] public $sortDir = 'DESC';
     #[Url()] public $perPage = 500;
 
-    protected $queryString = ['search', 'startDate', 'endDate', 'startPalletNumber', 'endPalletNumber', 'selectedProductType', 'selectedProductionLine', 'selectedVolume', 'sortBy', 'sortDir', 'perPage'];
+    protected $queryString = ['search', 'startDate', 'endDate', 'startPalletNumber', 'endPalletNumber', 'selectedProductType', 'selectedProductionLine', 'selectedTruckNumber', 'selectedVolume', 'sortBy', 'sortDir', 'perPage'];
 
     // Reset filters to default state
     public function resetFilters()
     {
-        $this->reset(['startPalletNumber', 'endPalletNumber', 'search', 'startDate', 'endDate', 'selectedProductType', 'selectedProductionLine', 'selectedVolume']);
+        $this->reset(['startPalletNumber', 'endPalletNumber', 'search', 'startDate', 'endDate', 'selectedProductType', 'selectedProductionLine', 'selectedTruckNumber', 'selectedVolume']);
     }
 
-    public function mount()
-    {
-        $this->count = LoadingData::count();
-    }
+    // public function mount()
+    // {
+    //     $this->count = LoadingData::count();
+    // }
 
     public function exportData()
     {
@@ -133,6 +135,9 @@ class LoadingDataList extends Component
         if (!empty($this->selectedProductionLine)) {
             $query->where('production_line', $this->selectedProductionLine);
         }
+        if (!empty($this->selectedTruckNumber)) {
+            $query->where('truck_number', $this->selectedTruckNumber);
+        }
 
         // Volume Filter
         if (!empty($this->selectedVolume)) {
@@ -143,13 +148,14 @@ class LoadingDataList extends Component
         // $query->orderByRaw("CAST(SUBSTRING_INDEX(pallet_number, '-', -1) AS UNSIGNED) ASC");
 
         // ✅ Ensure sorting by ID DESC by default
-//        $pallets = $query->orderBy('id', 'DESC')->paginate($this->perPage);
+        //        $pallets = $query->orderBy('id', 'DESC')->paginate($this->perPage);
         $isFiltered = !empty($this->search)
             || !empty($this->startDate)
             || !empty($this->endDate)
             || (!empty($this->startPalletNumber) && !empty($this->endPalletNumber))
             || !empty($this->selectedProductType)
-            || !empty($this->selectedProductionLine)
+            || !empty($this->selectedProductType)
+            || !empty($this->selectedTruckNumber)
             || !empty($this->selectedVolume);
         if ($isFiltered) {
             $pallets = $query->orderBy('id', 'DESC')->get(); // Remove pagination
@@ -157,11 +163,18 @@ class LoadingDataList extends Component
             $pallets = $query->orderBy('id', 'DESC')->paginate($this->perPage);
         }
 
-// Exclude NULL and empty values for dropdown filters
+        $this->count = $pallets instanceof \Illuminate\Pagination\LengthAwarePaginator ? $pallets->total() : $pallets->count();
+
+        // Exclude NULL and empty values for dropdown filters
         $productTypes = LoadingData::whereNotNull('product_type')->where('product_type', '!=', 'null')->distinct()->pluck('product_type');
         $productionLines = LoadingData::whereNotNull('production_line')->where('production_line', '!=', 'null')->distinct()->pluck('production_line');
         $volumes = LoadingData::whereNotNull('volume')->where('volume', '!=', 'null')->distinct()->pluck('volume');
+        $car_numbers = LoadingData::whereNotNull('truck_number')
+            ->where('truck_number', '!=', 'null')
+            ->distinct()
+            ->groupBy('truck_number')
+            ->pluck('truck_number');
 
-        return view('livewire.loading.loading-data-list', compact('pallets', 'productTypes', 'productionLines', 'volumes'));
+        return view('livewire.loading.loading-data-list', compact('pallets', 'productTypes', 'productionLines', 'volumes', 'car_numbers'));
     }
 }

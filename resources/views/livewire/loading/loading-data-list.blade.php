@@ -72,7 +72,23 @@
                         </select>
                     </div>
 
+
+                    <!-- Car Number  -->
+                    <div>
+                        <label for="production_line" class="block text-sm font-medium text-gray-700">Car Number
+                        </label>
+                        <select wire:model.live="selectedTruckNumber" id="truck_number"
+                            class="block w-full p-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">All</option>
+                            @foreach ($car_numbers as $line)
+                                <option value="{{ $line }}">{{ $line }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
                     <!-- Production Line -->
+
                     <div>
                         <label for="production_line" class="block text-sm font-medium text-gray-700">Production
                             Line</label>
@@ -167,7 +183,7 @@
                         <th class="px-4 py-3 ">Volume</th>
                         <th class="px-4 py-3 ">Production Line</th>
                         <th class="px-4 py-3 ">Production Date</th>
-                        <th class="px-4 py-3 ">Pallet No.</th>
+                        <th class="px-4 py-3 ">Pallet No</th>
 
                     </tr>
                     </thead>
@@ -216,7 +232,6 @@
         let table = document.getElementById(tableID);
         let wb = XLSX.utils.book_new();
 
-
         let wsData = [];
         let rows = table.querySelectorAll("tr");
 
@@ -224,16 +239,12 @@
             let rowData = [];
             let cells = row.querySelectorAll("th, td");
 
-            cells.forEach((cell, index) => {
-
-                if (index !== cells.length - 1) {
-                    rowData.push(cell.innerText);
-                }
+            cells.forEach((cell) => {
+                rowData.push(cell.innerText);
             });
 
             wsData.push(rowData);
         });
-
 
         let ws = XLSX.utils.aoa_to_sheet(wsData);
         XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
@@ -243,6 +254,13 @@
     }
 
 
+    <<
+    << << < HEAD
+        ===
+        === =
+
+        >>>
+        >>> > efa43ea68bfc825c64f9957c920bd0c3089f22e5
     document.getElementById("exportBtn").addEventListener("click", function() {
         exportTableToExcel("myTable", "loading_data");
     });
